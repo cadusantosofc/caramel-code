@@ -1,0 +1,133 @@
+body {
+    background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+}
+
+.login-card {
+    position: relative;
+}
+
+.back-arrow {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+.arrow-link {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.arrow-link:hover {
+    background: white;
+    transform: translateX(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.arrow-link svg {
+    width: 20px;
+    height: 20px;
+    color: #fdcb6e;
+    stroke-width: 2.5;
+}
+
+.logo-section {
+    margin-bottom: 20px;
+}
+
+.logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    box-shadow: 0 8px 20px rgba(253, 203, 110, 0.3);
+}
+
+.subtitle {
+    text-align: center;
+    color: #666;
+    font-size: 16px;
+    margin-bottom: 30px;
+    margin-top: -10px;
+}
+
+.register-btn {
+    background: linear-gradient(135deg, #fdcb6e 0%, #f39c12 100%);
+    box-shadow: 0 4px 15px rgba(253, 203, 110, 0.4);
+    margin-bottom: 20px;
+}
+
+.register-btn:hover {
+    background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+    box-shadow: 0 6px 20px rgba(253, 203, 110, 0.5);
+}
+
+.tip-section {
+    background: linear-gradient(135deg, #fff9e6 0%, #fff3d4 100%);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 25px;
+    border: 2px solid #ffeaa7;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.tip-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.tip-text {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.4;
+    font-weight: 500;
+}
+
+.form-group input:focus {
+    border-color: #fdcb6e;
+    box-shadow: 0 0 0 3px rgba(253, 203, 110, 0.1);
+}
+
+.signup-link a {
+    color: #f39c12;
+}
+
+.signup-link a:hover {
+    color: #e67e22;
+}
+
+@media (max-width: 480px) {
+    .back-arrow {
+        top: 15px;
+        left: 15px;
+    }
+    
+    .arrow-link {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .arrow-link svg {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .logo {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .tip-section {
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+    }
+}

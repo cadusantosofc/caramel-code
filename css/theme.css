@@ -1,0 +1,165 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f9f9f9;
+    --bg-card: #ffffff;
+    --border: #efefef;
+    --text-primary: #1a1a1a;
+    --text-secondary: #666;
+    --text-muted: #aaa;
+    --accent: #f5a623;
+    --accent-dark: #e07b00;
+    --input-bg: #f8f9fa;
+    --input-border: #e1e5e9;
+    --shadow: rgba(0, 0, 0, 0.08);
+    --toggle-on: #f5a623;
+    --toggle-off: #ddd;
+    --body-bg: #f3f4f6;
+    --gradient-body: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+}
+
+html.dark, body.dark {
+    --bg-primary: #111827;
+    --bg-secondary: #1f2937;
+    --bg-card: #1f2937;
+    --border: #374151;
+    --text-primary: #f9fafb;
+    --text-secondary: #9ca3af;
+    --text-muted: #6b7280;
+    --input-bg: #374151;
+    --input-border: #4b5563;
+    --shadow: rgba(0, 0, 0, 0.4);
+    --toggle-on: #f5a623;
+    --toggle-off: #374151;
+    --body-bg: #0f172a;
+    --gradient-body: linear-gradient(135deg, #1e2535 0%, #111827 100%);
+}
+
+html.no-animations *,
+html.no-animations *::before,
+html.no-animations *::after {
+    animation: none !important;
+    transition: none !important;
+}
+
+/* Aplicar tema no body de todas as páginas */
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--body-bg);
+    color: var(--text-primary);
+    transition: background-color 0.25s, color 0.25s;
+}
+
+/* login.css + register.css overrides em dark mode */
+body.dark .login-card {
+    background: var(--bg-card);
+    box-shadow: 0 20px 40px var(--shadow);
+}
+
+body.dark .login-title,
+body.dark .login-title h2 {
+    color: var(--text-primary);
+}
+
+body.dark .subtitle,
+body.dark .signup-link,
+body.dark .signup-link p {
+    color: var(--text-secondary);
+}
+
+body.dark .form-group label {
+    color: var(--text-secondary);
+}
+
+body.dark .form-group input {
+    background: var(--input-bg);
+    border-color: var(--input-border);
+    color: var(--text-primary);
+}
+
+body.dark .form-group input::placeholder {
+    color: var(--text-muted);
+}
+
+body.dark .tip-section {
+    background: #1f2937;
+    border-color: #374151;
+}
+
+body.dark .tip-text {
+    color: var(--text-secondary);
+}
+
+/* index.html overrides */
+body.dark .feature-card {
+    background: var(--bg-card);
+    border-color: var(--border);
+}
+
+body.dark .feature-content h3 {
+    color: var(--text-primary);
+}
+
+body.dark .feature-content p {
+    color: var(--text-secondary);
+}
+
+body.dark .stat-number {
+    color: var(--text-primary);
+}
+
+body.dark .stat-label {
+    color: var(--text-secondary);
+}
+
+body.dark .footer {
+    color: var(--text-muted);
+}
+
+body.dark .btn-secondary {
+    background: var(--bg-card);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* Onboarding dark */
+body.dark .ob-shell {
+    background: var(--bg-primary);
+}
+
+body.dark .ob-level-card {
+    background: var(--bg-card);
+    border-color: var(--border);
+}
+
+body.dark .ob-level-name {
+    color: var(--text-primary);
+}
+
+body.dark .ob-level-desc {
+    color: var(--text-secondary);
+}
+
+body.dark .ob-level-feat {
+    color: var(--text-secondary);
+}
+
+body.dark .ob-style-tab {
+    background: var(--bg-secondary);
+    border-color: transparent;
+}
+
+body.dark .ob-style-tab-label {
+    color: var(--text-secondary);
+}
+
+body.dark .ob-level-sub,
+body.dark .ob-subtitle {
+    color: var(--text-secondary);
+}
+
+/* Login/register body gradient — dark substitui o gradiente amarelo */
+body.dark .login-container ~ * {
+    background: var(--body-bg);
+}

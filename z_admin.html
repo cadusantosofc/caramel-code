@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste JSON - Caramel Code</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+        
+        .test { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        
+        .data-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; margin: 20px 0; }
+        .data-card { background: white; border-radius: 8px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.2s; position: relative; }
+        .data-card:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .card-icon { font-size: 24px; margin-right: 10px; }
+        .card-title { font-weight: bold; color: #333; flex: 1; }
+        .card-subtitle { color: #666; font-size: 14px; }
+        .card-meta { display: flex; justify-content: space-between; margin-top: 10px; }
+        .card-meta-item { font-size: 12px; color: #888; }
+        
+        .card-actions { position: absolute; top: 10px; right: 10px; display: flex; gap: 5px; opacity: 0; transition: opacity 0.2s; }
+        .data-card:hover .card-actions { opacity: 1; }
+        .action-btn { padding: 5px 8px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; }
+        .edit-btn { background: #3498db; color: white; }
+        .delete-btn { background: #e74c3c; color: white; }
+        
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin: 20px 0; }
+        .stat-card { background: white; padding: 20px; border-radius: 8px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .stat-number { font-size: 24px; font-weight: bold; color: #f39c12; }
+        .stat-label { color: #666; font-size: 14px; }
+        
+        .controls { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .control-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        .control-btn { padding: 15px; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; transition: transform 0.2s; }
+        .control-btn:hover { transform: translateY(-2px); }
+        .add-user { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .add-course { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; }
+        .backup { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; }
+        .clear { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); color: white; }
+        
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; }
+        .modal-content { background: white; margin: 5% auto; padding: 20px; border-radius: 8px; width: 80%; max-width: 500px; max-height: 80vh; overflow-y: auto; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .modal-title { margin: 0; color: #333; }
+        .close-btn { background: none; border: none; font-size: 24px; cursor: pointer; color: #666; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; }
+        .form-group textarea { resize: vertical; min-height: 80px; }
+        
+        .filter-bar { margin: 20px 0; display: flex; gap: 10px; align-items: center; }
+        .filter-select { padding: 8px; border-radius: 4px; border: 1px solid #ddd; }
+        
+        .copy-btn { padding: 10px 20px; margin: 5px; cursor: pointer; border: none; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Teste do Sistema JSON</h1>
+    
+    <div style="margin: 20px 0;">
+        <button class="copy-btn" onclick="testDatabase()">Testar Banco</button>
+        <button class="copy-btn" onclick="showData()" style="background: #2196F3;">Mostrar Dados</button>
+        <button class="copy-btn" onclick="backupData()" style="background: #FF9800;">Backup</button>
+    </div>
+    
+    <div id="dataView" style="display: none;">
+        <h2>📊 Painel de Controle - Caramel Code</h2>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="stat-usuarios-count">0</div>
+                <div class="stat-label">👥 Usuários</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="stat-cursos-count">0</div>
+                <div class="stat-label">📚 Cursos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="stat-aulas-count">0</div>
+                <div class="stat-label">📖 Aulas</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="stat-matriculas-count">0</div>
+                <div class="stat-label">🎓 Matrículas</div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <h3>🎮 Controles Administrativos</h3>
+        <div class="control-grid">
+                <button class="control-btn add-user" onclick="showAddUserModal()">
+                    ➕ Adicionar Usuário
+                </button>
+                <button class="control-btn backup" onclick="backupData()">
+                    💾 Fazer Backup
+                </button>
+                <button class="control-btn" onclick="cleanDuplicates()" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);">
+                    🧹 Limpar Duplicatas
+                </button>
+            </div>
+        </div>
+        
+        <div class="filter-bar">
+            <label>🔍 Filtrar por:</label>
+            <select class="filter-select" id="dataType" onchange="showDataGrid()">
+                <option value="usuarios">👥 Usuários</option>
+                <option value="cursos">📚 Cursos</option>
+                <option value="aulas">📖 Aulas</option>
+                <option value="matriculas">🎓 Matrículas</option>
+                <option value="progresso_aulas">📈 Progresso</option>
+            </select>
+            <button onclick="refreshData()" style="padding: 8px 16px; background: #27ae60; color: white; border: none; border-radius: 4px; cursor: pointer;">🔄 Atualizar</button>
+        </div>
+        
+        <div id="dataGrid" class="data-grid">
+            <!-- Cards serão inseridos aqui -->
+        </div>
+    </div>
+    
+    <div id="results"></div>
+    
+    <!-- Modal para ações do usuário -->
+    <div id="userActionsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="userActionsTitle" class="modal-title">Ações do Usuário</h2>
+                <button class="close-btn" onclick="closeModal('userActionsModal')">&times;</button>
+            </div>
+            <div id="userActionsBody" style="text-align: center; padding: 20px;">
+                <!-- Ações serão inseridas aqui -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal para adicionar/editar usuário -->
+    <div id="userModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="userModalTitle" class="modal-title">Adicionar Usuário</h2>
+                <button class="close-btn" onclick="closeModal('userModal')">&times;</button>
+            </div>
+            <form id="userForm">
+                <input type="hidden" id="userId" value="">
+                <div class="form-group">
+                    <label for="userNome">Nome</label>
+                    <input type="text" id="userNome" required>
+                </div>
+                <div class="form-group">
+                    <label for="userEmail">Email</label>
+                    <input type="email" id="userEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="userSenha">Senha</label>
+                    <input type="password" id="userSenha" required>
+                </div>
+                <div class="form-group">
+                    <label for="userTipo">Tipo</label>
+                    <select id="userTipo" required>
+                        <option value="aluno">👨‍🎓 Aluno</option>
+                        <option value="admin">👑 Administrador</option>
+                    </select>
+                </div>
+                <div style="text-align: right; margin-top: 20px;">
+                    <button type="button" onclick="closeModal('userModal')" style="background: #95a5a6; color: white; border: none; padding: 10px 20px; border-radius: 4px; margin-right: 10px;">Cancelar</button>
+                    <button type="submit" style="background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 4px;">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Modal para adicionar/editar curso -->
+    <div id="cursoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="cursoModalTitle" class="modal-title">Adicionar Curso</h2>
+                <button class="close-btn" onclick="closeModal('cursoModal')">&times;</button>
+            </div>
+            <form id="cursoForm">
+                <input type="hidden" id="cursoId" value="">
+                <div class="form-group">
+                    <label for="cursoTitulo">Título</label>
+                    <input type="text" id="cursoTitulo" required>
+                </div>
+                <div class="form-group">
+                    <label for="cursoDescricao">Descrição</label>
+                    <textarea id="cursoDescricao" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="cursoCategoria">Categoria</label>
+                    <input type="text" id="cursoCategoria" required>
+                </div>
+                <div class="form-group">
+                    <label for="cursoNivel">Nível</label>
+                    <select id="cursoNivel" required>
+                        <option value="basico">🟢 Básico</option>
+                        <option value="intermediario">🟡 Intermediário</option>
+                        <option value="avancado">🔴 Avançado</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="cursoDuracao">Duração (horas)</label>
+                    <input type="number" id="cursoDuracao" required>
+                </div>
+                <div style="text-align: right; margin-top: 20px;">
+                    <button type="button" onclick="closeModal('cursoModal')" style="background: #95a5a6; color: white; border: none; padding: 10px 20px; border-radius: 4px; margin-right: 10px;">Cancelar</button>
+                    <button type="submit" style="background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 4px;">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="js/database_json.js"></script>
+    <script>
+        const db = new Database();
+        
+        function addResult(message, type = 'success') {
+            const resultsDiv = document.getElementById('results');
+            if (!resultsDiv) {
+                console.error('Elemento results não encontrado');
+                return;
+            }
+            
+            const div = document.createElement('div');
+            div.className = `test ${type}`;
+            div.textContent = message;
+            resultsDiv.appendChild(div);
+        }
+        
+        async function testDatabase() {
+            // Esconder painel administrativo se estiver visível
+            document.getElementById('dataView').style.display = 'none';
+            
+            // Fechar modais abertos
+            closeModal('detailModal');
+            closeModal('userActionsModal');
+            closeModal('userModal');
+            closeModal('cursoModal');
+            
+            // Limpar resultados anteriores
+            document.getElementById('results').innerHTML = '';
+            
+            try {
+                addResult('🗄️ Testando sistema JSON...');
+                
+                // Verificar se o banco foi inicializado
+                const data = db.getData();
+                addResult(`✅ Banco inicializado: ${Object.keys(data).length} tabelas`);
+                
+                // Verificar usuários existentes
+                const usuariosCount = data.usuarios ? data.usuarios.length : 0;
+                addResult(`👥 Usuários registrados: ${usuariosCount}`);
+                
+                // Verificar cursos existentes
+                const cursosCount = data.cursos ? data.cursos.length : 0;
+                addResult(`📚 Cursos disponíveis: ${cursosCount}`);
+                
+                // Verificar aulas existentes
+                const aulasCount = data.aulas ? data.aulas.length : 0;
+                addResult(`📖 Aulas criadas: ${aulasCount}`);
+                
+                // Verificar matrículas existentes
+                const matriculasCount = data.matriculas ? data.matriculas.length : 0;
+                addResult(`🎓 Matrículas realizadas: ${matriculasCount}`);
+                
+                // Testar funcionalidades básicas
+                try {
+                    // Tentar buscar um usuário existente
+                    const adminUser = await db.validateLogin('admin@caramel.com', '123456');
+                    if (adminUser) {
+                        addResult('✅ Login do admin funcionando');
+                    } else {
+                        addResult('⚠️ Admin não encontrado ou senha incorreta');
+                    }
+                    
+                    // Tentar buscar cursos
+                    const cursos = await db.getCursos();
+                    if (cursos && cursos.length > 0) {
+                        addResult('✅ Sistema de cursos funcionando');
+                    }
+                    
+                } catch (error) {
+                    addResult(`⚠️ Erro em funcionalidades: ${error.message}`);
+                }
+                
+                addResult('🎉 Sistema JSON funcionando corretamente!');
+                
+            } catch (error) {
+                addResult(`❌ Erro no sistema: ${error.message}`, 'error');
+            }
+        }
+        
+        async function showData() {
+            document.getElementById('dataView').style.display = 'block';
+            await updateStats();
+            showDataGrid();
+        }
+        
+        async function updateStats() {
+            const data = db.getData();
+            document.getElementById('stat-usuarios-count').textContent = data.usuarios.length;
+            document.getElementById('stat-cursos-count').textContent = data.cursos.length;
+            document.getElementById('stat-aulas-count').textContent = data.aulas.length;
+            document.getElementById('stat-matriculas-count').textContent = data.matriculas.length;
+        }
+        
+        function showDataGrid() {
+            // Fechar modais abertos
+            closeModal('detailModal');
+            closeModal('userActionsModal');
+            closeModal('userModal');
+            closeModal('cursoModal');
+            
+            // Limpar conteúdo anterior
+            document.getElementById('dataGrid').innerHTML = '';
+            
+            const dataType = document.getElementById('dataType').value;
+            const data = db.getData();
+            const items = data[dataType] || [];
+            
+            let gridHtml = '';
+            
+            if (items.length === 0) {
+                gridHtml = '<div class="data-card" style="text-align: center; color: #666;">Nenhum registro encontrado</div>';
+            } else {
+                items.forEach(item => {
+                    gridHtml += createCard(dataType, item);
+                });
+            }
+        }
+        
+        async function showData() {
+        // Limpar resultados do teste
+        document.getElementById('results').innerHTML = '';
+        
+        document.getElementById('dataView').style.display = 'block';
+        await updateStats();
+        showDataGrid();
+    }
+    
+    async function updateStats() {
+        const data = db.getData();
+        document.getElementById('stat-usuarios-count').textContent = data.usuarios.length;
+        document.getElementById('stat-cursos-count').textContent = data.cursos.length;
+        document.getElementById('stat-aulas-count').textContent = data.aulas.length;
+        document.getElementById('stat-matriculas-count').textContent = data.matriculas.length;
+    }
+    
+    function showDataGrid() {
+        const dataType = document.getElementById('dataType').value;
+        const data = db.getData();
+        const items = data[dataType] || [];
+        
+        let gridHtml = '';
+        
+        if (items.length === 0) {
+            gridHtml = '<div class="data-card" style="text-align: center; color: #666;">Nenhum registro encontrado</div>';
+        } else {
+            items.forEach(item => {
+                gridHtml += createCard(dataType, item);
+            });
+        }
+        
+        document.getElementById('dataGrid').innerHTML = gridHtml;
+    }
+    
+    function createCard(type, item) {
+            const config = getCardConfig(type, item);
+            
+            return `
+                <div class="data-card" onclick="${type === 'usuarios' ? `showUserActions(${item.id})` : `showDetail('${type}', ${item.id})`}">
+                    <div class="card-header">
+                        <div class="card-icon">${config.icon}</div>
+                        <div>
+                            <div class="card-title">${config.title}</div>
+                            <div class="card-subtitle">${config.subtitle}</div>
+                        </div>
+                    </div>
+                    <div class="card-meta">
+                        ${config.meta.map(meta => `<div class="card-meta-item">${meta}</div>`).join('')}
+                    </div>
+                </div>
+            `;
+        }  
+    function getCardConfig(type, item) {
+        switch (type) {
+            case 'usuarios':
+                const userProgress = db.getProgress(item.id);
+                const isUserAdmin = item.tipo === 'admin';
+                return {
+                    icon: isUserAdmin ? '👑' : '👨‍🎓',
+                    title: item.nome,
+                    subtitle: item.email,
+                    meta: [
+                        isUserAdmin ? 'Administrador' : `💰 ${userProgress.moedas} • ⭐ ${userProgress.xp} XP`,
+                        item.status === 'ativo' ? '✅ Ativo' : '❌ Inativo'
+                    ]
+                };
+                
+            case 'cursos':
+                const niveis = { 'basico': '🟢 Básico', 'intermediario': '🟡 Intermediário', 'avancado': '🔴 Avançado' };
+                return {
+                    icon: '📚',
+                    title: item.titulo,
+                    subtitle: item.categoria,
+                    meta: [
+                        niveis[item.nivel] || item.nivel,
+                        `${item.duracao_horas}h`,
+                        item.status === 'ativo' ? '✅ Ativo' : '❌ Inativo'
+                    ]
+                };
+                
+            case 'aulas':
+                const aulaCurso = db.getData().cursos.find(c => c.id === item.curso_id);
+                return {
+                    icon: '📖',
+                    title: item.titulo,
+                    subtitle: aulaCurso ? aulaCurso.titulo : 'Curso não encontrado',
+                    meta: [
+                        `Aula ${item.ordem}`,
+                        'Clique para ver conteúdo'
+                    ]
+                };
+                
+            case 'matriculas':
+                const matriculaAluno = db.getData().usuarios.find(u => u.id === item.aluno_id);
+                const matriculaCurso = db.getData().cursos.find(c => c.id === item.curso_id);
+                return {
+                    icon: '🎓',
+                    title: matriculaAluno ? matriculaAluno.nome : 'Aluno não encontrado',
+                    subtitle: matriculaCurso ? matriculaCurso.titulo : 'Curso não encontrado',
+                    meta: [
+                        `${item.progresso_percentual}% concluído`,
+                        item.status === 'ativa' ? '✅ Ativa' : '🏁 Concluída'
+                    ]
+                };
+                
+            case 'progresso_aulas':
+                return {
+                    icon: '📈',
+                    title: `Progresso #${item.id}`,
+                    subtitle: `Matrícula ${item.matricula_id}`,
+                    meta: [
+                        `Aula ${item.aula_id}`,
+                        item.status === 'concluida' ? '✅ Concluída' : '⏳ Em andamento'
+                    ]
+                };
+                
+            default:
+                return { icon: '❓', title: 'Item', subtitle: 'Descrição', meta: [] };
+        }
+    }
+    
+    function showDetail(type, id) {
+        const data = db.getData();
+        const item = data[type].find(item => item.id === id);
+        
+        if (!item) return;
+        
+        const config = getDetailConfig(type, item);
+        
+        document.getElementById('modalTitle').textContent = config.title;
+        
+        let bodyHtml = '';
+        config.fields.forEach(field => {
+            bodyHtml += `
+                <div class="detail-row">
+                    <div class="detail-label">${field.label}:</div>
+                    <div class="detail-value">${field.value}</div>
+                </div>
+            `;
+        });
+        
+        document.getElementById('modalBody').innerHTML = bodyHtml;
+        document.getElementById('detailModal').style.display = 'block';
+    }
+    
+    function getDetailConfig(type, item) {
+        const formatDate = (dateStr) => {
+            if (!dateStr) return '-';
+            return new Date(dateStr).toLocaleString('pt-BR');
+        };
+        
+        switch (type) {
+            case 'usuarios':
+                return {
+                    title: `👤 ${item.nome}`,
+                    fields: [
+                        { label: 'ID', value: item.id },
+                        { label: 'Nome', value: item.nome },
+                        { label: 'Email', value: item.email },
+                        { label: 'Tipo', value: item.tipo === 'admin' ? '👑 Administrador' : '👨‍🎓 Aluno' },
+                        { label: 'Status', value: item.status === 'ativo' ? '✅ Ativo' : '❌ Inativo' },
+                        { label: 'Data de Cadastro', value: formatDate(item.data_cadastro) },
+                        { label: 'Último Login', value: formatDate(item.ultimo_login) }
+                    ]
+                };
+                
+            case 'cursos':
+                const niveis = { 'basico': '🟢 Básico', 'intermediario': '🟡 Intermediário', 'avancado': '🔴 Avançado' };
+                return {
+                    title: `📚📚 ${item.titulo}`,
+                    fields: [
+                        { label: 'ID', value: item.id },
+                        { label: 'Título', value: item.titulo },
+                        { label: 'Descrição', value: item.descricao },
+                        { label: 'Categoria', value: item.categoria },
+                        { label: 'Nível', value: niveis[item.nivel] || item.nivel },
+                        { label: 'Duração', value: `${item.duracao_horas} horas` },
+                        { label: 'Professor ID', value: item.admin_id },
+                        { label: 'Status', value: item.status === 'ativo' ? '✅ Ativo' : '❌ Inativo' }
+                    ]
+                };
+                
+            case 'aulas':
+                return {
+                    title: ` ${item.titulo}`,
+                    fields: [
+                        { label: 'ID', value: item.id },
+                        { label: 'Título', value: item.titulo },
+                        { label: 'Conteúdo', value: item.conteudo || '-' },
+                        { label: 'Vídeo URL', value: item.video_url || '-' },
+                        { label: 'Curso ID', value: item.curso_id },
+                        { label: 'Ordem', value: item.ordem }
+                    ]
+                };
+                
+            case 'matriculas':
+                return {
+                    title: `atrícula #${item.id}`,
+                    fields: [
+                        { label: 'ID', value: item.id },
+                        { label: 'Aluno ID', value: item.aluno_id },
+                        { label: 'Curso ID', value: item.curso_id },
+                        { label: 'Progresso', value: `${item.progresso_percentual}%` },
+                        { label: 'Status', value: item.status === 'ativa' ? '✅ Ativa' : '🏁 Concluída' },
+                        { label: 'Data de Matrícula', value: formatDate(item.created_at) }
+                    ]
+                };
+                
+            case 'progresso_aulas':
+                return {
+                    title: `📈 Progresso #${item.id}`,
+                    fields: [
+                        { label: 'ID', value: item.id },
+                        { label: 'Matrícula ID', value: item.matricula_id },
+                        { label: 'Aula ID', value: item.aula_id },
+                        { label: 'Status', value: item.status === 'concluida' ? '✅ Concluída' : '⏳ Em andamento' },
+                        { label: 'Data de Conclusão', value: formatDate(item.data_conclusao) }
+                    ]
+                };
+                
+            default:
+                return { title: 'Detalhes', fields: [] };
+        }
+    }
+    
+    function showUserActions(userId) {
+        // Fechar outros modais primeiro
+        closeModal('detailModal');
+        closeModal('userModal');
+        closeModal('cursoModal');
+        
+        const data = db.getData();
+        const user = data.usuarios.find(u => u.id === userId);
+        if (!user) return;
+        
+        document.getElementById('userActionsTitle').textContent = `👤 ${user.nome}`;
+        
+        const userProgress = db.getProgress(userId);
+        const actionsHtml = `
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                <button onclick="editUser(${userId})" style="background: #3498db; color: white; border: none; padding: 15px 30px; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 10px;">
+                    ✏️ Editar Usuário
+                </button>
+                <button onclick="resetUserProgress(${userId})" style="background: #f39c12; color: white; border: none; padding: 15px 30px; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 10px;">
+                    🔄 Resetar Jogabilidade
+                </button>
+                <button onclick="deleteUser(${userId})" style="background: #e74c3c; color: white; border: none; padding: 15px 30px; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 10px;">
+                    🗑️ Excluir Conta
+                </button>
+            </div>
+            <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 6px; text-align: left;">
+                <strong>🎮 Status Gamer:</strong><br>
+                Moedas: 💰 ${userProgress.moedas}<br>
+                Experiência: ⭐ ${userProgress.xp} XP (Nível ${userProgress.nivel})<br>
+                Questões: 📋 ${userProgress.questoes_respondidas} respondidas<br>
+                <hr style="margin: 10px 0; opacity: 0.1;">
+                <strong>👤 Dados Cadastrais:</strong><br>
+                Email: ${user.email}<br>
+                Tipo: ${user.tipo === 'admin' ? '👑 Administrador' : '👨‍🎓 Aluno'}
+            </div>
+        `;
+        
+        document.getElementById('userActionsBody').innerHTML = actionsHtml;
+        document.getElementById('userActionsModal').style.display = 'block';
+    }  
+    function resetUserProgress(id) {
+        if (confirm('Deseja resetar COMPLETAMENTE o progresso (Moedas, XP, Trilhas) deste usuário?')) {
+            const initialProgress = {
+                userId: id,
+                moedas: 50,
+                xp: 0,
+                nivel: 1,
+                dias_seguidos: 1,
+                medalhas: 0,
+                questoes_respondidas: 0,
+                questoes_corretas: 0,
+                total_questoes: 50,
+                trilhas: {}
+            };
+            db.saveProgress(id, initialProgress);
+            alert('Progresso resetado com sucesso!');
+            closeModal('userActionsModal');
+            showDataGrid();
+        }
+    }
+
+    function editUser(id) {
+        closeModal('userActionsModal');
+        showEditUserModal(db.getData().usuarios.find(u => u.id === id));
+    }
+    
+    function deleteUser(id) {
+        const user = db.getData().usuarios.find(u => u.id === id);
+        if (confirm(`Tem certeza que deseja excluir o usuário "${user.nome}"?\n\nEsta ação não pode ser desfeita!`)) {
+            const data = db.getData();
+            data.usuarios = data.usuarios.filter(u => u.id !== id);
+            db.saveData(data);
+            showDataGrid();
+            updateStats();
+            addResult(`✅ Usuário "${user.nome}" excluído com sucesso!`);
+        }
+        closeModal('userActionsModal');
+    }
+
+    function deleteItem(type, id) {
+        const typeNames = {
+            'usuarios': 'usuário',
+            'cursos': 'curso',
+            'aulas': 'aula',
+            'matriculas': 'matrícula'
+        };
+        
+        if (confirm(`Tem certeza que deseja excluir este ${typeNames[type]}?`)) {
+            const data = db.getData();
+            data[type] = data[type].filter(item => item.id !== id);
+            db.saveData(data);
+            showDataGrid();
+            updateStats();
+            addResult(`✅ ${typeNames[type].charAt(0).toUpperCase() + typeNames[type].slice(1)} excluído com sucesso!`);
+        }
+    }
+    
+    function showAddUserModal() {
+        document.getElementById('userModalTitle').textContent = 'Adicionar Usuário';
+        document.getElementById('userId').value = '';
+        document.getElementById('userNome').value = '';
+        document.getElementById('userEmail').value = '';
+        document.getElementById('userSenha').value = '';
+        document.getElementById('userTipo').value = 'aluno';
+        document.getElementById('userModal').style.display = 'block';
+    }
+    
+    function showEditUserModal(user) {
+        document.getElementById('userModalTitle').textContent = 'Editar Usuário';
+        document.getElementById('userId').value = user.id;
+        document.getElementById('userNome').value = user.nome;
+        document.getElementById('userEmail').value = user.email;
+        document.getElementById('userSenha').value = ''; // Não mostrar senha
+        document.getElementById('userTipo').value = user.tipo;
+        document.getElementById('userModal').style.display = 'block';
+    }
+    
+    function showAddCursoModal() {
+        document.getElementById('cursoModalTitle').textContent = 'Adicionar Curso';
+        document.getElementById('cursoId').value = '';
+        document.getElementById('cursoTitulo').value = '';
+        document.getElementById('cursoDescricao').value = '';
+        document.getElementById('cursoCategoria').value = '';
+        document.getElementById('cursoNivel').value = 'basico';
+        document.getElementById('cursoDuracao').value = '';
+        document.getElementById('cursoModal').style.display = 'block';
+    }
+    
+    function showEditCursoModal(curso) {
+        document.getElementById('cursoModalTitle').textContent = 'Editar Curso';
+        document.getElementById('cursoId').value = curso.id;
+        document.getElementById('cursoTitulo').value = curso.titulo;
+        document.getElementById('cursoDescricao').value = curso.descricao;
+        document.getElementById('cursoCategoria').value = curso.categoria;
+        document.getElementById('cursoNivel').value = curso.nivel;
+        document.getElementById('cursoDuracao').value = curso.duracao_horas;
+        document.getElementById('cursoModal').style.display = 'block';
+    }
+    
+    function closeModal(modalId = 'detailModal') {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.style.display = 'none';
+        }
+    }
+    
+    function refreshData() {
+        updateStats();
+        showDataGrid();
+        addResult('✅ Dados atualizados!');
+    }
+    
+    function cleanDuplicates() {
+        if (!confirm('Tem certeza que deseja limpar usuários duplicados?\n\nEsta ação irá manter apenas um usuário por email.')) {
+            return;
+        }
+        
+        const data = db.getData();
+        const seenEmails = new Set();
+        const uniqueUsers = [];
+        
+        // Manter apenas um usuário por email (o primeiro encontrado)
+        for (const user of data.usuarios) {
+            if (!seenEmails.has(user.email)) {
+                seenEmails.add(user.email);
+                uniqueUsers.push(user);
+            }
+        }
+        
+        const removedCount = data.usuarios.length - uniqueUsers.length;
+        data.usuarios = uniqueUsers;
+        db.saveData(data);
+        
+        showDataGrid();
+        updateStats();
+        
+        addResult(`✅ Limpado! ${removedCount} usuários duplicados removidos.`);
+        addResult(`👥 Usuários únicos restantes: ${uniqueUsers.length}`);
+    }
+    
+    // Form handlers
+    document.getElementById('userForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const id = document.getElementById('userId').value;
+        const nome = document.getElementById('userNome').value.trim();
+        const email = document.getElementById('userEmail').value.trim();
+        const senha = document.getElementById('userSenha').value;
+        const tipo = document.getElementById('userTipo').value;
+        
+        if (!nome || !email || (!id && !senha)) {
+            alert('Preencha todos os campos obrigatórios!');
+            return;
+        }
+        
+        // Verificar se email já existe (apenas para novos usuários)
+        if (!id) {
+            const data = db.getData();
+            const emailExists = data.usuarios.some(u => u.email === email);
+            if (emailExists) {
+                alert('Este email já está cadastrado! Use o botão "Limpar Duplicatas" para remover usuários duplicados.');
+                return;
+            }
+        }
+        
+        const userData = { nome, email, tipo };
+        if (senha) userData.senha = senha;
+        
+        try {
+            if (id) {
+                // Update
+                const data = db.getData();
+                const index = data.usuarios.findIndex(u => u.id === parseInt(id));
+                if (index !== -1) {
+                    data.usuarios[index] = { ...data.usuarios[index], ...userData };
+                    db.saveData(data);
+                    addResult('✅ Usuário atualizado com sucesso!');
+                }
+            } else {
+                // Create
+                db.createUser(userData);
+                addResult('✅ Usuário criado com sucesso!');
+            }
+            
+            closeModal('userModal');
+            showDataGrid();
+            updateStats();
+        } catch (error) {
+            alert('Erro: ' + error.message);
+        }
+    });
+    
+    document.getElementById('cursoForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const id = document.getElementById('cursoId').value;
+        const titulo = document.getElementById('cursoTitulo').value.trim();
+        const descricao = document.getElementById('cursoDescricao').value.trim();
+        const categoria = document.getElementById('cursoCategoria').value.trim();
+        const nivel = document.getElementById('cursoNivel').value;
+        const duracao_horas = parseInt(document.getElementById('cursoDuracao').value);
+        
+        if (!titulo || !descricao || !categoria || !duracao_horas) {
+            alert('Preencha todos os campos!');
+            return;
+        }
+        
+        const cursoData = { 
+            titulo, 
+            descricao, 
+            categoria, 
+            nivel, 
+            duracao_horas, 
+            admin_id: 1,
+            status: 'ativo'
+        };
+        
+        try {
+            if (id) {
+                // Update
+                const data = db.getData();
+                const index = data.cursos.findIndex(c => c.id === parseInt(id));
+                if (index !== -1) {
+                    data.cursos[index] = { ...data.cursos[index], ...cursoData };
+                    db.saveData(data);
+                    addResult(' Curso atualizado com sucesso!');
+                }
+            } else {
+                // Create
+                db.createCurso(cursoData);
+                addResult(' Curso criado com sucesso!');
+            }
+            
+            closeModal('cursoModal');
+            showDataGrid();
+            updateStats();
+        } catch (error) {
+            alert('Erro: ' + error.message);
+        }
+    });
+    
+    // Fechar modais ao clicar fora
+    const detailModal = document.getElementById('detailModal');
+    if (detailModal) {
+        detailModal.addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+    }
+    
+    const userModal = document.getElementById('userModal');
+    if (userModal) {
+        userModal.addEventListener('click', function(e) {
+            if (e.target === this) closeModal('userModal');
+        });
+    }
+    
+    const userActionsModal = document.getElementById('userActionsModal');
+    if (userActionsModal) {
+        userActionsModal.addEventListener('click', function(e) {
+            if (e.target === this) closeModal('userActionsModal');
+        });
+    }
+    
+    const cursoModal = document.getElementById('cursoModal');
+    if (cursoModal) {
+        cursoModal.addEventListener('click', function(e) {
+            if (e.target === this) closeModal('cursoModal');
+        });
+    }
+</script>
+</body>
+</html>

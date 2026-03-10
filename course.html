@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trilha - Caramel Code</title>
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/pages.css">
+    <style>
+        .course-header {
+            padding: 16px 16px 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .course-title-group { flex: 1; }
+        .course-title { font-size: 18px; font-weight: 800; color: var(--text-primary); display: flex; align-items: center; gap: 8px; }
+        .course-desc { font-size: 12px; color: var(--text-secondary); margin-top: 4px; line-height: 1.4; }
+        
+        .trail-banner {
+            background: linear-gradient(135deg, #fff3e0 0%, #e3f2fd 100%);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 0 16px 16px;
+            position: relative;
+        }
+        body.dark .trail-banner {
+            background: linear-gradient(135deg, #2d2417 0%, #1e293b 100%);
+        }
+        .banner-top { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+        .banner-top span:first-child { font-size: 18px; }
+        .banner-top-title { font-size: 15px; font-weight: 700; color: #a16207; }
+        body.dark .banner-top-title { color: #f5a623; }
+        .banner-pct { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.5); padding: 4px 8px; border-radius: 20px; font-size: 11px; font-weight: 700; color: var(--accent); }
+        .banner-progress-bar { height: 8px; background: rgba(0,0,0,0.05); border-radius: 10px; overflow: hidden; margin-bottom: 20px; }
+        .banner-progress-fill { height: 100%; background: var(--accent); border-radius: 10px; width: 0%; transition: width 0.5s; }
+        
+        .banner-stats { display: flex; justify-content: space-around; text-align: center; }
+        .b-stat-item { display: flex; flex-direction: column; gap: 4px; }
+        .b-stat-val { font-size: 18px; font-weight: 800; color: var(--text-primary); }
+        .b-stat-label { font-size: 11px; color: var(--text-secondary); }
+
+        .phase-card {
+            background: var(--bg-card);
+            border-radius: 18px;
+            border: 1.5px solid var(--border);
+            margin: 0 16px 12px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: transform 0.2s;
+        }
+        .phase-card.locked { opacity: 0.6; }
+        .phase-top { display: flex; align-items: flex-start; gap: 14px; }
+        .phase-num-circle { 
+            width: 44px; height: 44px; border-radius: 50%; border: 2.5px solid #ffe8c8;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px; font-weight: 800; color: var(--accent);
+            flex-shrink: 0;
+        }
+        .phase-card.locked .phase-num-circle { border-color: #eee; color: #ccc; }
+        .phase-info { flex: 1; position: relative; }
+        .phase-name { font-size: 16px; font-weight: 700; color: var(--text-primary); }
+        .phase-desc { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
+        .phase-meta { font-size: 11px; color: var(--text-muted); margin-top: 8px; display: flex; align-items: center; gap: 4px; }
+        .phase-badge-pct { position: absolute; top: 0; right: 0; font-size: 11px; font-weight: 700; color: var(--text-muted); }
+
+        .phase-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(245, 166, 35, 0.2);
+        }
+        .phase-locked-msg {
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center; gap: 6px;
+        }
+    </style>
+</head>
+<body>
+<div class="app-shell">
+    <header class="page-header" style="border-bottom:none;">
+        <button class="back-btn" onclick="location.href='trails.html'">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M15 19l-7-7 7-7"/>
+            </svg>
+        </button>
+        <div style="width:40px;"></div>
+    </header>
+
+    <div class="course-header" id="courseHeader">
+        <div class="course-title" id="courseTitle">🌐 HTML do Zero</div>
+        <div class="course-desc" id="courseDesc">Comece sua jornada web aprendendo HTML do básico ao avançado</div>
+    </div>
+
+    <div class="page-content" style="padding-top:0;">
+        <div class="trail-banner">
+            <div class="banner-pct" id="totalPct">0%</div>
+            <div class="banner-top">
+                <span>🎯</span>
+                <span class="banner-top-title">Progresso da Trilha</span>
+            </div>
+            <div class="banner-sub" id="statusMsg" style="font-size:12px;color:var(--text-secondary);margin-bottom:8px;">0/41 questões completadas</div>
+            <div class="banner-progress-bar">
+                <div class="banner-progress-fill" id="totalProgressFill"></div>
+            </div>
+            <div class="banner-stats">
+                <div class="b-stat-item">
+                    <span class="b-stat-val" id="countFases">0</span>
+                    <span class="b-stat-label">Fases</span>
+                </div>
+                <div class="b-stat-item">
+                    <span class="b-stat-val" id="countMoedas">0</span>
+                    <span class="b-stat-label">Moedas</span>
+                </div>
+                <div class="b-stat-item">
+                    <span class="b-stat-val" id="countNivel">1</span>
+                    <span class="b-stat-label">Nível</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="phasesList"></div>
+    </div>
+</div>
+
+<script src="js/app.js"></script>
+<script src="js/database_json.js"></script>
+<script src="js/course.js"></script>
+</body>
+</html>

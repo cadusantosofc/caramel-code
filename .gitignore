@@ -1,0 +1,67 @@
+# Configurações sensíveis
+.env
+.env.local
+.env.production
+
+# Logs
+logs/
+*.log
+error.log
+access.log
+
+# Uploads de arquivos
+uploads/
+temp/
+cache/
+
+# Backup
+backup/
+*.backup
+*.bak
+
+# IDE e Editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Node.js (se decidir usar no futuro)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# PHP
+vendor/
+composer.lock
+
+# Arquivos temporários
+*.tmp
+*.temp
+
+# Cache do navegador
+.cache/
+
+# Sessões
+sessions/
+cookies/
+
+# Relatórios e exports
+relatorios/
+exports/
+*.csv
+*.xlsx
+*.pdf
+
+# Certificados (se gerar)
+certificados/
+
+# Arquivos de configuração local
+config.local.php
+config.local.js

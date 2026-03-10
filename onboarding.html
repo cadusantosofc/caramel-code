@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bem-vindo - Caramel Code</title>
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/onboarding.css">
+</head>
+<body>
+
+<div class="ob-shell">
+    <div class="ob-top-bar">
+        <button class="ob-skip-btn" id="skipBtn">Pular</button>
+    </div>
+
+    <!-- Tela 1: Apresentação -->
+    <div class="ob-screen ob-screen-1 active" id="screen1">
+        <div class="ob-hero">
+            <img src="img/logo.png" alt="Caramelo" class="ob-logo">
+            <div class="ob-controller">🎮</div>
+        </div>
+        <div>
+            <h1 class="ob-title">Aprenda Programação Jogando</h1>
+            <p class="ob-subtitle">Transforme o aprendizado em diversão! Responda questões, escreva código e evolua suas habilidades passo a passo.</p>
+        </div>
+        <div class="ob-features">
+            <div class="ob-feature-icon">▷</div>
+            <div class="ob-feature-icon">📋</div>
+            <div class="ob-feature-icon">🚀</div>
+        </div>
+    </div>
+
+    <!-- Tela 2: Nível -->
+    <div class="ob-screen ob-screen-2" id="screen2">
+        <div class="ob-level-header">
+            <img src="img/logo.png" alt="Caramelo" class="ob-level-logo">
+            <h2 class="ob-level-title">Qual seu nível?</h2>
+            <p style="font-size:13px;color:#888;">O Caramelo quer personalizar sua jornada de aprendizado!</p>
+            <div class="ob-level-sub-icon">🎯</div>
+        </div>
+
+        <div class="ob-levels">
+            <div class="ob-level-card selected" id="level-iniciante" data-level="iniciante">
+                <div class="ob-level-top">
+                    <span class="ob-level-emoji">🌱</span>
+                    <span class="ob-level-name">Iniciante</span>
+                    <span class="ob-level-badge badge-iniciante">Do zero</span>
+                </div>
+                <div class="ob-level-desc">Nunca programei - quero começar do zero absoluto</div>
+                <div class="ob-level-features">
+                    <span class="ob-level-feat">Conceitos fundamentais</span>
+                    <span class="ob-level-feat">Muitas explicações</span>
+                    <span class="ob-level-feat">Exemplos práticos</span>
+                    <span class="ob-level-feat">Ritmo tranquilo</span>
+                </div>
+            </div>
+
+            <div class="ob-level-card" id="level-intermediario" data-level="intermediario">
+                <div class="ob-level-top">
+                    <span class="ob-level-emoji">🌿</span>
+                    <span class="ob-level-name">Intermediário</span>
+                    <span class="ob-level-badge badge-intermediario">Intermediário</span>
+                </div>
+                <div class="ob-level-desc">Já sei o básico de programação - quero me aprofundar</div>
+                <div class="ob-level-features">
+                    <span class="ob-level-feat">Pula o básico</span>
+                    <span class="ob-level-feat">Conceitos específicos</span>
+                    <span class="ob-level-feat">Exercícios práticos</span>
+                    <span class="ob-level-feat">Ritmo moderado</span>
+                </div>
+            </div>
+
+            <div class="ob-level-card" id="level-avancado" data-level="avancado">
+                <div class="ob-level-top">
+                    <span class="ob-level-emoji">🌳</span>
+                    <span class="ob-level-name">Avançado</span>
+                    <span class="ob-level-badge badge-avancado">Avançado</span>
+                </div>
+                <div class="ob-level-desc">Já programo bem - quero desafios e reforço</div>
+                <div class="ob-level-features">
+                    <span class="ob-level-feat">Exercícios desafiadores</span>
+                    <span class="ob-level-feat">Tópicos avançados</span>
+                    <span class="ob-level-feat">Menos explicações</span>
+                    <span class="ob-level-feat">Ritmo acelerado</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="ob-bottom" style="padding-top:12px;">
+            <button class="ob-lang-btn" id="chooseLangBtn">
+                Escolher Linguagem →
+            </button>
+            <div class="ob-style-tabs">
+                <button class="ob-style-tab active" data-style="progressivo">
+                    <div class="ob-style-tab-icon">📖</div>
+                    <div class="ob-style-tab-label">Progressivo</div>
+                </button>
+                <button class="ob-style-tab" data-style="pratico">
+                    <div class="ob-style-tab-icon">&lt;/&gt;</div>
+                    <div class="ob-style-tab-label">Prático</div>
+                </button>
+                <button class="ob-style-tab" data-style="gamificado">
+                    <div class="ob-style-tab-icon">⚡</div>
+                    <div class="ob-style-tab-label">Gamificado</div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom nav (tela 1) -->
+    <div class="ob-bottom" id="bottomNav1">
+        <div class="ob-nav-row">
+            <button class="ob-prev-btn" id="prevBtn" style="visibility:hidden;">‹ Anterior</button>
+            <div class="ob-dots">
+                <div class="ob-dot active" id="dot1"></div>
+                <div class="ob-dot" id="dot2"></div>
+            </div>
+            <button class="ob-next-btn" id="nextBtn">Próximo ›</button>
+        </div>
+    </div>
+</div>
+
+<script src="js/app.js"></script>
+<script src="js/database_json.js"></script>
+<script src="js/onboarding.js"></script>
+</body>
+</html>

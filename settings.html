@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações - Caramel Code</title>
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/pages.css">
+</head>
+<body>
+<div class="app-shell">
+    <header class="page-header">
+        <button class="back-btn" onclick="history.back()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 19l-7-7 7-7"/>
+            </svg>
+        </button>
+        <span class="page-title">Configurações</span>
+        <span class="page-version">v1.0.0</span>
+    </header>
+
+    <div class="page-content">
+        <div class="card">
+            <div class="settings-section">
+                <div class="settings-section-title">
+                    <span>🎨</span> Aparência
+                </div>
+                <div class="settings-row">
+                    <div class="settings-row-left">
+                        <div class="settings-row-label">Tema Escuro</div>
+                        <div class="settings-row-sub">Alternar entre tema claro e escuro</div>
+                    </div>
+                    <button class="toggle" id="toggleDark" aria-label="Tema escuro"></button>
+                </div>
+                <div class="settings-row">
+                    <div class="settings-row-left">
+                        <div class="settings-row-label">Reduzir Animações</div>
+                        <div class="settings-row-sub">Para melhor performance</div>
+                    </div>
+                    <button class="toggle" id="toggleAnimations" aria-label="Reduzir animações"></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="settings-section">
+                <div class="settings-section-title">
+                    <span>🔔</span> Notificações
+                </div>
+                <div class="settings-row">
+                    <div class="settings-row-left">
+                        <div class="settings-row-label">Notificações Gerais</div>
+                        <div class="settings-row-sub">Receber notificações do app</div>
+                    </div>
+                    <button class="toggle on" id="toggleNotif" aria-label="Notificações gerais"></button>
+                </div>
+                <div class="settings-row">
+                    <div class="settings-row-left">
+                        <div class="settings-row-label">Lembrete Diário</div>
+                        <div class="settings-row-sub">Lembrar de estudar todos os dias</div>
+                    </div>
+                    <button class="toggle on" id="toggleLembrete" aria-label="Lembrete diário"></button>
+                </div>
+                <div class="settings-row">
+                    <div class="settings-row-left">
+                        <div class="settings-row-label">Novas Conquistas</div>
+                        <div class="settings-row-sub">Quando ganhar medalhas</div>
+                    </div>
+                    <button class="toggle on" id="toggleConquistas" aria-label="Novas conquistas"></button>
+                </div>
+                <div class="settings-row">
+                    <div class="settings-row-left">
+                        <div class="settings-row-label">Relatórios por Email</div>
+                        <div class="settings-row-sub">Receber progresso semanal</div>
+                    </div>
+                    <button class="toggle" id="toggleEmail" aria-label="Relatórios por email"></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="settings-section">
+                <div class="settings-section-title">
+                    <span>🔊</span> Som e Vibração
+                </div>
+                <div class="settings-row">
+                    <div class="settings-row-left">
+                        <div class="settings-row-label">Sons</div>
+                        <div class="settings-row-sub">Efeitos sonoros do app</div>
+                    </div>
+                    <button class="toggle on" id="toggleSons" aria-label="Sons"></button>
+                </div>
+                <div class="settings-row">
+                    <div class="settings-row-left">
+                        <div class="settings-row-label">Vibração</div>
+                        <div class="settings-row-sub">Feedback tátil (apenas mobile)</div>
+                    </div>
+                    <button class="toggle on" id="toggleVibracao" aria-label="Vibração"></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="settings-section">
+                <div class="settings-section-title">
+                    <span>💾</span> Dados e Backup
+                </div>
+                <div class="settings-row">
+                    <div class="settings-row-left">
+                        <div class="settings-row-label">Salvamento Automático</div>
+                        <div class="settings-row-sub">Salvar progresso automaticamente</div>
+                    </div>
+                    <button class="toggle on" id="toggleAutoSave" aria-label="Salvamento automático"></button>
+                </div>
+                <div class="settings-row">
+                    <div class="settings-row-left">
+                        <div class="settings-row-label">Exportar Dados</div>
+                        <div class="settings-row-sub">Baixar backup em JSON</div>
+                    </div>
+                    <button class="page-action-btn" id="exportBtn" style="font-size:13px;">Exportar</button>
+                </div>
+                <div class="settings-row">
+                    <div class="settings-row-left">
+                        <div class="settings-row-label" style="color:#ef4444;">Sair da conta</div>
+                        <div class="settings-row-sub">Desconectar do dispositivo</div>
+                    </div>
+                    <button class="page-action-btn" id="logoutBtn" style="color:#ef4444;font-size:13px;">Sair</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/app.js"></script>
+<script src="js/database_json.js"></script>
+<script src="js/settings.js"></script>
+</body>
+</html>
