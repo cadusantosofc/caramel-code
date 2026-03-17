@@ -41,9 +41,26 @@ function checkAuth() {
     try { return JSON.parse(raw); } catch (e) { window.location.href = 'login.html'; return null; }
 }
 
+function loadAppVersion() {
+    const el = document.getElementById('appVersion');
+    if (!el) return;
+
+    fetch('version.json')
+        .then(resp => resp.json())
+        .then(data => {
+            if (data && typeof data.version === 'string') {
+                el.textContent = data.version;
+            }
+        })
+        .catch(() => {
+        });
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     const user = checkAuth();
     if (!user) return;
+
+    loadAppVersion();
 
     const settings = loadSettings();
     applyTheme(settings.darkMode);

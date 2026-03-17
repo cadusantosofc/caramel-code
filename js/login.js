@@ -50,7 +50,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 setTimeout(() => {
                     if (user.tipo === 'admin') {
-                        window.location.href = 'z_admin.html';
+                        window.location.href = 'dashboard.html';
+
                     } else {
                         window.location.href = 'dashboard.html';
                     }
