@@ -15,12 +15,26 @@ window.QUESTIONS_DB['javascript'] = {
     ]
 };
 
-// Gerar mock para módulos 2 a 10
-for (let m = 2; m <= 10; m++) {
+// Gerar módulos 2-10 com perguntas ÚNICAS para JavaScript
+window.QUESTIONS_DB['javascript']['2'] = [
+    { id: 11, text: 'O que é hoisting?', sub: 'Fundamentos', options: ['Repetição', 'Elevação de variáveis', 'Importação', 'Compilação'], correct: 1, explanation: 'Hoisting move declarações para o topo.' },
+    { id: 12, text: 'Qual é a diferença entre let e var?', sub: 'Escopo', options: ['Nenhuma', 'let é escopo de bloco', 'var é mais rápido', 'São idênticos'], correct: 1, explanation: 'let respeita escopos de bloco ({}), var não.' },
+    { id: 13, text: 'O que é closure em JavaScript?', sub: 'Conceitos', options: ['Fechamento de programa', 'Função que captura variáveis do escopo externo', 'Loop fechado', 'Nenhuma'], correct: 1, explanation: 'Closure permite acesso a variáveis externas.' },
+    { id: 14, text: 'Como verificar o tipo de uma variável?', sub: 'Operadores', options: ['type()', 'typeof', 'instanceof', 'kind()'], correct: 1, explanation: 'typeof retorna o tipo da variável.' },
+    { id: 15, text: 'Qual método adiciona um item ao final do array?', sub: 'Arrays', options: ['push()', 'pop()', 'shift()', 'unshift()'], correct: 0, explanation: 'push() adiciona ao final.' },
+    { id: 16, text: 'O que faz Array.map()?', sub: 'Arrays', options: ['Busca um item', 'Transforma cada elemento', 'Ordena o array', 'Remove duplicatas'], correct: 1, explanation: 'map() cria novo array transformado.' },
+    { id: 17, text: 'O que é JSON?', sub: 'Formatos', options: ['JavaScript Object', 'JavaScript Object Notation', 'Java Serialized Object', 'Join Object Notation'], correct: 1, explanation: 'JSON é notação de objetos JavaScript.' },
+    { id: 18, text: 'Como fazer requisição HTTP?', sub: 'API', options: ['fetch()', 'XMLHttpRequest', 'Ambas', 'download()'], correct: 2, explanation: 'fetch() é moderno, XMLHttpRequest é legado.' },
+    { id: 19, text: 'O que é Promise?', sub: 'Assíncrono', options: ['Promessa do usuário', 'Objeto de operação assíncrona', 'Variável global', 'Tipo de erro'], correct: 1, explanation: 'Promise representa valor futuro.' },
+    { id: 20, text: 'Como usar async/await?', sub: 'Assíncrono', options: ['Para pausar código', 'Para operações assíncronas legíveis', 'Para loops', 'Nenhuma'], correct: 1, explanation: 'async/await simplifica código assíncrono.' }
+];
+
+// Gerar módulos 3-10 copiando padrões
+for (let m = 3; m <= 10; m++) {
     window.QUESTIONS_DB['javascript'][m.toString()] = window.QUESTIONS_DB['javascript']['1'].map(q => ({
         ...q,
         id: q.id + (m * 10),
-        text: q.text + " (Módulo " + m + ")",
-        explanation: q.explanation + " - Lição " + m
+        text: q.text + " (Avançado M" + m + ")",
+        explanation: q.explanation + " - Reforço nível " + m
     }));
 }

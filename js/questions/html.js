@@ -63,12 +63,68 @@ window.QUESTIONS_DB['html'] = {
     ]
 };
 
-// Gerar mock inteligente para os módulos 6 a 10 para completar as 100 perguntas
-for (let i = 6; i <= 10; i++) {
-    window.QUESTIONS_DB['html'][i.toString()] = window.QUESTIONS_DB['html']['1'].map(q => ({
-        ...q,
-        id: q.id + (i * 10),
-        text: q.text + " (Nível Avançado " + i + ")",
-        explanation: q.explanation + " Este é o módulo " + i + " com conceitos profundos."
-    }));
-}
+// Módulos 6-10 com perguntas ÚNICAS (não repetidas)
+window.QUESTIONS_DB['html']['6'] = [
+    { id: 51, text: 'Qual tag agrupa elementos de entrada com legenda?', sub: 'Formulários', options: ['<fieldset>', '<group>', '<form-group>', '<section>'], correct: 0, explanation: '<fieldset> agrupa campos relacionados.' },
+    { id: 52, text: 'Qual atributo desabilita um campo de input?', sub: 'Formulários', options: ['disabled', 'readonly', 'inactive', 'blocked'], correct: 0, explanation: 'disabled desativa um campo.' },
+    { id: 53, text: 'Qual atributo torna um input obrigatório?', sub: 'Validação', options: ['required', 'mandatory', 'must', 'needed'], correct: 0, explanation: 'required força preenchimento do campo.' },
+    { id: 54, text: 'Qual atributo define valor já preenchido?', sub: 'Formulários', options: ['placeholder', 'value', 'default', 'initial'], correct: 1, explanation: 'value define texto inicial do input.' },
+    { id: 55, text: 'Qual tag define uma legenda no fieldset?', sub: 'Formulários', options: ['<legend>', '<title>', '<caption>', '<label>'], correct: 0, explanation: '<legend> é a legenda do fieldset.' },
+    { id: 56, text: 'Qual tipo de input cria caixa de marcar?', sub: 'Formulários', options: ['checkbox', 'check', 'mark', 'toggle'], correct: 0, explanation: 'type="checkbox" cria caixa de seleção.' },
+    { id: 57, text: 'Qual tipo de input cria botão de opção?', sub: 'Formulários', options: ['radio', 'button', 'option', 'choice'], correct: 0, explanation: 'type="radio" cria botões de opção exclusiva.' },
+    { id: 58, text: 'Qual atributo agrupa rádios relacionados?', sub: 'Formulários', options: ['name', 'group', 'class', 'id'], correct: 0, explanation: 'name iguais fazem rádios exclusivos.' },
+    { id: 59, text: 'Como enviar dados de formulário?', sub: 'Formulários', options: ['<submit>', 'method', '<button type="submit">', 'onclick'], correct: 2, explanation: '<button type="submit"> envia formulário.' },
+    { id: 60, text: 'Qual atributo define destino do formulário?', sub: 'Formulários', options: ['target', 'action', 'href', 'path'], correct: 1, explanation: 'action aponta aonde enviar os dados.' }
+];
+
+window.QUESTIONS_DB['html']['7'] = [
+    { id: 61, text: 'Qual meta tag define charset?', sub: 'Metadados', options: ['<meta charset>', '<meta encoding>', '<meta lang>', '<meta style>'], correct: 0, explanation: '<meta charset="UTF-8"> define codificação.' },
+    { id: 62, text: 'Qual tag importa um arquivo CSS?', sub: 'Estilos', options: ['<link>', '<style>', '<import>', '<css>'], correct: 0, explanation: '<link rel="stylesheet"> importa CSS.' },
+    { id: 63, text: 'Qual tag permite CSS inline?', sub: 'Estilos', options: ['<style>', '<css>', '<link>', '<script>'], correct: 0, explanation: '<style> permite CSS dentro do HTML.' },
+    { id: 64, text: 'Qual atributo HTML define CSS inline?', sub: 'Estilos', options: ['style', 'css', 'class', 'id'], correct: 0, explanation: 'style="" aplica CSS direto ao elemento.' },
+    { id: 65, text: 'Qual tag carrega um script JavaScript?', sub: 'Scripts', options: ['<script>', '<js>', '<code>', '<function>'], correct: 0, explanation: '<script src="..."></script> carrega JS.' },
+    { id: 66, text: 'Onde colocar <script> para melhor performance?', sub: 'Scripts', options: ['No <head>', 'Antes de </body>', 'No final do <html>', 'Não importa'], correct: 1, explanation: 'Scripts no final do <body> carregam mais rápido.' },
+    { id: 67, text: 'Qual tag define favicon?', sub: 'Metadados', options: ['<link rel="icon">', '<favicon>', '<icon>', '<logo>'], correct: 0, explanation: '<link rel="icon"> define o ícone da aba.' },
+    { id: 68, text: 'Qual tag define viewport para mobile?', sub: 'Responsiva', options: ['<meta viewport>', '<viewport>', '<mobile>', '<screen>'], correct: 0, explanation: '<meta viewport> define dimensões no mobile.' },
+    { id: 69, text: 'Qual meta tag define descrição da página?', sub: 'SEO', options: ['<meta description>', '<meta name="description">', '<meta content>', '<description>'], correct: 1, explanation: '<meta name="description"> é usada em buscas.' },
+    { id: 70, text: 'Qual meta tag define palavras-chave?', sub: 'SEO', options: ['<meta keywords>', '<meta name="keywords">', '<keywords>', '<tags>'], correct: 1, explanation: '<meta name="keywords"> lista palavras-chave.' }
+];
+
+window.QUESTIONS_DB['html']['8'] = [
+    { id: 71, text: 'Qual tag cria uma tabela?', sub: 'Tabelas', options: ['<table>', '<tab>', '<grid>', '<matrix>'], correct: 0, explanation: '<table> cria tabelas.' },
+    { id: 72, text: 'Qual tag cria linha na tabela?', sub: 'Tabelas', options: ['<tr>', '<row>', '<line>', '<th>'], correct: 0, explanation: '<tr> = table row.' },
+    { id: 73, text: 'Qual tag cria célula de cabeçalho?', sub: 'Tabelas', options: ['<th>', '<td>', '<header>', '<cell>'], correct: 0, explanation: '<th> = table header.' },
+    { id: 74, text: 'Qual tag cria célula de dado?', sub: 'Tabelas', options: ['<td>', '<th>', '<data>', '<cell>'], correct: 0, explanation: '<td> = table data.' },
+    { id: 75, text: 'Qual tag agrupa cabeçalho da tabela?', sub: 'Tabelas', options: ['<thead>', '<header>', '<head>', '<top>'], correct: 0, explanation: '<thead> é o cabeçalho da tabela.' },
+    { id: 76, text: 'Qual tag agrupa corpo da tabela?', sub: 'Tabelas', options: ['<tbody>', '<body>', '<content>', '<main>'], correct: 0, explanation: '<tbody> é o corpo da tabela.' },
+    { id: 77, text: 'Qual tag agrupa rodapé da tabela?', sub: 'Tabelas', options: ['<tfoot>', '<footer>', '<bottom>', '<end>'], correct: 0, explanation: '<tfoot> é o rodapé da tabela.' },
+    { id: 78, text: 'Qual atributo expande célula horizontalmente?', sub: 'Tabelas', options: ['colspan', 'rowspan', 'span', 'width'], correct: 0, explanation: 'colspan mescla colunas.' },
+    { id: 79, text: 'Qual atributo expande célula verticalmente?', sub: 'Tabelas', options: ['rowspan', 'colspan', 'span', 'height'], correct: 0, explanation: 'rowspan mescla linhas.' },
+    { id: 80, text: 'Qual tag agrupa colunas com mesmos atributos?', sub: 'Tabelas', options: ['<colgroup>', '<col>', '<column>', '<group>'], correct: 0, explanation: '<colgroup> agrupa colunas.' }
+];
+
+window.QUESTIONS_DB['html']['9'] = [
+    { id: 81, text: 'Qual tag cria um elemento dropdown customizado?', sub: 'Avançado', options: ['<details>', '<summary>', '<datalist>', '<combo>'], correct: 0, explanation: '<details> cria accordion/dropdown.' },
+    { id: 82, text: 'Qual tag define o rótulo de <details>?', sub: 'Avançado', options: ['<summary>', '<label>', '<title>', '<caption>'], correct: 0, explanation: '<summary> é o título do <details>.' },
+    { id: 83, text: 'Qual tag cria uma lista de sugestões?', sub: 'Avançado', options: ['<datalist>', '<suggestions>', '<options>', '<select>'], correct: 0, explanation: '<datalist> sugere valores para input.' },
+    { id: 84, text: 'Qual tag renderiza HTML dentro de um documento?', sub: 'Avançado', options: ['<embed>', '<object>', '<iframe>', '<frame>'], correct: 2, explanation: '<iframe> emcapsula documentos HTML.' },
+    { id: 85, text: 'Qual tag emcapsula conteúdo externo?', sub: 'Avançado', options: ['<embed>', '<object>', '<iframe>', '<external>'], correct: 0, explanation: '<embed> carrega plug-ins.' },
+    { id: 86, text: 'Qual tag representa um intervalo de números?', sub: 'Avançado', options: ['<slider>', '<input type="range">', '<range>', '<number>'], correct: 1, explanation: '<input type="range"> cria slider.' },
+    { id: 87, text: 'Qual tag exibe horas/datas formatadas?', sub: 'Avançado', options: ['<time>', '<date>', '<clock>', '<datetime>'], correct: 0, explanation: '<time> mostra datas semanticamente.' },
+    { id: 88, text: 'Qual atributo indica conteúdo em progresso?', sub: 'Avançado', options: ['aria-busy', 'busy', 'loading', 'pending'], correct: 0, explanation: 'aria-busy informa acessibilidade.' },
+    { id: 89, text: 'Qual atributo descreve elemento?', sub: 'Acessibilidade', options: ['aria-label', 'title', 'alt', 'description'], correct: 0, explanation: 'aria-label descreve para leitores de tela.' },
+    { id: 90, text: 'Qual tag define uma dica flutuante?', sub: 'Interativo', options: ['<tooltip>', 'title=""', '<hint>', '<popup>'], correct: 1, explanation: 'title="" cria tooltips nativos.' }
+];
+
+window.QUESTIONS_DB['html']['10'] = [
+    { id: 91, text: 'Qual API HTML5 armazena dados no cliente?', sub: 'APIs', options: ['localStorage', 'sessionStorage', 'Ambas', 'Cookie'], correct: 2, explanation: 'localStorage e sessionStorage armazenam dados.' },
+    { id: 92, text: 'Qual API captura localização do usuário?', sub: 'APIs', options: ['Geolocation', 'Location', 'GPS', 'Navigator'], correct: 0, explanation: 'Geolocation API fornece coordenadas.' },
+    { id: 93, text: 'Qual tag reproduz mídia com controles?', sub: 'Mídia', options: ['<audio controls>', '<video controls>', 'Ambas', '<media>'], correct: 2, explanation: 'Ambas aceitam atributo controls.' },
+    { id: 94, text: 'Como incluir arquivo de legenda em vídeo?', sub: 'Mídia', options: ['<track>', '<caption>', '<subtitle>', '<text>'], correct: 0, explanation: '<track kind="captions"> adiciona legendas.' },
+    { id: 95, text: 'Qual elemento permite desenho 2D?', sub: 'Gráficos', options: ['<canvas>', '<svg>', '<draw>', '<graphics>'], correct: 0, explanation: '<canvas> permite desenho com JavaScript.' },
+    { id: 96, text: 'Qual elemento é melhor para gráficos vetoriais?', sub: 'Gráficos', options: ['<svg>', '<canvas>', '<picture>', '<graphic>'], correct: 0, explanation: '<svg> é vetorial e escalável.' },
+    { id: 97, text: 'Qual tag fornece imagem alternativa?', sub: 'Mídia', options: ['<picture>', '<img>', '<source>', '<alternative>'], correct: 0, explanation: '<picture> permite imagens responsivas.' },
+    { id: 98, text: 'Qual tag define fonte de fonte?', sub: 'Tipografia', options: ['<source>', '<font>', '<link>', '<style>'], correct: 0, explanation: '@font-face em CSS carrega fontes.' },
+    { id: 99, text: 'Qual tag estrutura conteúdo página?', sub: 'Semântica', options: ['<main>', '<container>', '<section>', '<div>'], correct: 0, explanation: '<main> define conteúdo principal.' },
+    { id: 100, text: 'Qual tag representa cita da web?', sub: 'Semântica', options: ['<blockquote cite="">', '<quote>', '<citation>', '<web-cite>'], correct: 0, explanation: '<blockquote> com cite referencia fonte.' }
+];

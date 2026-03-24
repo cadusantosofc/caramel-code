@@ -26,13 +26,3 @@ window.QUESTIONS_DB['logica'] = {
         { id: 20, text: 'O que significa DRY em programação?', sub: 'Boas Práticas', options: ['Do Repeat Yourself', 'Don\'t Repeat Yourself', 'Data Resource Yield', 'Digital Real Yield'], correct: 1, explanation: 'Princípio de evitar código redundante.' }
     ]
 };
-
-// Gerar mock para módulos 3 a 10
-for (let m = 3; m <= 10; m++) {
-    window.QUESTIONS_DB['logica'][m.toString()] = window.QUESTIONS_DB['logica']['1'].map(q => ({
-        ...q,
-        id: q.id + (m * 10),
-        text: q.text + " (Módulo " + m + ")",
-        explanation: q.explanation + " - Lição " + m
-    }));
-}

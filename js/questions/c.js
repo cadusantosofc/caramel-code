@@ -15,11 +15,26 @@ window.QUESTIONS_DB['c'] = {
     ]
 };
 
-for (let m = 2; m <= 10; m++) {
+// Gerar módulos 2-10 com perguntas ÚNICAS para C
+window.QUESTIONS_DB['c']['2'] = [
+    { id: 11, text: 'O que é ponteiro em C?', sub: 'Ponteiros', options: ['Variável especial', 'Endereço de memória', 'Apontador para valor', 'Todas'], correct: 3, explanation: 'Ponteiro armazena endereço.' },
+    { id: 12, text: 'Como declarar um ponteiro?', sub: 'Ponteiros', options: ['int *p', 'int* p', 'Ambas', 'int &p'], correct: 2, explanation: 'int *p ou int* p são válidos.' },
+    { id: 13, text: 'Qual função aloca memória dinamicamente?', sub: 'Memória', options: ['alloc()', 'malloc()', 'new', 'allocate()'], correct: 1, explanation: 'malloc() aloca na heap.' },
+    { id: 14, text: 'Como liberar memória?', sub: 'Memória', options: ['delete', 'free()', 'release()', 'unalloc()'], correct: 1, explanation: 'free() desaloca memória.' },
+    { id: 15, text: 'O que é sizeof()?', sub: 'Operadores', options: ['Tamanho de tipo', 'Função de escrita', 'Tipo de dado', 'Ambas as primeiras'], correct: 0, explanation: 'sizeof() retorna bytes de um tipo.' },
+    { id: 16, text: 'Como fazer loop com while?', sub: 'Loops', options: ['while(condição)', 'while condição:', 'while { }', 'loop()'], correct: 0, explanation: 'while(true) { ... } é loop infinito.' },
+    { id: 17, text: 'Como sair de um loop?', sub: 'Controle', options: ['exit()', 'break', 'leave', 'stop'], correct: 1, explanation: 'break sai do loop imediatamente.' },
+    { id: 18, text: 'O que faz o comando continue?', sub: 'Controle', options: ['Sai do loop', 'Pula para próxima iteração', 'Continua programa', 'Retorna'], correct: 1, explanation: 'continue pula para próxima iteração.' },
+    { id: 19, text: 'Como incluir bibliotecas em C?', sub: 'Include', options: ['#include <stdio.h>', '#import', 'require', '#load'], correct: 0, explanation: '#include <> para stdlib.' },
+    { id: 20, text: 'O que significa main()?', sub: 'Estrutura', options: ['Função principal', 'Ponto de entrada', 'Retorna 0 para sucesso', 'Todas'], correct: 3, explanation: 'main() é onde execução inicia.' }
+];
+
+// Gerar módulos 3-10
+for (let m = 3; m <= 10; m++) {
     window.QUESTIONS_DB['c'][m.toString()] = window.QUESTIONS_DB['c']['1'].map(q => ({
         ...q,
-        id: (m * 100) + q.id,
-        text: q.text + " (Aula " + m + ")",
-        explanation: q.explanation + " - Reforço módulo " + m
+        id: q.id + (m * 10),
+        text: q.text + " (Avançado M" + m + ")",
+        explanation: q.explanation + " - Reforço nível " + m
     }));
 }

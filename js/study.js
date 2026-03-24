@@ -88,7 +88,11 @@ function renderQuestion() {
     const list = document.getElementById('optionsList');
     list.innerHTML = '';
     
-    q.options.forEach((opt, idx) => {
+    // Embaralhar opções com rastreamento do índice original
+    const optionsWithIndices = q.options.map((opt, idx) => ({ option: opt, originalIndex: idx }));
+    optionsWithIndices.sort(() => Math.random() - 0.5);
+    
+    optionsWithIndices.forEach((item) => {
         const btn = document.createElement('button');
         btn.className = 'option-btn';
         
@@ -97,13 +101,13 @@ function renderQuestion() {
         
         const text = document.createElement('span');
         text.className = 'option-text';
-        text.innerText = opt; // Segurança contra tags HTML nas opções
+        text.innerText = item.option; // Segurança contra tags HTML nas opções
         
         btn.appendChild(check);
         btn.appendChild(text);
 
         btn.onclick = () => {
-            selectedOption = idx;
+            selectedOption = item.originalIndex; // Armazena o índice original da resposta correta
             document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected');
             if (ansBtn) ansBtn.classList.add('ready');
@@ -119,6 +123,7 @@ function handleAnswer() {
     clearInterval(timer);
 
     const q = questions[currentQuestionIdx];
+    if (!q) return;
     const isCorrect = selectedOption === q.correct;
 
     if (isCorrect) {
@@ -126,7 +131,6 @@ function handleAnswer() {
         document.getElementById('speedBonusCorrect').textContent = `+${speedBonus} velocidade`;
         document.getElementById('feedbackCorrect').classList.add('active');
         
-        // Update stats
         progress.moedas += (10 + speedBonus);
         progress.xp += 15;
         progress.questoes_corretas++;
@@ -136,7 +140,6 @@ function handleAnswer() {
         document.getElementById('feedbackWrong').classList.add('active');
     } 
     
-    // Salva para revisão
     lastAnswers.push({
         question: q.text,
         userAnswer: q.options[selectedOption],
@@ -146,14 +149,12 @@ function handleAnswer() {
 
     progress.questoes_respondidas++;
 
-    // Registra se ficou sem moedas para o timer de 2 horas
     if (progress.moedas < 10 && !progress.last_empty_coins) {
         progress.last_empty_coins = Date.now();
     }
     
     db.saveProgress(user.id, progress);
-    
-    // Atualiza moedas no topo em tempo real
+
     const coinEl = document.getElementById('currentCoins');
     if (coinEl) coinEl.textContent = progress.moedas;
 }
@@ -170,6 +171,16 @@ function nextQuestion() {
     }
 }
 
+function escapeHtml(text) {
+    if (text === null || text === undefined) return '';
+    return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
 function finishPhase() {
     const totalQuestions = questions.length;
     const correctAnswers = progress.last_phase_correct || 0;
@@ -182,18 +193,35 @@ function finishPhase() {
     progress.moedas += totalPhaseMoedas;
     progress.xp += totalPhaseXP;
 
-    // Se ganhou moedas e saiu do estado crítico, limpa o timer de regeneração
     if (progress.moedas >= 10) {
         progress.last_empty_coins = null;
     }
 
-    // Atualiza progresso da trilha apenas se passou (70%+)
     if (passed) {
         if (!progress.trilhas) progress.trilhas = {};
         if (!progress.trilhas[trailId]) progress.trilhas[trailId] = { fases_concluidas: 0, questoes_respondidas: 0, phases: {} };
         
         const tProg = progress.trilhas[trailId];
         if (!tProg.phases) tProg.phases = {};
+
+        const currentPhaseNumber = parseInt(phaseId, 10);
+        const maxPhase = currentPhaseNumber || 1;
+        if (currentPhaseNumber > (tProg.fases_concluidas || 0) + 1) {
+            console.warn('Progressão inválida detectada no finishPhase:', phaseId);
+            // não salvar progresso inválido
+            const blockedOverlayEl = document.getElementById('blockedOverlay');
+            if (blockedOverlayEl) blockedOverlayEl.classList.add('active');
+
+            const blockedMessageEl = document.getElementById('blockedMessage');
+            if (blockedMessageEl) blockedMessageEl.textContent = 'Progresso inválido detectado. Você será redirecionado ao curso principal.';
+
+            const blockedOkBtnEl = document.getElementById('blockedOkBtn');
+            if (blockedOkBtnEl) {
+                blockedOkBtnEl.addEventListener('click', () => window.location.href = `course.html?trail=${trailId}`);
+            }
+
+            return;
+        }
         
         const pProg = tProg.phases[phaseId] || { questoes_concluidas: 0 };
         
@@ -213,30 +241,32 @@ function finishPhase() {
     
     document.getElementById('summaryTitle').textContent = title;
     document.getElementById('summarySub').textContent = sub;
-    
-    // Atualiza os valores visuais do resumo
     document.getElementById('summaryCoins').textContent = `+${totalPhaseMoedas}`;
     document.getElementById('summaryXP').textContent = `+${totalPhaseXP}`;
     
-    // Gera Revisão Detalhada
-    const reviewList = lastAnswers.map(ans => `
-        <div style="text-align:left; background:rgba(0,0,0,0.03); border-radius:12px; padding:12px; margin-bottom:10px; border-left:4px solid ${ans.isCorrect ? '#22c55e' : '#ef4444'};">
-            <div style="font-size:13px; font-weight:700; color:var(--text-primary); margin-bottom:4px;">${ans.question}</div>
-            <div style="font-size:12px; color:${ans.isCorrect ? '#166534' : '#991b1b'};">Sua resposta: ${ans.userAnswer}</div>
-            ${!ans.isCorrect ? `<div style="font-size:12px; color:#166534; font-weight:600;">Correta: ${ans.correctAnswer}</div>` : ''}
+    const reviewList = lastAnswers.map(ans => {
+        const questionText = escapeHtml(ans.question);
+        const userAnswerText = escapeHtml(ans.userAnswer);
+        const correctAnswerText = escapeHtml(ans.correctAnswer);
+        const border = ans.isCorrect ? '#22c55e' : '#ef4444';
+
+        return `
+        <div style="text-align:left; background:rgba(0,0,0,0.03); border-radius:12px; padding:12px; margin-bottom:10px; border-left:4px solid ${border};">
+            <div style="font-size:13px; font-weight:700; color:var(--text-primary); margin-bottom:4px;">${questionText}</div>
+            <div style="font-size:12px; color:${ans.isCorrect ? '#166534' : '#991b1b'};">Sua resposta: ${userAnswerText}</div>
+            ${!ans.isCorrect ? `<div style="font-size:12px; color:#166534; font-weight:600;">Correta: ${correctAnswerText}</div>` : ''}
         </div>
-    `).join('');
+        `;
+    }).join('');
 
     const reviewContainer = document.createElement('div');
     reviewContainer.id = 'reviewContainer';
     reviewContainer.style = "width:100%; max-height:200px; overflow-y:auto; margin: 20px 0; padding-right:5px;";
     reviewContainer.innerHTML = `<div style="font-size:14px; font-weight:800; margin-bottom:12px; text-align:left;">Revisão da Fase:</div>` + reviewList;
     
-    // Remove revisão anterior se existir
     const oldReview = document.getElementById('reviewContainer');
     if (oldReview) oldReview.remove();
     
-    // Insere antes do botão continuar
     const continueBtn = document.querySelector('.continue-btn');
     continueBtn.parentNode.insertBefore(reviewContainer, continueBtn);
 
@@ -263,6 +293,43 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     progress = getProgress(user.id);
+
+    // Bloquear acesso direto à fase via URL (somente fases liberadas)
+    const trailProg = (progress.trilhas && progress.trilhas[trailId]) || { fases_concluidas: 0, phases: {} };
+    const unlockedPhase = (trailProg.fases_concluidas || 0) + 1;
+    const requestedPhase = parseInt(phaseId, 10) || 1;
+
+    if (requestedPhase > unlockedPhase) {
+        const blockedOverlay = document.getElementById('blockedOverlay');
+        const blockedMessage = document.getElementById('blockedMessage');
+        const blockedOkBtn = document.getElementById('blockedOkBtn');
+
+        if (blockedMessage) blockedMessage.textContent = 'Essa fase ainda está bloqueada. Você será redirecionado ao curso principal.';
+
+        if (blockedOverlay) {
+            blockedOverlay.classList.add('active');
+        }
+
+        if (blockedOkBtn) {
+            blockedOkBtn.onclick = () => {
+                if (blockedOverlay) blockedOverlay.classList.remove('active');
+                window.location.href = `course.html?trail=${trailId}`;
+            };
+        }
+
+        return;
+    }
+
+    // Proteção extra: a fase atual deve ser no máximo a primeira não completada +1
+    const realMaxPhase = unlockedPhase;
+    if (parseInt(phaseId, 10) > realMaxPhase) {
+        console.warn('Tentativa de acesso a fase inválida detectada:', phaseId);
+        window.location.href = `course.html?trail=${trailId}`;
+        return;
+    }
+
+    phaseId = String(requestedPhase);
+
     progress.last_phase_correct = 0; // Reset acertos da fase
     db.saveProgress(user.id, progress); // Salva o estado inicial
     document.getElementById('currentCoins').textContent = progress.moedas;

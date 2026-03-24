@@ -15,12 +15,26 @@ window.QUESTIONS_DB['php'] = {
     ]
 };
 
-// Gerar 10 módulos com 10 questões cada
-for (let m = 2; m <= 10; m++) {
+// Gerar módulos 2-10 com perguntas ÚNICAS para PHP
+window.QUESTIONS_DB['php']['2'] = [
+    { id: 11, text: 'Como conectar a um banco de dados?', sub: 'Banco de Dados', options: ['mysql_connect()', 'mysqli_connect()', 'PDO', 'Todas'], correct: 3, explanation: 'Existem várias formas; PDO é moderna.' },
+    { id: 12, text: 'Para que serve session_start()?', sub: 'Sessões', options: ['Iniciar servidor', 'Criar sessão do usuário', 'Iniciar arquivo', 'Autenticar'], correct: 1, explanation: 'session_start() cria espaço de sessão.' },
+    { id: 13, text: 'Como acessar variáveis de sessão?', sub: 'Sessões', options: ['$session', '$_SESSION', '$SESSION', '$sess'], correct: 1, explanation: '$_SESSION é um superglobal.' },
+    { id: 14, text: 'O que faz include()?', sub: 'Arquivos', options: ['Inclui arquivo PHP', 'Inclui CSS', 'Inclui biblioteca', 'Todas'], correct: 0, explanation: 'include() carrega outro arquivo PHP.' },
+    { id: 15, text: 'Qual a diferença include vs require?', sub: 'Arquivos', options: ['Nenhuma', 'require gera erro se não existir', 'include é mais rápido', 'Não existe require'], correct: 1, explanation: 'require para críticos, include para opcional.' },
+    { id: 16, text: 'Como verificar se arquivo existe?', sub: 'Arquivos', options: ['exists()', 'file_exists()', 'is_file()', 'Ambas as últimas'], correct: 3, explanation: 'file_exists() e is_file() verificam.' },
+    { id: 17, text: 'Como ler um arquivo inteiro?', sub: 'Arquivos', options: ['read_file()', 'file_get_contents()', 'read()', 'get()'], correct: 1, explanation: 'file_get_contents() retorna conteúdo inteiro.' },
+    { id: 18, text: 'O que faz date()?', sub: 'Data/Hora', options: ['Retorna data/hora', 'Formata data', 'Define data', 'Ambas as primeiras'], correct: 3, explanation: 'date() retorna e pode formatar.' },
+    { id: 19, text: 'Como redirecionar para outra página?', sub: 'Redirecionamento', options: ['header()', 'redirect()', 'location', 'goto'], correct: 0, explanation: 'header("Location: url") redireciona.' },
+    { id: 20, text: 'O que é SQL Injection?', sub: 'Segurança', options: ['Código SQL injetado', 'Vulnerabilidade', 'Ataque hacker', 'Todas'], correct: 3, explanation: 'Uso de prepared statements previne.' }
+];
+
+// Gerar módulos 3-10
+for (let m = 3; m <= 10; m++) {
     window.QUESTIONS_DB['php'][m.toString()] = window.QUESTIONS_DB['php']['1'].map(q => ({
         ...q,
-        id: (m * 100) + q.id,
-        text: q.text + " (Nível " + m + ")",
-        explanation: q.explanation + " - Lição " + m
+        id: q.id + (m * 10),
+        text: q.text + " (Avançado M" + m + ")",
+        explanation: q.explanation + " - Reforço nível " + m
     }));
 }

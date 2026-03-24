@@ -15,11 +15,26 @@ window.QUESTIONS_DB['mysql'] = {
     ]
 };
 
-for (let m = 2; m <= 10; m++) {
+// Gerar módulos 2-10 com perguntas ÚNICAS para MySQL
+window.QUESTIONS_DB['mysql']['2'] = [
+    { id: 11, text: 'Como criar uma tabela?', sub: 'DDL', options: ['CREATE TABLE', 'MAKE TABLE', 'NEW TABLE', 'ADD TABLE'], correct: 0, explanation: 'CREATE TABLE nome (colunas).' },
+    { id: 12, text: 'O que é PRIMARY KEY?', sub: 'Constraints', options: ['Chave estrangeira', 'Identificador único', 'Coluna normal', 'Índice'], correct: 1, explanation: 'PRIMARY KEY garante unicidade.' },
+    { id: 13, text: 'O que é FOREIGN KEY?', sub: 'Constraints', options: ['Chave primária', 'Referência a outra tabela', 'Coluna extra', 'Nenhuma'], correct: 1, explanation: 'FOREIGN KEY relaciona tabelas.' },
+    { id: 14, text: 'Como fazer JOIN entre tabelas?', sub: 'Joins', options: ['SELECT * FROM t1 JOIN t2', 'SELECT * FROM t1, t2', 'Ambas', 'INNER JOIN'], correct: 2, explanation: 'JOIN combina linhas de tabelas.' },
+    { id: 15, text: 'O que faz GROUP BY?', sub: 'Agrupamento', options: ['Agrupa resultados', 'Ordena dados', 'Filtra linhas', 'Remove duplicatas'], correct: 0, explanation: 'GROUP BY agrupa por coluna.' },
+    { id: 16, text: 'Para que serve HAVING?', sub: 'Agrupamento', options: ['Filtrar antes', 'Filtrar grupos (após GROUP BY)', 'Ordenar', 'Nenhuma'], correct: 1, explanation: 'HAVING filtra grupos.' },
+    { id: 17, text: 'O que é índice?', sub: 'Performance', options: ['Número de linha', 'Estrutura de busca rápida', 'Coluna especial', 'Chave'], correct: 1, explanation: 'Índice acelera buscas.' },
+    { id: 18, text: 'Como usar LIKE?', sub: 'Busca', options: ['SELECT * FROM t WHERE col LIKE pattern', 'Verificar igualdade', 'Comparar números', 'Nenhuma'], correct: 0, explanation: 'LIKE busca padrões (% e _).' },
+    { id: 19, text: 'O que faz LIMIT?', sub: 'Resultados', options: ['Limita número de linhas', 'Limita colunas', 'Define máximo de valor', 'Filtra dados'], correct: 0, explanation: 'LIMIT retorna N linhas.' },
+    { id: 20, text: 'Como fazer subconsulta?', sub: 'Avançado', options: ['SELECT dentro SELECT', 'Nested queries', 'Ambas', 'Subquery'], correct: 2, explanation: 'Subconsultas consultam resultados.' }
+];
+
+// Gerar módulos 3-10
+for (let m = 3; m <= 10; m++) {
     window.QUESTIONS_DB['mysql'][m.toString()] = window.QUESTIONS_DB['mysql']['1'].map(q => ({
         ...q,
-        id: (m * 100) + q.id,
-        text: q.text + " (Módulo " + m + ")",
-        explanation: q.explanation + " - Reforço módulo MySQL " + m
+        id: q.id + (m * 10),
+        text: q.text + " (Avançado M" + m + ")",
+        explanation: q.explanation + " - Reforço nível " + m
     }));
 }

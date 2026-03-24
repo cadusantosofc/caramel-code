@@ -78,7 +78,7 @@ class Database {
             };
             
             localStorage.setItem('caramel_database', JSON.stringify(initialData));
-            console.log('🗄️ Banco JSON inicializado');
+            // Banco inicializado (sem impressão de dados sensíveis em console)
         }
     }
 
@@ -221,10 +221,39 @@ class Database {
     }
 
     // Progresso e Estatísticas de Estudo
+    validateProgress(progressData) {
+        if (!progressData || typeof progressData !== 'object') return false;
+        if (typeof progressData.moedas !== 'number' || typeof progressData.xp !== 'number') return false;
+        if (!progressData.trilhas || typeof progressData.trilhas !== 'object') return false;
+
+        // Certificar-se que trilhas e fases são inteiros positivos
+        for (const trailId in progressData.trilhas) {
+            const trail = progressData.trilhas[trailId];
+            if (!trail || typeof trail !== 'object') return false;
+            if (typeof trail.fases_concluidas !== 'number' || trail.fases_concluidas < 0) return false;
+            if (typeof trail.questoes_respondidas !== 'number' || trail.questoes_respondidas < 0) return false;
+            if (!trail.phases || typeof trail.phases !== 'object') return false;
+
+            for (const phaseKey in trail.phases) {
+                const phase = trail.phases[phaseKey];
+                if (!phase || typeof phase !== 'object') return false;
+                if (typeof phase.questoes_concluidas !== 'number' || phase.questoes_concluidas < 0) return false;
+            }
+        }
+
+        return true;
+    }
+
     saveProgress(userId, progressData) {
         const key = 'caramel_progress_' + userId;
+        if (!this.validateProgress(progressData)) {
+            console.warn('⚠️ Progresso inválido não salvo para usuário ' + userId);
+            return false;
+        }
+
         localStorage.setItem(key, JSON.stringify(progressData));
-        console.log('📈 Progresso salvo para usuário ' + userId);
+        // remove logs sensíveis em produção
+        return true;
     }
 
     getProgress(userId) {
