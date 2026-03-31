@@ -45,14 +45,24 @@ function loadAppVersion() {
     const el = document.getElementById('appVersion');
     if (!el) return;
 
+    if (window.location.protocol === 'file:') {
+        // Abrindo diretamente do sistema de arquivos não permite fetch CORS em alguns navegadores.
+        el.textContent = window.APP_VERSION || 'local';
+        return;
+    }
+
     fetch('version.json')
-        .then(resp => resp.json())
+        .then(resp => {
+            if (!resp.ok) throw new Error('Versão não encontrada');
+            return resp.json();
+        })
         .then(data => {
             if (data && typeof data.version === 'string') {
                 el.textContent = data.version;
             }
         })
         .catch(() => {
+            el.textContent = 'indisponível';
         });
 }
 
