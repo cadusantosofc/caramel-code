@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,11 +15,48 @@
             gap: 12px;
             background: var(--bg-primary);
         }
-        .study-progress-container { flex: 1; height: 10px; background: #eee; border-radius: 20px; overflow: hidden; position: relative; }
-        .study-progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s; border-radius: 20px; }
-        .study-counter { font-size: 13px; font-weight: 700; color: var(--text-muted); min-width: 30px; text-align: center; }
-        .study-coins { display: flex; align-items: center; gap: 4px; background: #fff3e0; padding: 4px 10px; border-radius: 100px; font-size: 12px; font-weight: 700; color: #a16207; }
-        body.dark .study-coins { background: #2d2417; color: #f5a623; }
+
+        .study-progress-container {
+            flex: 1;
+            height: 10px;
+            background: #eee;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .study-progress-fill {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            transition: width 0.3s;
+            border-radius: 20px;
+        }
+
+        .study-counter {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-muted);
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .study-coins {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: #fff3e0;
+            padding: 4px 10px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #a16207;
+        }
+
+        body.dark .study-coins {
+            background: #2d2417;
+            color: #f5a623;
+        }
 
         .timer-banner {
             background: #fffdf0;
@@ -30,12 +68,49 @@
             justify-content: space-between;
             align-items: center;
         }
-        body.dark .timer-banner { background: #1e293b; border-color: #334155; }
-        .timer-left { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: #a16207; }
-        body.dark .timer-left { color: #f5a623; }
-        .timer-right { font-size: 12px; font-weight: 600; color: var(--text-secondary); display: flex; align-items: center; gap: 4px; }
-        .timer-bar-bg { height: 6px; background: rgba(0,0,0,0.05); border-radius: 10px; margin-top: 8px; overflow: hidden; width: 100%; }
-        .timer-bar-fill { height: 100%; background: #facc15; width: 100%; transition: width 1s linear; }
+
+        body.dark .timer-banner {
+            background: #1e293b;
+            border-color: #334155;
+        }
+
+        .timer-left {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #a16207;
+        }
+
+        body.dark .timer-left {
+            color: #f5a623;
+        }
+
+        .timer-right {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .timer-bar-bg {
+            height: 6px;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+            margin-top: 8px;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .timer-bar-fill {
+            height: 100%;
+            background: #facc15;
+            width: 100%;
+            transition: width 1s linear;
+        }
 
         .question-card {
             background: var(--bg-card);
@@ -45,35 +120,94 @@
             padding: 24px;
             position: relative;
         }
-        .difficulty-badge { 
-            display: inline-flex; align-items: center; gap: 6px; 
-            background: #f0fdf4; color: #166534; padding: 4px 10px; border-radius: 100px; 
-            font-size: 12px; font-weight: 700; margin-bottom: 16px;
-        }
-        body.dark .difficulty-badge { background: #064e3b; color: #34d399; }
-        .difficulty-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; }
-        
-        .question-text { font-size: 18px; font-weight: 800; color: var(--text-primary); line-height: 1.4; margin-bottom: 10px; }
-        .question-sub { font-size: 14px; color: var(--text-secondary); margin-bottom: 24px; }
 
-        .options-list { display: flex; flex-direction: column; gap: 12px; }
+        .difficulty-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #f0fdf4;
+            color: #166534;
+            padding: 4px 10px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        body.dark .difficulty-badge {
+            background: #064e3b;
+            color: #34d399;
+        }
+
+        .difficulty-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #22c55e;
+        }
+
+        .question-text {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text-primary);
+            line-height: 1.4;
+            margin-bottom: 10px;
+        }
+
+        .question-sub {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
         .option-btn {
             background: var(--bg-primary);
             border: 1.5px solid var(--border);
             border-radius: 16px;
             padding: 16px;
             display: flex;
-            align-items: center; gap: 12px;
+            align-items: center;
+            gap: 12px;
             cursor: pointer;
             transition: all 0.2s;
             text-align: left;
             width: 100%;
         }
-        .option-check { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--border); flex-shrink: 0; }
-        .option-text { font-size: 15px; font-weight: 600; color: var(--text-primary); }
-        .option-btn.selected { border-color: var(--accent); background: #fff9f0; }
-        body.dark .option-btn.selected { background: #2d2417; }
-        .option-btn.selected .option-check { border-color: var(--accent); background: var(--accent); box-shadow: inset 0 0 0 4px #fff; }
+
+        .option-check {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .option-text {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .option-btn.selected {
+            border-color: var(--accent);
+            background: #fff9f0;
+        }
+
+        body.dark .option-btn.selected {
+            background: #2d2417;
+        }
+
+        .option-btn.selected .option-check {
+            border-color: var(--accent);
+            background: var(--accent);
+            box-shadow: inset 0 0 0 4px #fff;
+        }
 
         .study-footer {
             padding: 16px;
@@ -83,6 +217,7 @@
             border-top: 1px solid var(--border);
             background: var(--bg-primary);
         }
+
         .hint-btn {
             background: none;
             border: none;
@@ -90,13 +225,16 @@
             font-size: 14px;
             font-weight: 700;
             display: flex;
-            align-items: center; gap: 6px;
+            align-items: center;
+            gap: 6px;
             cursor: pointer;
         }
+
         .answer-btn {
             flex: 1;
             padding: 14px;
-            background: #fbcfe8; /* Disabled look initially */
+            background: #fbcfe8;
+            /* Disabled look initially */
             color: #fff;
             border: none;
             border-radius: 14px;
@@ -105,198 +243,336 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-        .answer-btn.ready { background: linear-gradient(135deg, #f5a623, #e07b00); }
+
+        .answer-btn.ready {
+            background: linear-gradient(135deg, #f5a623, #e07b00);
+        }
 
         /* Feedback overlays */
         .feedback-overlay {
-            position: fixed; bottom: 0; left: 0; right: 0; 
-            max-width: 400px; margin: 0 auto;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 400px;
+            margin: 0 auto;
             background: var(--bg-primary);
-            border-top-left-radius: 24px; border-top-right-radius: 24px;
+            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
             padding: 24px;
-            box-shadow: 0 -10px 40px rgba(0,0,0,0.1);
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.1);
             transform: translateY(100%);
             transition: transform 0.3s ease-out;
             z-index: 100;
         }
-        .feedback-overlay.active { transform: translateY(0); }
-        .feedback-top { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
-        .feedback-icon { font-size: 24px; }
-        .feedback-title { font-size: 18px; font-weight: 800; }
-        .feedback-title.correct { color: #166534; }
-        .feedback-title.wrong { color: #991b1b; }
-        .feedback-explanation { font-size: 14px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 24px; }
-        .reward-pills { display: flex; gap: 8px; margin-bottom: 24px; }
-        .reward-pill { padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: 700; }
-        .reward-pill.base { background: #fff7ed; color: #a16207; }
-        .reward-pill.bonus { background: #fef9c3; color: #a16207; }
+
+        .feedback-overlay.active {
+            transform: translateY(0);
+        }
+
+        .feedback-top {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .feedback-icon {
+            font-size: 24px;
+        }
+
+        .feedback-title {
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .feedback-title.correct {
+            color: #166534;
+        }
+
+        .feedback-title.wrong {
+            color: #991b1b;
+        }
+
+        .feedback-explanation {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+
+        .reward-pills {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .reward-pill {
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .reward-pill.base {
+            background: #fff7ed;
+            color: #a16207;
+        }
+
+        .reward-pill.bonus {
+            background: #fef9c3;
+            color: #a16207;
+        }
 
         .next-btn {
-            width: 100%; padding: 16px;
-            background: #064e3b; color: #fff; border: none; border-radius: 12px;
-            font-size: 15px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+            width: 100%;
+            padding: 16px;
+            background: #064e3b;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         /* Summary overlay */
         .summary-overlay {
-            position: fixed; inset: 0; background: var(--bg-primary); z-index: 200;
-            display: none; flex-direction: column; align-items: center; justify-content: center; padding: 32px; text-align: center;
+            position: fixed;
+            inset: 0;
+            background: var(--bg-primary);
+            z-index: 200;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 32px;
+            text-align: center;
         }
-        .summary-overlay.active { display: flex; }
-        .summary-logo { font-size: 64px; margin-bottom: 24px; }
-        .summary-title { font-size: 24px; font-weight: 800; color: #22c55e; margin-bottom: 8px; }
-        .summary-subtitle { font-size: 15px; color: var(--text-secondary); margin-bottom: 32px; }
-        .summary-rewards { display: flex; gap: 16px; margin-bottom: 40px; }
-        .summary-box { 
-            background: #fff7ed; border-radius: 16px; padding: 20px; width: 120px;
-            display: flex; flex-direction: column; gap: 4px;
+
+        .summary-overlay.active {
+            display: flex;
         }
-        .summary-box.xp { background: #fefce8; }
-        .summary-box-val { font-size: 18px; font-weight: 800; color: #a16207; }
-        .summary-box-label { font-size: 12px; color: #a16207; opacity: 0.8; }
+
+        .summary-logo {
+            font-size: 64px;
+            margin-bottom: 24px;
+        }
+
+        .summary-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #22c55e;
+            margin-bottom: 8px;
+        }
+
+        .summary-subtitle {
+            font-size: 15px;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+        }
+
+        .summary-rewards {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .summary-box {
+            background: #fff7ed;
+            border-radius: 16px;
+            padding: 20px;
+            width: 120px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .summary-box.xp {
+            background: #fefce8;
+        }
+
+        .summary-box-val {
+            font-size: 18px;
+            font-weight: 800;
+            color: #a16207;
+        }
+
+        .summary-box-label {
+            font-size: 12px;
+            color: #a16207;
+            opacity: 0.8;
+        }
+
         .continue-btn {
-            width: 100%; padding: 16px; background: linear-gradient(135deg, #f97316, #ea580c);
-            color: #fff; border: none; border-radius: 14px; font-size: 16px; font-weight: 700; cursor: pointer;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
         }
     </style>
 </head>
+
 <body>
-<div class="app-shell">
-    <header class="study-header">
-        <button class="back-btn" onclick="history.back()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                <path d="M15 19l-7-7 7-7"/>
-            </svg>
-        </button>
-        <div class="study-progress-container">
-            <div class="study-progress-fill" id="questionProgressFill"></div>
-        </div>
-        <div class="study-counter" id="questionCounter">1/3</div>
-        <div class="study-coins">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="12" cy="12" r="10" fill="#F5A623" stroke="#E07B00" stroke-width="2"/>
-                <path d="M12 7V17M9 10H13.5C14.3284 10 15 10.6716 15 11.5C15 12.3284 14.3284 13 13.5 13H10.5C9.67157 13 9 13.6716 9 14.5C9 15.3284 9.67157 16 10.5 16H15" stroke="white" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-            <span id="currentCoins">50</span>
-        </div>
-    </header>
-
-    <div class="timer-banner">
-        <div class="timer-left">
-            <span>⏱️</span> Tempo restante: <span id="timeLeft">15s</span>
-        </div>
-        <div class="timer-right">
-            <span>✨</span> Bônus por velocidade
-        </div>
-        <div style="position:absolute; bottom:0; left:16px; right:16px;">
-            <div class="timer-bar-bg">
-                <div class="timer-bar-fill" id="timerBar"></div>
+    <div class="app-shell">
+        <header class="study-header">
+            <button class="back-btn" onclick="history.back()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <div class="study-progress-container">
+                <div class="study-progress-fill" id="questionProgressFill"></div>
             </div>
-        </div>
-    </div>
-
-    <div class="page-content" style="padding-top:10px;">
-        <div class="question-card">
-            <div class="difficulty-badge" id="difficultyBadge">
-                <div class="difficulty-dot"></div>
-                Fácil
+            <div class="study-counter" id="questionCounter">1/3</div>
+            <div class="study-coins">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" fill="#F5A623" stroke="#E07B00" stroke-width="2" />
+                    <path
+                        d="M12 7V17M9 10H13.5C14.3284 10 15 10.6716 15 11.5C15 12.3284 14.3284 13 13.5 13H10.5C9.67157 13 9 13.6716 9 14.5C9 15.3284 9.67157 16 10.5 16H15"
+                        stroke="white" stroke-width="2" stroke-linecap="round" />
+                </svg>
+                <span id="currentCoins">50</span>
             </div>
-            <div class="question-title" id="phaseTitle" style="font-size:16px; font-weight:700; margin-bottom:6px;">O que é HTML?</div>
-            <div class="question-text" id="qText">O que significa HTML?</div>
-            <div class="question-sub" id="qSub">HTML é a linguagem fundamental da web. Você sabe o que significa?</div>
+        </header>
 
-            <div class="options-list" id="optionsList">
-                <!-- <button class="option-btn">
-                    <div class="option-check"></div>
-                    <span class="option-text">HyperText Markup Language</span>
-                </button> -->
+        <div class="timer-banner">
+            <div class="timer-left">
+                <span>⏱️</span> Tempo restante: <span id="timeLeft">15s</span>
             </div>
-        </div>
-    </div>
-
-    <footer class="study-footer">
-        <button class="hint-btn" id="hintBtn">
-            <span>💡</span> Dica (5 🪙)
-        </button>
-        <button class="answer-btn" id="answerBtn">Responder</button>
-    </footer>
-
-    <!-- Correct Feedback -->
-    <div class="feedback-overlay" id="feedbackCorrect">
-        <div class="feedback-top">
-            <div class="feedback-icon">✅</div>
-            <div>
-                <div class="feedback-title correct">Correto!</div>
-                <div class="reward-pills" style="margin-top:4px;">
-                    <div class="reward-pill base">+10 base</div>
-                    <div class="reward-pill bonus" id="speedBonusCorrect">+0 velocidade</div>
+            <div class="timer-right">
+                <span>✨</span> Bônus por velocidade
+            </div>
+            <div style="position:absolute; bottom:0; left:16px; right:16px;">
+                <div class="timer-bar-bg">
+                    <div class="timer-bar-fill" id="timerBar"></div>
                 </div>
             </div>
         </div>
-        <div class="feedback-explanation" id="explanationCorrect">
-            HTML significa HyperText Markup Language. É a linguagem de marcação padrão para criar páginas web!
-        </div>
-        <button class="next-btn" id="nextBtnCorrect">
-            Próxima Questão
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
-        </button>
-    </div>
 
-    <!-- Wrong Feedback -->
-    <div class="feedback-overlay" id="feedbackWrong">
-        <div class="feedback-top">
-            <div class="feedback-icon">❌</div>
-            <div class="feedback-title wrong">Ops, não foi dessa vez!</div>
-        </div>
-        <div class="feedback-explanation" id="explanationWrong">
-            O HTML é responsável por estruturar o conteúdo das páginas web, definindo títulos, parágrafos, listas etc.
-        </div>
-        <div style="display:flex; gap:12px;">
-            <button class="next-btn" style="flex:1; background:var(--bg-secondary); color:var(--text-secondary);" id="retryBtn">Tentar Novamente</button>
-            <button class="next-btn" style="flex:1.5;" id="nextBtnWrong">Próxima Questão</button>
-        </div>
-    </div>
+        <div class="page-content" style="padding-top:10px;">
+            <div class="question-card">
+                <div class="difficulty-badge" id="difficultyBadge">
+                    <div class="difficulty-dot"></div>
+                    Fácil
+                </div>
+                <div class="question-title" id="phaseTitle" style="font-size:16px; font-weight:700; margin-bottom:6px;">
+                    O que é HTML?</div>
+                <div class="question-text" id="qText">O que significa HTML?</div>
+                <div class="question-sub" id="qSub">HTML é a linguagem fundamental da web. Você sabe o que significa?
+                </div>
 
-    <!-- Blocked Phase Modal -->
-    <div class="summary-overlay" id="blockedOverlay">
-        <div class="summary-logo">🔒</div>
-        <div class="summary-title" id="blockedTitle">Fase Bloqueada</div>
-        <div class="summary-subtitle" id="blockedMessage">Essa fase ainda está bloqueada. Você será redirecionado para a fase disponível mais próxima.</div>
-        <button class="continue-btn" id="blockedOkBtn">OK</button>
-    </div>
+                <div class="options-list" id="optionsList">
+                    <!-- <button class="option-btn">
+                    <div class="option-check"></div>
+                    <span class="option-text">HyperText Markup Language</span>
+                </button> -->
+                </div>
+            </div>
+        </div>
 
-    <!-- Summary Overlay -->
-    <div class="summary-overlay" id="summaryOverlay">
-        <div class="summary-logo">🥳</div>
-        <div class="summary-title" id="summaryTitle">Fase Concluída!</div>
-        <div class="summary-subtitle" id="summarySub">Parabéns! Você completou a fase "O que é HTML?"</div>
-        
-        <div class="summary-rewards">
-            <div class="summary-box">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin: 0 auto 4px;">
-                    <circle cx="12" cy="12" r="10" fill="#F5A623" stroke="#E07B00" stroke-width="2"/>
-                    <path d="M12 7V17M9 10H13.5C14.3284 10 15 10.6716 15 11.5C15 12.3284 14.3284 13 13.5 13H10.5C9.67157 13 9 13.6716 9 14.5C9 15.3284 9.67157 16 10.5 16H15" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <footer class="study-footer">
+            <button class="hint-btn" id="hintBtn">
+                <span>💡</span> Dica (5 🪙)
+            </button>
+            <button class="answer-btn" id="answerBtn">Responder</button>
+        </footer>
+
+        <!-- Correct Feedback -->
+        <div class="feedback-overlay" id="feedbackCorrect">
+            <div class="feedback-top">
+                <div class="feedback-icon">✅</div>
+                <div>
+                    <div class="feedback-title correct">Correto!</div>
+                    <div class="reward-pills" style="margin-top:4px;">
+                        <div class="reward-pill base">+10 base</div>
+                        <div class="reward-pill bonus" id="speedBonusCorrect">+0 velocidade</div>
+                    </div>
+                </div>
+            </div>
+            <div class="feedback-explanation" id="explanationCorrect">
+                HTML significa HyperText Markup Language. É a linguagem de marcação padrão para criar páginas web!
+            </div>
+            <button class="next-btn" id="nextBtnCorrect">
+                Próxima Questão
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M5 12h14m-7-7l7 7-7 7" />
                 </svg>
-                <span class="summary-box-val" id="summaryCoins">+25</span>
-                <span class="summary-box-label">Moedas</span>
+            </button>
+        </div>
+
+        <!-- Wrong Feedback -->
+        <div class="feedback-overlay" id="feedbackWrong">
+            <div class="feedback-top">
+                <div class="feedback-icon">❌</div>
+                <div class="feedback-title wrong">Ops, não foi dessa vez!</div>
             </div>
-            <div class="summary-box xp">
-                <span>⭐</span>
-                <span class="summary-box-val" id="summaryXP">+50</span>
-                <span class="summary-box-label">Experiência</span>
+            <div class="feedback-explanation" id="explanationWrong">
+                O HTML é responsável por estruturar o conteúdo das páginas web, definindo títulos, parágrafos, listas
+                etc.
+            </div>
+            <div style="display:flex; gap:12px;">
+                <button class="next-btn" style="flex:1; background:var(--bg-secondary); color:var(--text-secondary);"
+                    id="retryBtn">Tentar Novamente</button>
+                <button class="next-btn" style="flex:1.5;" id="nextBtnWrong">Próxima Questão</button>
             </div>
         </div>
-        
-        <button class="continue-btn" onclick="location.href='course.html?trail=' + trailId">Continuar Jornada</button>
-    </div>
-</div>
 
-<script src="js/app.js"></script>
-<script src="js/database_json.js"></script>
-<script>
-    const trail = new URLSearchParams(window.location.search).get('trail') || 'html';
-    document.write('<script src="js/questions/' + trail + '.js"><\/script>');
-</script>
-<script src="js/study.js"></script>
+        <!-- Blocked Phase Modal -->
+        <div class="summary-overlay" id="blockedOverlay">
+            <div class="summary-logo">🔒</div>
+            <div class="summary-title" id="blockedTitle">Fase Bloqueada</div>
+            <div class="summary-subtitle" id="blockedMessage">Essa fase ainda está bloqueada. Você será redirecionado
+                para a fase disponível mais próxima.</div>
+            <button class="continue-btn" id="blockedOkBtn">OK</button>
+        </div>
+
+        <!-- Summary Overlay -->
+        <div class="summary-overlay" id="summaryOverlay">
+            <div class="summary-logo">🥳</div>
+            <div class="summary-title" id="summaryTitle">Fase Concluída!</div>
+            <div class="summary-subtitle" id="summarySub">Parabéns! Você completou a fase "O que é HTML?"</div>
+
+            <div class="summary-rewards">
+                <div class="summary-box">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        style="margin: 0 auto 4px;">
+                        <circle cx="12" cy="12" r="10" fill="#F5A623" stroke="#E07B00" stroke-width="2" />
+                        <path
+                            d="M12 7V17M9 10H13.5C14.3284 10 15 10.6716 15 11.5C15 12.3284 14.3284 13 13.5 13H10.5C9.67157 13 9 13.6716 9 14.5C9 15.3284 9.67157 16 10.5 16H15"
+                            stroke="white" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                    <span class="summary-box-val" id="summaryCoins">+25</span>
+                    <span class="summary-box-label">Moedas</span>
+                </div>
+                <div class="summary-box xp">
+                    <span>⭐</span>
+                    <span class="summary-box-val" id="summaryXP">+50</span>
+                    <span class="summary-box-label">Experiência</span>
+                </div>
+            </div>
+
+            <button class="continue-btn" onclick="location.href='course.html?trail=' + trailId">Continuar
+                Jornada</button>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/database_json.js"></script>
+    <script>
+        const trail = new URLSearchParams(window.location.search).get('trail') || 'html';
+        document.write('<script src="js/questions/' + trail + '.js"><\/script>');
+    </script>
+    <script src="js/study.js"></script>
 </body>
+
 </html>
