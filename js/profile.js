@@ -9,7 +9,7 @@ function checkAuth() {
 function getProgress(userId) {
     const key = 'caramel_progress_' + userId;
     const raw = localStorage.getItem(key);
-    if (raw) { try { return JSON.parse(raw); } catch (e) {} }
+    if (raw) { try { return JSON.parse(raw); } catch (e) { } }
     return { moedas: 50, dias_seguidos: 1, nivel: 1, xp: 0, medalhas: 0, questoes_respondidas: 0, questoes_corretas: 0, total_questoes: 50 };
 }
 

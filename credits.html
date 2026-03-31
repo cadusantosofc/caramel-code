@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,24 +12,50 @@
             padding: 24px 16px;
             text-align: center;
         }
+
         .credits-logo {
-            width: 100px; height: 100px;
+            width: 100px;
+            height: 100px;
             border-radius: 24px;
             margin: 0 auto 16px;
             display: block;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-        .brand-name { font-size: 24px; font-weight: 800; color: var(--accent); margin-bottom: 8px; color: #ee8249; }
-        .brand-tagline { font-size: 14px; color: var(--text-secondary); margin-bottom: 24px; }
-        
-        .etec-badge {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: linear-gradient(135deg, #f79e5f, #ee8249);
-            color: #fff; padding: 10px 20px; border-radius: 12px;
-            font-size: 13px; font-weight: 700; margin-bottom: 32px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
-        .stats-summary { display: flex; flex-direction: column; gap: 16px; margin-bottom: 40px; }
+        .brand-name {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 8px;
+            color: #ee8249;
+        }
+
+        .brand-tagline {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .etec-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #f79e5f, #ee8249);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 32px;
+        }
+
+        .stats-summary {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
         .stat-box {
             background: var(--bg-card);
             border: 1.5px solid var(--border);
@@ -38,13 +65,39 @@
             flex-direction: column;
             gap: 4px;
         }
-        .stat-box-val { font-size: 20px; font-weight: 800; color: var(--accent); }
-        .stat-box-label { font-size: 12px; color: var(--text-secondary); font-weight: 600; }
 
-        .team-section { text-align: left; padding: 0 8px; }
-        .team-title { font-size: 18px; font-weight: 800; color: var(--text-primary); margin-bottom: 4px; text-align: center; }
-        .team-sub { font-size: 13px; color: var(--text-secondary); text-align: center; margin-bottom: 24px; }
-        
+        .stat-box-val {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .stat-box-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .team-section {
+            text-align: left;
+            padding: 0 8px;
+        }
+
+        .team-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+            text-align: center;
+        }
+
+        .team-sub {
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
         .member-card {
             background: var(--bg-card);
             border: 1.5px solid var(--border);
@@ -56,12 +109,47 @@
             align-items: center;
             text-align: center;
         }
-        .member-avatar { font-size: 40px; margin-bottom: 12px; }
-        .member-name { font-size: 16px; font-weight: 800; color: var(--accent); }
-        .member-role { font-size: 13px; font-weight: 600; color: var(--text-secondary); margin-bottom: 12px; }
-        .member-bio { font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px; }
-        .member-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
-        .m-tag { font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 100px; border: 1px solid var(--border); color: var(--text-secondary); }
+
+        .member-avatar {
+            font-size: 40px;
+            margin-bottom: 12px;
+        }
+
+        .member-name {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .member-role {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .member-bio {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .member-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .m-tag {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 100px;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
 
         .about-project {
             background: linear-gradient(135deg, #fff, #f3f4f6);
@@ -71,142 +159,195 @@
             text-align: left;
             margin-top: 24px;
         }
-        body.dark .about-project { background: linear-gradient(135deg, #1f2937, #111827); }
-        .about-title { font-size: 16px; font-weight: 800; color: var(--text-primary); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-        .about-text { font-size: 14px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 16px; }
 
-        .mission-section { margin: 40px 0; }
-        .mission-title { font-size: 18px; font-weight: 800; margin-bottom: 12px; }
-        .mission-quote { font-size: 14px; color: var(--text-secondary); font-style: italic; line-height: 1.6; position: relative; padding: 0 20px; }
-        .mission-quote::before { content: '"'; font-size: 40px; color: var(--accent); position: absolute; left: 0; top: -10px; opacity: 0.3; }
+        body.dark .about-project {
+            background: linear-gradient(135deg, #1f2937, #111827);
+        }
 
-        .footer-copyright { font-size: 11px; color: var(--text-muted); margin-top: 40px; padding-bottom: 24px; }
+        .about-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .about-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .mission-section {
+            margin: 40px 0;
+        }
+
+        .mission-title {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .mission-quote {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-style: italic;
+            line-height: 1.6;
+            position: relative;
+            padding: 0 20px;
+        }
+
+        .mission-quote::before {
+            content: '"';
+            font-size: 40px;
+            color: var(--accent);
+            position: absolute;
+            left: 0;
+            top: -10px;
+            opacity: 0.3;
+        }
+
+        .footer-copyright {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 40px;
+            padding-bottom: 24px;
+        }
     </style>
 </head>
+
 <body>
-<div class="app-shell">
-    <header class="page-header" style="border:none;">
-        <button class="back-btn" onclick="history.back()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                <path d="M15 19l-7-7 7-7"/>
-            </svg>
-        </button>
-        <div class="page-title">Créditos</div>
-        <div style="width:40px;"></div>
-    </header>
+    <div class="app-shell">
+        <header class="page-header" style="border:none;">
+            <button class="back-btn" onclick="history.back()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <div class="page-title">Créditos</div>
+            <div style="width:40px;"></div>
+        </header>
 
-    <div class="page-content" style="padding-top:0;">
-        <div class="credits-container">
-            <img src="img/logo.png" alt="Caramel Code" class="credits-logo">
-            <h1 class="brand-name">Caramel Code</h1>
-            <p class="brand-tagline">Desenvolvido com ❤️ por estudantes brasileiros</p>
-            
-            <div class="etec-badge">
-                <span>🎓</span> ETEC Pedro D'Arcadia Neto - 2026
-            </div>
+        <div class="page-content" style="padding-top:0;">
+            <div class="credits-container">
+                <img src="img/logo.png" alt="Caramel Code" class="credits-logo">
+                <h1 class="brand-name">Caramel Code</h1>
+                <p class="brand-tagline">Desenvolvido com ❤️ por estudantes brasileiros</p>
 
-            <div class="stats-summary">
-                <div class="stat-box">
-                    <span>&lt;/&gt;</span>
-                    <span class="stat-box-val">15.000+</span>
-                    <span class="stat-box-label">Linhas de Código</span>
+                <div class="etec-badge">
+                    <span>🎓</span> ETEC Pedro D'Arcadia Neto - 2026
                 </div>
-                <div class="stat-box">
-                    <span>👥</span>
-                    <span class="stat-box-val">800+</span>
-                    <span class="stat-box-label">Exercícios Criados</span>
-                </div>
-                <div class="stat-box">
-                    <span>❤️</span>
-                    <span class="stat-box-val">500+</span>
-                    <span class="stat-box-label">Horas de Desenvolvimento</span>
-                </div>
-            </div>
 
-            <div class="team-section">
-                <h2 class="team-title">Equipe de Desenvolvimento</h2>
-                <p class="team-sub">Curso Técnico em Desenvolvimento de Sistemas</p>
+                <div class="stats-summary">
+                    <div class="stat-box">
+                        <span>&lt;/&gt;</span>
+                        <span class="stat-box-val">15.000+</span>
+                        <span class="stat-box-label">Linhas de Código</span>
+                    </div>
+                    <div class="stat-box">
+                        <span>👥</span>
+                        <span class="stat-box-val">800+</span>
+                        <span class="stat-box-label">Exercícios Criados</span>
+                    </div>
+                    <div class="stat-box">
+                        <span>❤️</span>
+                        <span class="stat-box-val">500+</span>
+                        <span class="stat-box-label">Horas de Desenvolvimento</span>
+                    </div>
+                </div>
 
-                <div class="member-card">
-                    <div class="member-avatar">👨‍💻</div>
-                    <div class="member-name">Carlos Eduardo</div>
-                    <div class="member-role">Desenvolvedor Full Stack</div>
-                    <p class="member-bio">Especialista em arquitetura de sistemas e experiência do usuário.</p>
-                    <div class="member-tags">
+                <div class="team-section">
+                    <h2 class="team-title">Equipe de Desenvolvimento</h2>
+                    <p class="team-sub">Curso Técnico em Desenvolvimento de Sistemas</p>
+
+                    <div class="member-card">
+                        <div class="member-avatar">👨‍💻</div>
+                        <div class="member-name">Carlos Eduardo</div>
+                        <div class="member-role">Desenvolvedor Full Stack</div>
+                        <p class="member-bio">Especialista em arquitetura de sistemas e experiência do usuário.</p>
+                        <div class="member-tags">
+                            <span class="m-tag">HTML5</span>
+                            <span class="m-tag">CSS3</span>
+                            <span class="m-tag">Bootstrap</span>
+                            <span class="m-tag">JavaScript</span>
+                            <span class="m-tag">API</span>
+                            <span class="m-tag">MySQL</span>
+                            <span class="m-tag">JSON</span>
+                        </div>
+                    </div>
+
+                    <div class="member-card">
+                        <div class="member-avatar">👩‍💻</div>
+                        <div class="member-name">Debora Guedes</div>
+                        <div class="member-role">Desenvolvedora Frontend</div>
+                        <p class="member-bio">Focada em interfaces modernas e acessibilidade.</p>
+                        <div class="member-tags">
+                            <span class="m-tag">C++</span>
+                            <span class="m-tag">HTML5</span>
+                            <span class="m-tag">Kotlin</span>
+                            <span class="m-tag">Photoshop</span>
+                        </div>
+                    </div>
+
+                    <div class="member-card">
+                        <div class="member-avatar">👨‍💻</div>
+                        <div class="member-name">Arthur</div>
+                        <div class="member-role">Desenvolvedor Frontend</div>
+                        <p class="member-bio">Especialista em lógica de negócio e performance.</p>
+                        <div class="member-tags">
+                            <span class="m-tag">PHP</span>
+                            <span class="m-tag">CSS3</span>
+                            <span class="m-tag">JavaScript</span>
+                            <span class="m-tag">MySQL</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-project">
+                    <h3 class="about-title"><span>🏛️</span> Sobre o Projeto</h3>
+                    <p class="about-text">O <strong>Caramel Code</strong> foi desenvolvido como projeto de TCC do curso
+                        Técnico em Desenvolvimento de Sistemas da ETEC Pedro D'Arcadia Neto.</p>
+                    <p class="about-text">Nosso objetivo é democratizar o ensino de programação, oferecendo uma
+                        plataforma gamificada e acessível para estudantes brasileiros.</p>
+                    <div class="member-tags" style="justify-content:flex-start;">
+                        <span class="m-tag" style="background:#fff7ed; border-color:#fed7aa; color:#9a3412;">TCC •
+                            Desenvolvimento de Sistemas • 2026</span>
+                    </div>
+
+                    <h4 style="font-size:14px; margin-top:20px; margin-bottom:12px;">Tecnologias Utilizadas</h4>
+                    <div class="member-tags" style="justify-content:flex-start;">
                         <span class="m-tag">HTML5</span>
+                        <span class="m-tag">JavaScript</span>
                         <span class="m-tag">CSS3</span>
                         <span class="m-tag">Bootstrap</span>
-                        <span class="m-tag">JavaScript</span>
-                        <span class="m-tag">API</span>
+                        <span class="m-tag">PWA</span>
                         <span class="m-tag">MySQL</span>
                         <span class="m-tag">JSON</span>
+                        <span class="m-tag">API</span>
+                        <span class="m-tag"></span>
                     </div>
                 </div>
 
-                <div class="member-card">
-                    <div class="member-avatar">👩‍💻</div>
-                    <div class="member-name">Debora Guedes</div>
-                    <div class="member-role">Desenvolvedora Frontend</div>
-                    <p class="member-bio">Focada em interfaces modernas e acessibilidade.</p>
-                    <div class="member-tags">
-                        <span class="m-tag">C++</span>
-                        <span class="m-tag">HTML5</span>
-                        <span class="m-tag">Kotlin</span>
-                        <span class="m-tag">Photoshop</span>
-                    </div>
+                <div class="mission-section">
+                    <h3 class="mission-title">Nossa Missão</h3>
+                    <p class="mission-quote">"Tornar o aprendizado de programação divertido, acessível e eficaz para
+                        todos os brasileiros, independente do nível de conhecimento."</p>
+                    <div style="font-size:12px; color:var(--accent); margin-top:16px;">🧡 Feito com amor no Brasil</div>
                 </div>
 
-                <div class="member-card">
-                    <div class="member-avatar">👨‍💻</div>
-                    <div class="member-name">Arthur</div>
-                    <div class="member-role">Desenvolvedor Frontend</div>
-                    <p class="member-bio">Especialista em lógica de negócio e performance.</p>
-                    <div class="member-tags">
-                        <span class="m-tag">PHP</span>
-                        <span class="m-tag">CSS3</span>
-                        <span class="m-tag">JavaScript</span>
-                        <span class="m-tag">MySQL</span>
-                    </div>
+                <div class="footer-copyright">
+                    © 2026 Caramel Code
+                    <div style="margin-top: 10px; margin-bottom: 10px;">• ETEC Pedro D'Arcadia Neto</div>
+                    Projeto desenvolvido para fins educacionais
                 </div>
-            </div>
-
-            <div class="about-project">
-                <h3 class="about-title"><span>🏛️</span> Sobre o Projeto</h3>
-                <p class="about-text">O <strong>Caramel Code</strong> foi desenvolvido como projeto de TCC do curso Técnico em Desenvolvimento de Sistemas da ETEC Pedro D'Arcadia Neto.</p>
-                <p class="about-text">Nosso objetivo é democratizar o ensino de programação, oferecendo uma plataforma gamificada e acessível para estudantes brasileiros.</p>
-                <div class="member-tags" style="justify-content:flex-start;">
-                    <span class="m-tag" style="background:#fff7ed; border-color:#fed7aa; color:#9a3412;">TCC • Desenvolvimento de Sistemas • 2026</span>
-                </div>
-                
-                <h4 style="font-size:14px; margin-top:20px; margin-bottom:12px;">Tecnologias Utilizadas</h4>
-                <div class="member-tags" style="justify-content:flex-start;">
-                    <span class="m-tag">HTML5</span>
-                    <span class="m-tag">JavaScript</span>
-                    <span class="m-tag">CSS3</span>
-                    <span class="m-tag">Bootstrap</span>
-                    <span class="m-tag">PWA</span>
-                    <span class="m-tag">MySQL</span>
-                    <span class="m-tag">JSON</span>
-                    <span class="m-tag">API</span>
-                    <span class="m-tag"></span>
-                </div>
-            </div>
-
-            <div class="mission-section">
-                <h3 class="mission-title">Nossa Missão</h3>
-                <p class="mission-quote">"Tornar o aprendizado de programação divertido, acessível e eficaz para todos os brasileiros, independente do nível de conhecimento."</p>
-                <div style="font-size:12px; color:var(--accent); margin-top:16px;">🧡 Feito com amor no Brasil</div>
-            </div>
-
-            <div class="footer-copyright">
-                © 2026 Caramel Code
-                <div style="margin-top: 10px; margin-bottom: 10px;">• ETEC Pedro D'Arcadia Neto</div>
-                Projeto desenvolvido para fins educacionais
             </div>
         </div>
     </div>
-</div>
 
-<script src="js/app.js"></script>
+    <script src="js/app.js"></script>
 </body>
+
 </html>

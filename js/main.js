@@ -1,8 +1,8 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const buttons = document.querySelectorAll('button');
-    
+
     buttons.forEach(button => {
-        button.addEventListener('click', function(e) {
+        button.addEventListener('click', function (e) {
             if (this.classList.contains('btn-primary')) {
                 window.location.href = 'login.html';
             } else if (this.classList.contains('btn-secondary')) {

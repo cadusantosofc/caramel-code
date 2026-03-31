@@ -9,7 +9,7 @@ function checkAuth() {
 function getProgress(userId) {
     const key = 'caramel_progress_' + userId;
     const raw = localStorage.getItem(key);
-    if (raw) { try { return JSON.parse(raw); } catch (e) {} }
+    if (raw) { try { return JSON.parse(raw); } catch (e) { } }
     return { moedas: 50, dias_seguidos: 1, nivel: 1, xp: 0, medalhas: 0, questoes_respondidas: 0, questoes_corretas: 0, total_questoes: 50, trilhas: {} };
 }
 
@@ -19,55 +19,55 @@ const TRAILS_DB = {
         nome: 'HTML do Zero',
         desc: 'Domine a estrutura da web com 10 módulos essenciais',
         emoji: '🌐',
-        fases: Array.from({length: 10}, (_, i) => ({ id: i+1, name: `Módulo ${i+1}`, desc: 'Lição detalhada de HTML', questions: 10 }))
+        fases: Array.from({ length: 10 }, (_, i) => ({ id: i + 1, name: `Módulo ${i + 1}`, desc: 'Lição detalhada de HTML', questions: 10 }))
     },
     'css': {
         nome: 'CSS & Estilo',
         desc: 'Estilize páginas incríveis com 10 módulos práticos',
         emoji: '🎨',
-        fases: Array.from({length: 10}, (_, i) => ({ id: i+1, name: `Módulo ${i+1}`, desc: 'Lição detalhada de CSS', questions: 10 }))
+        fases: Array.from({ length: 10 }, (_, i) => ({ id: i + 1, name: `Módulo ${i + 1}`, desc: 'Lição detalhada de CSS', questions: 10 }))
     },
     'javascript': {
         nome: 'JavaScript',
         desc: 'Torne suas páginas interativas com JS',
         emoji: '⚡',
-        fases: Array.from({length: 10}, (_, i) => ({ id: i+1, name: `Módulo ${i+1}`, desc: 'Lição detalhada de JavaScript', questions: 10 }))
+        fases: Array.from({ length: 10 }, (_, i) => ({ id: i + 1, name: `Módulo ${i + 1}`, desc: 'Lição detalhada de JavaScript', questions: 10 }))
     },
     'php': {
         nome: 'PHP Backend',
         desc: 'Crie sistemas dinâmicos com PHP',
         emoji: '🐘',
-        fases: Array.from({length: 10}, (_, i) => ({ id: i+1, name: `Módulo ${i+1}`, desc: 'Lição detalhada de PHP', questions: 10 }))
+        fases: Array.from({ length: 10 }, (_, i) => ({ id: i + 1, name: `Módulo ${i + 1}`, desc: 'Lição detalhada de PHP', questions: 10 }))
     },
     'logica': {
         nome: 'Lógica de Prog.',
         desc: 'Base fundamental para qualquer linguagem',
         emoji: '🧠',
-        fases: Array.from({length: 10}, (_, i) => ({ id: i+1, name: `Módulo ${i+1}`, desc: 'Lição detalhada de Lógica', questions: 10 }))
+        fases: Array.from({ length: 10 }, (_, i) => ({ id: i + 1, name: `Módulo ${i + 1}`, desc: 'Lição detalhada de Lógica', questions: 10 }))
     },
     'c': {
         nome: 'Linguagem C',
         desc: 'Aprenda a base da computação de baixo nível',
         emoji: '💻',
-        fases: Array.from({length: 10}, (_, i) => ({ id: i+1, name: `Módulo ${i+1}`, desc: 'Lição detalhada de C', questions: 10 }))
+        fases: Array.from({ length: 10 }, (_, i) => ({ id: i + 1, name: `Módulo ${i + 1}`, desc: 'Lição detalhada de C', questions: 10 }))
     },
     'java': {
         nome: 'Java & POO',
         desc: 'Programação Orientada a Objetos com Java',
         emoji: '☕',
-        fases: Array.from({length: 10}, (_, i) => ({ id: i+1, name: `Módulo ${i+1}`, desc: 'Lição detalhada de Java', questions: 10 }))
+        fases: Array.from({ length: 10 }, (_, i) => ({ id: i + 1, name: `Módulo ${i + 1}`, desc: 'Lição detalhada de Java', questions: 10 }))
     },
     'mysql': {
         nome: 'Bancos MySQL',
         desc: 'Manipulação de dados com SQL',
         emoji: '🐬',
-        fases: Array.from({length: 10}, (_, i) => ({ id: i+1, name: `Módulo ${i+1}`, desc: 'Lição detalhada de MySQL', questions: 10 }))
+        fases: Array.from({ length: 10 }, (_, i) => ({ id: i + 1, name: `Módulo ${i + 1}`, desc: 'Lição detalhada de MySQL', questions: 10 }))
     },
     'python': {
         nome: 'Python',
         desc: 'Data Science, Web e Automação',
         emoji: '🐍',
-        fases: Array.from({length: 10}, (_, i) => ({ id: i+1, name: `Módulo ${i+1}`, desc: 'Lição detalhada de Python', questions: 10 }))
+        fases: Array.from({ length: 10 }, (_, i) => ({ id: i + 1, name: `Módulo ${i + 1}`, desc: 'Lição detalhada de Python', questions: 10 }))
     }
 };
 

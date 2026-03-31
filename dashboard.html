@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,110 +9,118 @@
     <link rel="stylesheet" href="css/dashboard.css">
     <script src="js/app.js"></script>
 </head>
+
 <body>
 
-<div class="app-shell">
-    <header class="dashboard-header">
-        <div class="header-left">
-            <img src="img/logo.png" alt="Caramelo" class="header-logo">
-            <div>
-                <div class="header-greeting" id="headerGreeting">Olá, Carlos Eduardo Paiva</div>
-                <div class="header-name" id="headerName">Santos!</div>
-                <div class="header-sub">Que tal continuar aprendendo?</div>
+    <div class="app-shell">
+        <header class="dashboard-header">
+            <div class="header-left">
+                <img src="img/logo.png" alt="Caramelo" class="header-logo">
+                <div>
+                    <div class="header-greeting" id="headerGreeting">Olá, Carlos Eduardo Paiva</div>
+                    <div class="header-name" id="headerName">Santos!</div>
+                    <div class="header-sub">Que tal continuar aprendendo?</div>
+                </div>
             </div>
-        </div>
-        <div class="header-actions">
-            <button class="header-icon-btn" id="profileBtn" title="Perfil">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                    <circle cx="12" cy="7" r="4"/>
-                </svg>
-            </button>
-            <button class="header-icon-btn" id="settingsBtn" title="Configurações">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="3"/>
-                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-                </svg>
-            </button>
-        </div>
-    </header>
-
-    <div class="dashboard-content">
-        <div class="stats-grid">
-            <div class="stat-card moedas">
-                <span class="stat-card-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="12" cy="12" r="10" fill="#F5A623" stroke="#E07B00" stroke-width="2"/>
-                        <path d="M12 7V17M9 10H13.5C14.3284 10 15 10.6716 15 11.5C15 12.3284 14.3284 13 13.5 13H10.5C9.67157 13 9 13.6716 9 14.5C9 15.3284 9.67157 16 10.5 16H15" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <div class="header-actions">
+                <button class="header-icon-btn" id="profileBtn" title="Perfil">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
                     </svg>
-                </span>
-                <div class="stat-card-value" id="statMoedas">50</div>
-                <div class="stat-card-label">Moedas</div>
+                </button>
+                <button class="header-icon-btn" id="settingsBtn" title="Configurações">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3" />
+                        <path
+                            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                    </svg>
+                </button>
             </div>
-            <div class="stat-card dias">
-                <span class="stat-card-icon">🔥</span>
-                <div class="stat-card-value" id="statDias">1</div>
-                <div class="stat-card-label">Dias seguidos</div>
+        </header>
+
+        <div class="dashboard-content">
+            <div class="stats-grid">
+                <div class="stat-card moedas">
+                    <span class="stat-card-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="10" fill="#F5A623" stroke="#E07B00" stroke-width="2" />
+                            <path
+                                d="M12 7V17M9 10H13.5C14.3284 10 15 10.6716 15 11.5C15 12.3284 14.3284 13 13.5 13H10.5C9.67157 13 9 13.6716 9 14.5C9 15.3284 9.67157 16 10.5 16H15"
+                                stroke="white" stroke-width="2" stroke-linecap="round" />
+                        </svg>
+                    </span>
+                    <div class="stat-card-value" id="statMoedas">50</div>
+                    <div class="stat-card-label">Moedas</div>
+                </div>
+                <div class="stat-card dias">
+                    <span class="stat-card-icon">🔥</span>
+                    <div class="stat-card-value" id="statDias">1</div>
+                    <div class="stat-card-label">Dias seguidos</div>
+                </div>
+                <div class="stat-card nivel">
+                    <span class="stat-card-icon">⭐</span>
+                    <div class="stat-card-value">Nv. <span id="statNivel">1</span></div>
+                    <div class="stat-card-label" id="statXP">0 XP</div>
+                </div>
+                <div class="stat-card medalhas">
+                    <span class="stat-card-icon">🏆</span>
+                    <div class="stat-card-value" id="statMedalhas">0</div>
+                    <div class="stat-card-label">Medalhas</div>
+                </div>
             </div>
-            <div class="stat-card nivel">
-                <span class="stat-card-icon">⭐</span>
-                <div class="stat-card-value">Nv. <span id="statNivel">1</span></div>
-                <div class="stat-card-label" id="statXP">0 XP</div>
+
+            <div class="progress-section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <span class="section-title-icon">📊</span>
+                        Seu Progresso
+                    </div>
+                    <span class="section-percent" id="progressPercent">0%</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+                <div class="progress-stats-row">
+                    <div class="pstat">
+                        <span class="pstat-label">Questões respondidas</span>
+                        <span class="pstat-value" id="questoesRespondidas">0/50</span>
+                    </div>
+                    <div class="pstat">
+                        <span class="pstat-label">Precisão</span>
+                        <span class="pstat-value" id="precisao">0.0%</span>
+                    </div>
+                </div>
             </div>
-            <div class="stat-card medalhas">
-                <span class="stat-card-icon">🏆</span>
-                <div class="stat-card-value" id="statMedalhas">0</div>
-                <div class="stat-card-label">Medalhas</div>
+
+            <div class="tip-card">
+                <span class="tip-icon">💡</span>
+                <div class="tip-content">
+                    <div class="tip-title">Dica do Caramelo</div>
+                    <div class="tip-text">Mantenha seu streak diário! Cada dia seguido estudando rende +20 moedas
+                        extras.</div>
+                </div>
+            </div>
+
+            <div class="credits-link">
+                <a href="credits.html">⓪ Créditos de Desenvolvimento</a>
             </div>
         </div>
 
-        <div class="progress-section">
-            <div class="section-header">
-                <div class="section-title">
-                    <span class="section-title-icon">📊</span>
-                    Seu Progresso
-                </div>
-                <span class="section-percent" id="progressPercent">0%</span>
-            </div>
-            <div class="progress-track">
-                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
-            </div>
-            <div class="progress-stats-row">
-                <div class="pstat">
-                    <span class="pstat-label">Questões respondidas</span>
-                    <span class="pstat-value" id="questoesRespondidas">0/50</span>
-                </div>
-                <div class="pstat">
-                    <span class="pstat-label">Precisão</span>
-                    <span class="pstat-value" id="precisao">0.0%</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="tip-card">
-            <span class="tip-icon">💡</span>
-            <div class="tip-content">
-                <div class="tip-title">Dica do Caramelo</div>
-                <div class="tip-text">Mantenha seu streak diário! Cada dia seguido estudando rende +20 moedas extras.</div>
-            </div>
-        </div>
-
-        <div class="credits-link">
-            <a href="credits.html">⓪ Créditos de Desenvolvimento</a>
+        <div class="bottom-cta">
+            <button class="cta-btn" id="continuarBtn">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <polygon points="5 3 19 12 5 21 5 3" />
+                </svg>
+                Continuar Estudando
+            </button>
         </div>
     </div>
 
-    <div class="bottom-cta">
-        <button class="cta-btn" id="continuarBtn">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-                <polygon points="5 3 19 12 5 21 5 3"/>
-            </svg>
-            Continuar Estudando
-        </button>
-    </div>
-</div>
-
-<script src="js/database_json.js"></script>
-<script src="js/dashboard.js"></script>
+    <script src="js/database_json.js"></script>
+    <script src="js/dashboard.js"></script>
 </body>
+
 </html>

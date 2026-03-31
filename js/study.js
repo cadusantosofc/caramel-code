@@ -22,10 +22,10 @@ function getProgress(userId) {
     const key = 'caramel_progress_' + userId;
     const raw = localStorage.getItem(key);
     let p = { moedas: 100, dias_seguidos: 1, nivel: 1, xp: 0, medalhas: 0, questoes_respondidas: 0, questoes_corretas: 0, total_questoes: 100, trilhas: {}, last_empty_coins: null };
-    
-    if (raw) { 
-        try { 
-            p = JSON.parse(raw); 
+
+    if (raw) {
+        try {
+            p = JSON.parse(raw);
             // Lógica de Regeneração: 2 horas (7200000 ms)
             if (p.moedas < 10 && p.last_empty_coins) {
                 const now = Date.now();
@@ -37,7 +37,7 @@ function getProgress(userId) {
                     console.log('🪙 Moedas regeneradas após 2 horas!');
                 }
             }
-        } catch (e) {} 
+        } catch (e) { }
     } else {
         localStorage.setItem(key, JSON.stringify(p));
     }
@@ -49,7 +49,7 @@ function startTimer() {
     timeLeft = 15;
     speedBonus = 5;
     updateTimerUI();
-    
+
     timer = setInterval(() => {
         timeLeft--;
         if (timeLeft > 10) speedBonus = 5;
@@ -76,33 +76,33 @@ function renderQuestion() {
     selectedOption = null;
     const ansBtn = document.getElementById('answerBtn');
     if (ansBtn) ansBtn.classList.remove('ready');
-    
+
     const countEl = document.getElementById('questionCounter');
     const fillEl = document.getElementById('questionProgressFill');
     if (countEl) countEl.textContent = (currentQuestionIdx + 1) + '/' + questions.length;
     if (fillEl) fillEl.style.width = ((currentQuestionIdx + 1) / questions.length * 100) + '%';
-    
+
     document.getElementById('qText').innerText = q.text;
     document.getElementById('qSub').innerText = q.sub;
-    
+
     const list = document.getElementById('optionsList');
     list.innerHTML = '';
-    
+
     // Embaralhar opções com rastreamento do índice original
     const optionsWithIndices = q.options.map((opt, idx) => ({ option: opt, originalIndex: idx }));
     optionsWithIndices.sort(() => Math.random() - 0.5);
-    
+
     optionsWithIndices.forEach((item) => {
         const btn = document.createElement('button');
         btn.className = 'option-btn';
-        
+
         const check = document.createElement('div');
         check.className = 'option-check';
-        
+
         const text = document.createElement('span');
         text.className = 'option-text';
         text.innerText = item.option; // Segurança contra tags HTML nas opções
-        
+
         btn.appendChild(check);
         btn.appendChild(text);
 
@@ -130,7 +130,7 @@ function handleAnswer() {
         document.getElementById('explanationCorrect').textContent = q.explanation;
         document.getElementById('speedBonusCorrect').textContent = `+${speedBonus} velocidade`;
         document.getElementById('feedbackCorrect').classList.add('active');
-        
+
         progress.moedas += (10 + speedBonus);
         progress.xp += 15;
         progress.questoes_corretas++;
@@ -138,8 +138,8 @@ function handleAnswer() {
     } else {
         document.getElementById('explanationWrong').textContent = q.explanation;
         document.getElementById('feedbackWrong').classList.add('active');
-    } 
-    
+    }
+
     lastAnswers.push({
         question: q.text,
         userAnswer: q.options[selectedOption],
@@ -152,7 +152,7 @@ function handleAnswer() {
     if (progress.moedas < 10 && !progress.last_empty_coins) {
         progress.last_empty_coins = Date.now();
     }
-    
+
     db.saveProgress(user.id, progress);
 
     const coinEl = document.getElementById('currentCoins');
@@ -162,7 +162,7 @@ function handleAnswer() {
 function nextQuestion() {
     document.getElementById('feedbackCorrect').classList.remove('active');
     document.getElementById('feedbackWrong').classList.remove('active');
-    
+
     currentQuestionIdx++;
     if (currentQuestionIdx < questions.length) {
         renderQuestion();
@@ -200,7 +200,7 @@ function finishPhase() {
     if (passed) {
         if (!progress.trilhas) progress.trilhas = {};
         if (!progress.trilhas[trailId]) progress.trilhas[trailId] = { fases_concluidas: 0, questoes_respondidas: 0, phases: {} };
-        
+
         const tProg = progress.trilhas[trailId];
         if (!tProg.phases) tProg.phases = {};
 
@@ -222,14 +222,14 @@ function finishPhase() {
 
             return;
         }
-        
+
         const pProg = tProg.phases[phaseId] || { questoes_concluidas: 0 };
-        
+
         if (pProg.questoes_concluidas < totalQuestions) {
             if (!tProg.phases[phaseId]) tProg.fases_concluidas++;
             tProg.questoes_respondidas += (totalQuestions - pProg.questoes_concluidas);
         }
-        
+
         pProg.questoes_concluidas = totalQuestions;
         tProg.phases[phaseId] = pProg;
     }
@@ -238,12 +238,12 @@ function finishPhase() {
 
     const title = passed ? 'Parabéns! Você passou!' : 'Quase lá! Continue estudando';
     const sub = passed ? `Você acertou ${scorePct}% e liberou o próximo módulo!` : `Você acertou ${scorePct}%. Precisa de 70% para liberar o próximo nível.`;
-    
+
     document.getElementById('summaryTitle').textContent = title;
     document.getElementById('summarySub').textContent = sub;
     document.getElementById('summaryCoins').textContent = `+${totalPhaseMoedas}`;
     document.getElementById('summaryXP').textContent = `+${totalPhaseXP}`;
-    
+
     const reviewList = lastAnswers.map(ans => {
         const questionText = escapeHtml(ans.question);
         const userAnswerText = escapeHtml(ans.userAnswer);
@@ -263,10 +263,10 @@ function finishPhase() {
     reviewContainer.id = 'reviewContainer';
     reviewContainer.style = "width:100%; max-height:200px; overflow-y:auto; margin: 20px 0; padding-right:5px;";
     reviewContainer.innerHTML = `<div style="font-size:14px; font-weight:800; margin-bottom:12px; text-align:left;">Revisão da Fase:</div>` + reviewList;
-    
+
     const oldReview = document.getElementById('reviewContainer');
     if (oldReview) oldReview.remove();
-    
+
     const continueBtn = document.querySelector('.continue-btn');
     continueBtn.parentNode.insertBefore(reviewContainer, continueBtn);
 
@@ -276,16 +276,16 @@ function finishPhase() {
 document.addEventListener('DOMContentLoaded', () => {
     user = checkAuth();
     if (!user) return;
-    
+
     const params = new URLSearchParams(window.location.search);
     trailId = params.get('trail') || 'html';
     phaseId = params.get('phase') || '1';
-    
+
     questions = (window.QUESTIONS_DB && window.QUESTIONS_DB[trailId] && window.QUESTIONS_DB[trailId][phaseId]) || [];
-    
+
     // Embaralhar questões (Shuffle)
     questions = questions.sort(() => Math.random() - 0.5);
-    
+
     if (questions.length === 0) {
         alert('Fase não encontrada.');
         history.back();
@@ -333,10 +333,10 @@ document.addEventListener('DOMContentLoaded', () => {
     progress.last_phase_correct = 0; // Reset acertos da fase
     db.saveProgress(user.id, progress); // Salva o estado inicial
     document.getElementById('currentCoins').textContent = progress.moedas;
-    
+
     // Set Phase Title (Simple mock)
-    const titles = { 
-        '1': 'Fundamentos e Sintaxe', 
+    const titles = {
+        '1': 'Fundamentos e Sintaxe',
         '2': 'Cabeçalho e Metadados',
         '3': 'Corpo e Estrutura',
         '4': 'Textos e Parágrafos',
@@ -354,7 +354,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('feedbackWrong').classList.remove('active');
         renderQuestion();
     };
-    
+
     document.getElementById('hintBtn').onclick = () => {
         if (progress.moedas >= 5) {
             progress.moedas -= 5;

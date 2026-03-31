@@ -109,22 +109,22 @@ body {
         top: 15px;
         left: 15px;
     }
-    
+
     .arrow-link {
         width: 35px;
         height: 35px;
     }
-    
+
     .arrow-link svg {
         width: 18px;
         height: 18px;
     }
-    
+
     .logo {
         width: 70px;
         height: 70px;
     }
-    
+
     .tip-section {
         flex-direction: column;
         text-align: center;

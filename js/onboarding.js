@@ -85,7 +85,7 @@ function finishOnboarding() {
                 };
                 localStorage.setItem(progressKey, JSON.stringify(progress));
             }
-        } catch (e) {}
+        } catch (e) { }
     }
 
     window.location.href = 'dashboard.html';

@@ -1,53 +1,53 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const form = document.querySelector('.login-form');
     const inputs = document.querySelectorAll('input[type="email"], input[type="password"]');
-    
+
     // Inicializar banco de dados JSON
     const db = new Database();
-    
+
     inputs.forEach(input => {
-        input.addEventListener('focus', function() {
+        input.addEventListener('focus', function () {
             this.parentElement.classList.add('focused');
         });
-        
-        input.addEventListener('blur', function() {
+
+        input.addEventListener('blur', function () {
             if (!this.value) {
                 this.parentElement.classList.remove('focused');
             }
         });
     });
-    
-    form.addEventListener('submit', async function(e) {
+
+    form.addEventListener('submit', async function (e) {
         e.preventDefault();
-        
+
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
-        
+
         if (!email || !password) {
             showError('Preencha todos os campos');
             return;
         }
-        
+
         if (!validateEmail(email)) {
             showError('E-mail inválido');
             return;
         }
-        
+
         const btn = form.querySelector('.login-btn');
         const originalText = btn.textContent;
         btn.textContent = 'Entrando...';
         btn.disabled = true;
-        
+
         try {
             // Validar login com banco JSON
             const user = await db.validateLogin(email, password);
-            
+
             if (user) {
                 // Salvar usuário no localStorage
                 localStorage.setItem('caramel_user', JSON.stringify(user));
-                
+
                 showSuccessMessage('Login realizado! Redirecionando...');
-                
+
                 setTimeout(() => {
                     if (user.tipo === 'admin') {
                         window.location.href = 'dashboard.html';
@@ -79,7 +79,7 @@ function showError(message) {
     if (existingError) {
         existingError.remove();
     }
-    
+
     const errorDiv = document.createElement('div');
     errorDiv.className = 'error-message';
     errorDiv.textContent = message;
@@ -93,10 +93,10 @@ function showError(message) {
         text-align: center;
         border: 1px solid #fcc;
     `;
-    
+
     const form = document.querySelector('.login-form');
     form.insertBefore(errorDiv, form.firstChild);
-    
+
     setTimeout(() => {
         errorDiv.remove();
     }, 5000);
@@ -107,7 +107,7 @@ function showSuccessMessage(message) {
     if (existingMessage) {
         existingMessage.remove();
     }
-    
+
     const messageDiv = document.createElement('div');
     messageDiv.className = 'success-message';
     messageDiv.textContent = message;
@@ -121,7 +121,7 @@ function showSuccessMessage(message) {
         text-align: center;
         border: 1px solid #c3e6cb;
     `;
-    
+
     const form = document.querySelector('.login-form');
     form.insertBefore(messageDiv, form.firstChild);
 }

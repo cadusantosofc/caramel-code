@@ -76,7 +76,7 @@ class Database {
                     versao: '1.0.0'
                 }
             };
-            
+
             localStorage.setItem('caramel_database', JSON.stringify(initialData));
             // Banco inicializado (sem impressão de dados sensíveis em console)
         }
@@ -95,17 +95,17 @@ class Database {
     async validateLogin(email, senha) {
         const data = this.getData();
         const user = data.usuarios.find(u => u.email === email && u.senha === senha && u.status === 'ativo');
-        
+
         if (user) {
             // Atualizar último login
             user.ultimo_login = new Date().toISOString();
             this.saveData(data);
-            
+
             // Não retornar senha
             const { senha: _, ...userWithoutPassword } = user;
             return userWithoutPassword;
         }
-        
+
         return null;
     }
 
@@ -116,7 +116,7 @@ class Database {
 
     async createUser(userData) {
         const data = this.getData();
-        
+
         // Gerar ID
         const maxId = data.usuarios.length > 0 ? Math.max(...data.usuarios.map(u => u.id)) : 0;
         const newUser = {
@@ -126,10 +126,10 @@ class Database {
             data_cadastro: new Date().toISOString(),
             ultimo_login: null
         };
-        
+
         data.usuarios.push(newUser);
         this.saveData(data);
-        
+
         // Não retornar senha
         const { senha: _, ...userWithoutPassword } = newUser;
         return userWithoutPassword;
@@ -149,13 +149,13 @@ class Database {
 
     async createMatricula(matriculaData) {
         const data = this.getData();
-        
+
         // Verificar se já existe
         const exists = data.matriculas.find(m => m.aluno_id === matriculaData.aluno_id && m.curso_id === matriculaData.curso_id);
         if (exists) {
             throw new Error('Matrícula já existe');
         }
-        
+
         // Gerar ID
         const maxId = data.matriculas.length > 0 ? Math.max(...data.matriculas.map(m => m.id)) : 0;
         const newMatricula = {
@@ -165,10 +165,10 @@ class Database {
             progresso_percentual: 0,
             created_at: new Date().toISOString()
         };
-        
+
         data.matriculas.push(newMatricula);
         this.saveData(data);
-        
+
         return newMatricula;
     }
 
@@ -180,7 +180,7 @@ class Database {
             timestamp: new Date().toISOString(),
             version: '1.0.0'
         };
-        
+
         const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -190,7 +190,7 @@ class Database {
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
-        
+
         console.log('💾 Backup criado!');
     }
 
@@ -198,7 +198,7 @@ class Database {
         if (backupData.data) {
             this.saveData(backupData.data);
             console.log('✅ Dados restaurados!');
-            
+
             // Recarregar página
             setTimeout(() => {
                 window.location.reload();
@@ -212,7 +212,7 @@ class Database {
             localStorage.removeItem('caramel_database');
             localStorage.removeItem('caramel_user');
             console.log('🗑️ Banco limpo!');
-            
+
             // Recarregar página
             setTimeout(() => {
                 window.location.reload();
@@ -260,7 +260,7 @@ class Database {
         const key = 'caramel_progress_' + userId;
         const raw = localStorage.getItem(key);
         if (raw) return JSON.parse(raw);
-        
+
         // Retorna progresso inicial se não existir
         return {
             userId: userId,

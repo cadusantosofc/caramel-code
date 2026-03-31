@@ -154,10 +154,21 @@ body {
 }
 
 /* Stats specific colors */
-.stat-card.moedas .stat-card-value { color: #f5a623; }
-.stat-card.dias .stat-card-value { color: #ef4444; }
-.stat-card.nivel .stat-card-value { color: var(--text-primary); }
-.stat-card.medalhas .stat-card-value { color: #3b82f6; }
+.stat-card.moedas .stat-card-value {
+    color: #f5a623;
+}
+
+.stat-card.dias .stat-card-value {
+    color: #ef4444;
+}
+
+.stat-card.nivel .stat-card-value {
+    color: var(--text-primary);
+}
+
+.stat-card.medalhas .stat-card-value {
+    color: #3b82f6;
+}
 
 .progress-section {
     background: var(--bg-card);

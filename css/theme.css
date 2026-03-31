@@ -19,7 +19,8 @@
     --gradient-body: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
 }
 
-html.dark, body.dark {
+html.dark,
+body.dark {
     --bg-primary: #111827;
     --bg-secondary: #1f2937;
     --bg-card: #1f2937;
@@ -160,6 +161,6 @@ body.dark .ob-subtitle {
 }
 
 /* Login/register body gradient — dark substitui o gradiente amarelo */
-body.dark .login-container ~ * {
+body.dark .login-container~* {
     background: var(--body-bg);
 }

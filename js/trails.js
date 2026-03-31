@@ -8,7 +8,7 @@ const TRAILS_DATA = [
         fases: 10,
         questoes: 100,
         nivel_minimo: 'iniciante',
-        fases_list: [1,2,3,4,5,6,7,8,9,10]
+        fases_list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     },
     {
         id: 'css',
@@ -19,7 +19,7 @@ const TRAILS_DATA = [
         fases: 10,
         questoes: 100,
         nivel_minimo: 'iniciante',
-        fases_list: [1,2,3,4,5,6,7,8,9,10]
+        fases_list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     },
     {
         id: 'javascript',
@@ -30,7 +30,7 @@ const TRAILS_DATA = [
         fases: 10,
         questoes: 100,
         nivel_minimo: 'iniciante',
-        fases_list: [1,2,3,4,5,6,7,8,9,10]
+        fases_list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     },
     {
         id: 'logica',
@@ -41,7 +41,7 @@ const TRAILS_DATA = [
         fases: 10,
         questoes: 100,
         nivel_minimo: 'iniciante',
-        fases_list: [1,2,3,4,5,6,7,8,9,10]
+        fases_list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     },
     {
         id: 'php',
@@ -52,7 +52,7 @@ const TRAILS_DATA = [
         fases: 10,
         questoes: 100,
         nivel_minimo: 'intermediario',
-        fases_list: [1,2,3,4,5,6,7,8,9,10]
+        fases_list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     },
     {
         id: 'mysql',
@@ -63,7 +63,7 @@ const TRAILS_DATA = [
         fases: 10,
         questoes: 100,
         nivel_minimo: 'intermediario',
-        fases_list: [1,2,3,4,5,6,7,8,9,10]
+        fases_list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     },
     {
         id: 'python',
@@ -74,7 +74,7 @@ const TRAILS_DATA = [
         fases: 10,
         questoes: 100,
         nivel_minimo: 'iniciante',
-        fases_list: [1,2,3,4,5,6,7,8,9,10]
+        fases_list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     },
     {
         id: 'c',
@@ -85,7 +85,7 @@ const TRAILS_DATA = [
         fases: 10,
         questoes: 100,
         nivel_minimo: 'intermediario',
-        fases_list: [1,2,3,4,5,6,7,8,9,10]
+        fases_list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     },
     {
         id: 'java',
@@ -96,7 +96,7 @@ const TRAILS_DATA = [
         fases: 10,
         questoes: 100,
         nivel_minimo: 'avancado',
-        fases_list: [1,2,3,4,5,6,7,8,9,10]
+        fases_list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     }
 ];
 
@@ -111,7 +111,7 @@ function checkAuth() {
 function getProgress(userId) {
     const key = 'caramel_progress_' + userId;
     const raw = localStorage.getItem(key);
-    if (raw) { try { return JSON.parse(raw); } catch (e) {} }
+    if (raw) { try { return JSON.parse(raw); } catch (e) { } }
     return { moedas: 50, dias_seguidos: 1, nivel: 1, xp: 0, medalhas: 0, questoes_respondidas: 0, questoes_corretas: 0, total_questoes: 50, trilhas: {} };
 }
 

@@ -65,3 +65,5 @@ certificados/
 # Arquivos de configuração local
 config.local.php
 config.local.js
+.env
+.env.example

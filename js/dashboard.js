@@ -24,10 +24,10 @@ function getUserProgress(user) {
     const key = 'caramel_progress_' + user.id;
     const raw = localStorage.getItem(key);
     let p = { moedas: 100, dias_seguidos: 1, nivel: 1, xp: 0, medalhas: 0, questoes_respondidas: 0, questoes_corretas: 0, total_questoes: 100, trilhas: {}, last_empty_coins: null };
-    
+
     if (raw) {
-        try { 
-            p = JSON.parse(raw); 
+        try {
+            p = JSON.parse(raw);
             // Regeneração: 2 horas (7200000 ms)
             if (p.moedas < 10 && p.last_empty_coins) {
                 const now = Date.now();
@@ -38,7 +38,7 @@ function getUserProgress(user) {
                 }
             }
         }
-        catch (e) {}
+        catch (e) { }
     } else {
         localStorage.setItem(key, JSON.stringify(p));
     }
