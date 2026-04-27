@@ -6,11 +6,8 @@ function checkAuth() {
     try { return JSON.parse(raw); } catch (e) { window.location.href = 'login.html'; return null; }
 }
 
-function getProgress(userId) {
-    const key = 'caramel_progress_' + userId;
-    const raw = localStorage.getItem(key);
-    if (raw) { try { return JSON.parse(raw); } catch (e) { } }
-    return { moedas: 50, dias_seguidos: 1, nivel: 1, xp: 0, medalhas: 0, questoes_respondidas: 0, questoes_corretas: 0, total_questoes: 50 };
+async function getUserProgress(userId) {
+    return await db.getProgress(userId);
 }
 
 function renderView(user, progress) {
@@ -53,7 +50,7 @@ function toggleEdit(user) {
     if (editMode) renderEditForm(user);
 }
 
-function saveProfile(user) {
+async function saveProfile(user) {
     const nome = document.getElementById('editName').value.trim();
     const email = document.getElementById('editEmail').value.trim();
     const senha = document.getElementById('editPassword').value;
@@ -61,22 +58,19 @@ function saveProfile(user) {
     if (!nome || nome.length < 2) { alert('Nome inválido.'); return; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { alert('E-mail inválido.'); return; }
 
-    const dbData = db.getData();
-    const idx = dbData.usuarios.findIndex(u => u.id === user.id);
-    if (idx === -1) return;
+    const result = await db.updateUser({ id: user.id, nome, email, senha });
+    
+    if (result.success) {
+        const updatedUser = { ...user, nome, email };
+        localStorage.setItem('caramel_user', JSON.stringify(updatedUser));
 
-    dbData.usuarios[idx].nome = nome;
-    dbData.usuarios[idx].email = email;
-    if (senha && senha.length >= 6) dbData.usuarios[idx].senha = senha;
-    db.saveData(dbData);
-
-    const updatedUser = { ...user, nome, email };
-    delete updatedUser.senha;
-    localStorage.setItem('caramel_user', JSON.stringify(updatedUser));
-
-    const progress = getProgress(user.id);
-    renderView(updatedUser, progress);
-    toggleEdit(updatedUser);
+        const progress = await db.getProgress(user.id);
+        renderView(updatedUser, progress);
+        toggleEdit(updatedUser);
+        alert('Perfil atualizado com sucesso!');
+    } else {
+        alert(result.message || 'Erro ao atualizar perfil.');
+    }
 }
 
 function applyTheme() {
@@ -84,12 +78,18 @@ function applyTheme() {
     if (settings.darkMode) document.body.classList.add('dark');
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    applyTheme();
+document.addEventListener('DOMContentLoaded', async function () {
     const user = checkAuth();
     if (!user) return;
 
-    const progress = getProgress(user.id);
+    // Carregar tema do banco
+    const settings = await db.getSettings(user.id);
+    if (settings.darkMode) {
+        document.documentElement.classList.add('dark');
+        document.body.classList.add('dark');
+    }
+
+    const progress = await db.getProgress(user.id);
     renderView(user, progress);
 
     document.getElementById('editToggleBtn').addEventListener('click', function () { toggleEdit(user); });

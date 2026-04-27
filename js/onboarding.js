@@ -60,35 +60,40 @@ document.getElementById('chooseLangBtn').addEventListener('click', function () {
     finishOnboarding();
 });
 
-function finishOnboarding() {
-    const userData = localStorage.getItem('caramel_user');
-    if (userData) {
-        try {
-            const user = JSON.parse(userData);
+async function finishOnboarding() {
+    const db = new Database();
+    const btn = document.getElementById('chooseLangBtn');
+    const originalText = btn.textContent;
+    
+    btn.textContent = 'Salvando...';
+    btn.disabled = true;
 
-            user.nivel_aprendizado = selectedLevel;
-            user.estilo_aprendizado = selectedStyle;
-            user.onboarding_completo = true;
-            localStorage.setItem('caramel_user', JSON.stringify(user));
+    try {
+        const response = await fetch('api/complete_onboarding.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                nivel_aprendizado: selectedLevel,
+                estilo_aprendizado: selectedStyle
+            })
+        });
 
-            const progressKey = 'caramel_progress_' + user.id;
-            if (!localStorage.getItem(progressKey)) {
-                const progress = {
-                    moedas: 50,
-                    dias_seguidos: 1,
-                    nivel: 1,
-                    xp: 0,
-                    medalhas: 0,
-                    questoes_respondidas: 0,
-                    questoes_corretas: 0,
-                    total_questoes: 50
-                };
-                localStorage.setItem(progressKey, JSON.stringify(progress));
-            }
-        } catch (e) { }
+        const result = await response.json();
+        
+        if (result.success) {
+            // Atualizar usuário no localStorage com os dados do banco
+            localStorage.setItem('caramel_user', JSON.stringify(result.user));
+            window.location.href = 'dashboard.html';
+        } else {
+            alert(result.message || 'Erro ao salvar onboarding');
+        }
+    } catch (error) {
+        console.error('Erro no onboarding:', error);
+        alert('Erro de conexão. Tente novamente.');
+    } finally {
+        btn.textContent = originalText;
+        btn.disabled = false;
     }
-
-    window.location.href = 'dashboard.html';
 }
 
 goToScreen(1);

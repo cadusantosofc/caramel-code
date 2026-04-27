@@ -6,11 +6,8 @@ function checkAuth() {
     try { return JSON.parse(raw); } catch (e) { window.location.href = 'login.html'; return null; }
 }
 
-function getProgress(userId) {
-    const key = 'caramel_progress_' + userId;
-    const raw = localStorage.getItem(key);
-    if (raw) { try { return JSON.parse(raw); } catch (e) { } }
-    return { moedas: 50, dias_seguidos: 1, nivel: 1, xp: 0, medalhas: 0, questoes_respondidas: 0, questoes_corretas: 0, total_questoes: 50, trilhas: {} };
+async function getUserProgress(userId) {
+    return await db.getProgress(userId);
 }
 
 // Extensão dos dados das trilhas com fases reais (10 por curso)
@@ -120,9 +117,16 @@ function renderFaseCard(fase, trailId, isUnlocked, faseProgress) {
     return card;
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
     const user = checkAuth();
     if (!user) return;
+
+    // Carregar tema do banco
+    const settings = await db.getSettings(user.id);
+    if (settings.darkMode) {
+        document.documentElement.classList.add('dark');
+        document.body.classList.add('dark');
+    }
 
     const params = new URLSearchParams(window.location.search);
     const trailId = params.get('trail') || 'html';
@@ -131,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('courseTitle').textContent = (trail.emoji || '📙') + ' ' + trail.nome;
     document.getElementById('courseDesc').textContent = trail.desc;
 
-    const progress = getProgress(user.id);
+    const progress = await db.getProgress(user.id);
     const trailProgress = (progress.trilhas && progress.trilhas[trailId]) || { fases_concluidas: 0, questoes_respondidas: 0, phases: {} };
 
     // Render Banner Stats

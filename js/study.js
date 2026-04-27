@@ -18,30 +18,8 @@ function checkAuth() {
     try { return JSON.parse(raw); } catch (e) { window.location.href = 'login.html'; return null; }
 }
 
-function getProgress(userId) {
-    const key = 'caramel_progress_' + userId;
-    const raw = localStorage.getItem(key);
-    let p = { moedas: 100, dias_seguidos: 1, nivel: 1, xp: 0, medalhas: 0, questoes_respondidas: 0, questoes_corretas: 0, total_questoes: 100, trilhas: {}, last_empty_coins: null };
-
-    if (raw) {
-        try {
-            p = JSON.parse(raw);
-            // Lógica de Regeneração: 2 horas (7200000 ms)
-            if (p.moedas < 10 && p.last_empty_coins) {
-                const now = Date.now();
-                const diff = now - p.last_empty_coins;
-                if (diff >= 7200000) { // 2 horas
-                    p.moedas = 100;
-                    p.last_empty_coins = null;
-                    localStorage.setItem(key, JSON.stringify(p));
-                    console.log('🪙 Moedas regeneradas após 2 horas!');
-                }
-            }
-        } catch (e) { }
-    } else {
-        localStorage.setItem(key, JSON.stringify(p));
-    }
-    return p;
+async function getUserProgress(userId) {
+    return await db.getProgress(userId);
 }
 
 function startTimer() {
@@ -273,7 +251,7 @@ function finishPhase() {
     document.getElementById('summaryOverlay').classList.add('active');
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     user = checkAuth();
     if (!user) return;
 
@@ -292,7 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    progress = getProgress(user.id);
+    progress = await db.getProgress(user.id);
 
     // Bloquear acesso direto à fase via URL (somente fases liberadas)
     const trailProg = (progress.trilhas && progress.trilhas[trailId]) || { fases_concluidas: 0, phases: {} };

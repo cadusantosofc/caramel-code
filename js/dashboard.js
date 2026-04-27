@@ -1,8 +1,15 @@
 const db = new Database();
 
-function applyTheme() {
-    const s = JSON.parse(localStorage.getItem('caramel_settings') || '{}');
-    if (s.darkMode) document.body.classList.add('dark');
+async function applyTheme(user) {
+    if (!user) return;
+    const s = await db.getSettings(user.id);
+    if (s.darkMode) {
+        document.documentElement.classList.add('dark');
+        document.body.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+        document.body.classList.remove('dark');
+    }
 }
 
 function checkAuth() {
@@ -20,29 +27,8 @@ function checkAuth() {
     }
 }
 
-function getUserProgress(user) {
-    const key = 'caramel_progress_' + user.id;
-    const raw = localStorage.getItem(key);
-    let p = { moedas: 100, dias_seguidos: 1, nivel: 1, xp: 0, medalhas: 0, questoes_respondidas: 0, questoes_corretas: 0, total_questoes: 100, trilhas: {}, last_empty_coins: null };
-
-    if (raw) {
-        try {
-            p = JSON.parse(raw);
-            // Regeneração: 2 horas (7200000 ms)
-            if (p.moedas < 10 && p.last_empty_coins) {
-                const now = Date.now();
-                if (now - p.last_empty_coins >= 7200000) {
-                    p.moedas = 100;
-                    p.last_empty_coins = null;
-                    localStorage.setItem(key, JSON.stringify(p));
-                }
-            }
-        }
-        catch (e) { }
-    } else {
-        localStorage.setItem(key, JSON.stringify(p));
-    }
-    return p;
+async function getUserProgress(user) {
+    return await db.getProgress(user.id);
 }
 
 function renderDashboard(user, progress) {
@@ -89,12 +75,12 @@ function bindActions(user) {
     });
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    applyTheme();
+document.addEventListener('DOMContentLoaded', async function () {
     const user = checkAuth();
     if (!user) return;
 
-    const progress = getUserProgress(user);
+    await applyTheme(user);
+    const progress = await getUserProgress(user);
     renderDashboard(user, progress);
     bindActions(user);
 });

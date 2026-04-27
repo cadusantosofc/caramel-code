@@ -1,12 +1,11 @@
-const SETTINGS_KEY = 'caramel_settings';
+const db = new Database();
 
-function loadSettings() {
-    try { return JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}'); }
-    catch (e) { return {}; }
+async function loadSettingsFromDb(userId) {
+    return await db.getSettings(userId);
 }
 
-function saveSettings(settings) {
-    localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+async function saveSettingsToDb(userId, settings) {
+    await db.saveSettings(userId, settings);
 }
 
 function applyTheme(dark) {
@@ -19,17 +18,17 @@ function applyTheme(dark) {
     }
 }
 
-function bindToggle(id, settingKey, settings) {
+function bindToggle(id, settingKey, settings, userId) {
     const btn = document.getElementById(id);
     if (!btn) return;
 
     if (settings[settingKey]) btn.classList.add('on');
     else btn.classList.remove('on');
 
-    btn.addEventListener('click', function () {
+    btn.addEventListener('click', async function () {
         const isOn = btn.classList.toggle('on');
         settings[settingKey] = isOn;
-        saveSettings(settings);
+        await saveSettingsToDb(userId, settings);
 
         if (settingKey === 'darkMode') applyTheme(isOn);
     });
@@ -66,27 +65,26 @@ function loadAppVersion() {
         });
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
     const user = checkAuth();
     if (!user) return;
 
     loadAppVersion();
 
-    const settings = loadSettings();
+    const settings = await loadSettingsFromDb(user.id);
     applyTheme(settings.darkMode);
 
-    bindToggle('toggleDark', 'darkMode', settings);
-    bindToggle('toggleAnimations', 'reduceAnimations', settings);
-    bindToggle('toggleNotif', 'notificacoes', settings);
-    bindToggle('toggleLembrete', 'lembrete', settings);
-    bindToggle('toggleConquistas', 'conquistas', settings);
-    bindToggle('toggleEmail', 'emailRelatorio', settings);
-    bindToggle('toggleSons', 'sons', settings);
-    bindToggle('toggleVibracao', 'vibracao', settings);
-    bindToggle('toggleAutoSave', 'autoSave', settings);
+    bindToggle('toggleDark', 'darkMode', settings, user.id);
+    bindToggle('toggleAnimations', 'reduceAnimations', settings, user.id);
+    bindToggle('toggleNotif', 'notificacoes', settings, user.id);
+    bindToggle('toggleLembrete', 'lembrete', settings, user.id);
+    bindToggle('toggleConquistas', 'conquistas', settings, user.id);
+    bindToggle('toggleEmail', 'emailRelatorio', settings, user.id);
+    bindToggle('toggleSons', 'sons', settings, user.id);
+    bindToggle('toggleVibracao', 'vibracao', settings, user.id);
+    bindToggle('toggleAutoSave', 'autoSave', settings, user.id);
 
     document.getElementById('exportBtn').addEventListener('click', function () {
-        const db = new Database();
         db.backup();
     });
 

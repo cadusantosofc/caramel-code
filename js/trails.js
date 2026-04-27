@@ -108,11 +108,8 @@ function checkAuth() {
     try { return JSON.parse(raw); } catch (e) { window.location.href = 'login.html'; return null; }
 }
 
-function getProgress(userId) {
-    const key = 'caramel_progress_' + userId;
-    const raw = localStorage.getItem(key);
-    if (raw) { try { return JSON.parse(raw); } catch (e) { } }
-    return { moedas: 50, dias_seguidos: 1, nivel: 1, xp: 0, medalhas: 0, questoes_respondidas: 0, questoes_corretas: 0, total_questoes: 50, trilhas: {} };
+async function getUserProgress(userId) {
+    return await db.getProgress(userId);
 }
 
 function getTrailProgress(progress, trailId) {
@@ -226,17 +223,21 @@ function renderTrails(user, progress) {
     });
 }
 
-function applyTheme() {
-    const settings = JSON.parse(localStorage.getItem('caramel_settings') || '{}');
-    if (settings.darkMode) document.body.classList.add('dark');
+async function applyTheme(user) {
+    if (!user) return;
+    const settings = await db.getSettings(user.id);
+    if (settings.darkMode) {
+        document.documentElement.classList.add('dark');
+        document.body.classList.add('dark');
+    }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    applyTheme();
+document.addEventListener('DOMContentLoaded', async function () {
     const user = checkAuth();
     if (!user) return;
 
-    const progress = getProgress(user.id);
+    await applyTheme(user);
+    const progress = await getUserProgress(user.id);
     renderBanner(user, progress);
     renderTrails(user, progress);
 });
