@@ -172,11 +172,18 @@
             border-radius: 16px;
             padding: 16px;
             display: flex;
-            align-items: center;
-            gap: 12px;
+            flex-direction: column;
+            gap: 4px;
             cursor: pointer;
             transition: all 0.2s;
             text-align: left;
+            width: 100%;
+        }
+
+        .option-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
             width: 100%;
         }
 
@@ -194,6 +201,15 @@
             color: var(--text-primary);
         }
 
+        .option-explanation {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-left: 34px;
+            display: none;
+            white-space: pre-line;
+            line-height: 1.4;
+        }
+
         .option-btn.selected {
             border-color: var(--accent);
             background: #fff9f0;
@@ -203,6 +219,24 @@
             background: #2d2417;
         }
 
+        .option-btn.correct {
+            border-color: #22c55e;
+            background: #f0fdf4;
+        }
+
+        body.dark .option-btn.correct {
+            background: #064e3b;
+        }
+
+        .option-btn.wrong {
+            border-color: #ef4444;
+            background: #fef2f2;
+        }
+
+        body.dark .option-btn.wrong {
+            background: #450a0a;
+        }
+
         .option-btn.selected .option-check {
             border-color: var(--accent);
             background: var(--accent);
@@ -210,12 +244,19 @@
         }
 
         .study-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 400px;
+            margin: 0 auto;
             padding: 16px;
             display: flex;
             align-items: center;
             gap: 12px;
             border-top: 1px solid var(--border);
             background: var(--bg-primary);
+            z-index: 100;
         }
 
         .hint-btn {
@@ -230,117 +271,36 @@
             cursor: pointer;
         }
 
-        .answer-btn {
+        .answer-btn, .next-btn {
             flex: 1;
             padding: 14px;
-            background: #fbcfe8;
-            /* Disabled look initially */
-            color: #fff;
             border: none;
             border-radius: 14px;
             font-size: 16px;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.2s;
-        }
-
-        .answer-btn.ready {
-            background: linear-gradient(135deg, #f5a623, #e07b00);
-        }
-
-        /* Feedback overlays */
-        .feedback-overlay {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            max-width: 400px;
-            margin: 0 auto;
-            background: var(--bg-primary);
-            border-top-left-radius: 24px;
-            border-top-right-radius: 24px;
-            padding: 24px;
-            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.1);
-            transform: translateY(100%);
-            transition: transform 0.3s ease-out;
-            z-index: 100;
-        }
-
-        .feedback-overlay.active {
-            transform: translateY(0);
-        }
-
-        .feedback-top {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-
-        .feedback-icon {
-            font-size: 24px;
-        }
-
-        .feedback-title {
-            font-size: 18px;
-            font-weight: 800;
-        }
-
-        .feedback-title.correct {
-            color: #166534;
-        }
-
-        .feedback-title.wrong {
-            color: #991b1b;
-        }
-
-        .feedback-explanation {
-            font-size: 14px;
-            color: var(--text-secondary);
-            line-height: 1.5;
-            margin-bottom: 24px;
-        }
-
-        .reward-pills {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 24px;
-        }
-
-        .reward-pill {
-            padding: 4px 12px;
-            border-radius: 100px;
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        .reward-pill.base {
-            background: #fff7ed;
-            color: #a16207;
-        }
-
-        .reward-pill.bonus {
-            background: #fef9c3;
-            color: #a16207;
-        }
-
-        .next-btn {
-            width: 100%;
-            padding: 16px;
-            background: #064e3b;
-            color: #fff;
-            border: none;
-            border-radius: 12px;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
         }
 
-        /* Summary overlay */
+        .answer-btn {
+            background: #fbcfe8;
+            color: #fff;
+        }
+
+        .answer-btn.ready {
+            background: linear-gradient(135deg, #f5a623, #e07b00);
+        }
+
+        .next-btn {
+            background: #064e3b;
+            color: #fff;
+            display: none;
+        }
+
         .summary-overlay {
             position: fixed;
             inset: 0;
@@ -356,56 +316,6 @@
 
         .summary-overlay.active {
             display: flex;
-        }
-
-        .summary-logo {
-            font-size: 64px;
-            margin-bottom: 24px;
-        }
-
-        .summary-title {
-            font-size: 24px;
-            font-weight: 800;
-            color: #22c55e;
-            margin-bottom: 8px;
-        }
-
-        .summary-subtitle {
-            font-size: 15px;
-            color: var(--text-secondary);
-            margin-bottom: 32px;
-        }
-
-        .summary-rewards {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 40px;
-        }
-
-        .summary-box {
-            background: #fff7ed;
-            border-radius: 16px;
-            padding: 20px;
-            width: 120px;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .summary-box.xp {
-            background: #fefce8;
-        }
-
-        .summary-box-val {
-            font-size: 18px;
-            font-weight: 800;
-            color: #a16207;
-        }
-
-        .summary-box-label {
-            font-size: 12px;
-            color: #a16207;
-            opacity: 0.8;
         }
 
         .continue-btn {
@@ -433,7 +343,7 @@
             <div class="study-progress-container">
                 <div class="study-progress-fill" id="questionProgressFill"></div>
             </div>
-            <div class="study-counter" id="questionCounter">1/3</div>
+            <div class="study-counter" id="questionCounter">...</div>
             <div class="study-coins">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="12" cy="12" r="10" fill="#F5A623" stroke="#E07B00" stroke-width="2" />
@@ -441,13 +351,13 @@
                         d="M12 7V17M9 10H13.5C14.3284 10 15 10.6716 15 11.5C15 12.3284 14.3284 13 13.5 13H10.5C9.67157 13 9 13.6716 9 14.5C9 15.3284 9.67157 16 10.5 16H15"
                         stroke="white" stroke-width="2" stroke-linecap="round" />
                 </svg>
-                <span id="currentCoins">50</span>
+                <span id="currentCoins">...</span>
             </div>
         </header>
 
         <div class="timer-banner">
             <div class="timer-left">
-                <span>⏱️</span> Tempo restante: <span id="timeLeft">15s</span>
+                <span>⏱️</span> Tempo restante: <span id="timeLeft">30s</span>
             </div>
             <div class="timer-right">
                 <span>✨</span> Bônus por velocidade
@@ -459,119 +369,99 @@
             </div>
         </div>
 
-        <div class="page-content" style="padding-top:10px;">
+        <div class="page-content" style="padding-top:10px; padding-bottom: 120px;">
             <div class="question-card">
                 <div class="difficulty-badge" id="difficultyBadge">
                     <div class="difficulty-dot"></div>
                     Fácil
                 </div>
                 <div class="question-title" id="phaseTitle" style="font-size:16px; font-weight:700; margin-bottom:6px;">
-                    O que é HTML?</div>
-                <div class="question-text" id="qText">O que significa HTML?</div>
-                <div class="question-sub" id="qSub">HTML é a linguagem fundamental da web. Você sabe o que significa?
+                    Carregando...</div>
+                <div class="question-text" id="qText">...</div>
+                <div class="question-sub" id="qSub">...</div>
+
+                <div id="hintText" style="display:none; background: #fffbeb; border: 1.5px dashed #fcd34d; border-radius: 12px; padding: 12px; margin-bottom: 20px; font-size: 13px; color: #92400e; font-weight: 600;">
+                    💡 Dica: <span id="hintContent"></span>
                 </div>
 
-                <div class="options-list" id="optionsList">
-                    <!-- <button class="option-btn">
-                    <div class="option-check"></div>
-                    <span class="option-text">HyperText Markup Language</span>
-                </button> -->
-                </div>
+                <div class="options-list" id="optionsList"></div>
             </div>
         </div>
 
-        <footer class="study-footer">
-            <button class="hint-btn" id="hintBtn">
-                <span>💡</span> Dica (5 🪙)
-            </button>
-            <button class="answer-btn" id="answerBtn">Responder</button>
-        </footer>
-
-        <!-- Correct Feedback -->
-        <div class="feedback-overlay" id="feedbackCorrect">
-            <div class="feedback-top">
-                <div class="feedback-icon">✅</div>
-                <div>
-                    <div class="feedback-title correct">Correto!</div>
-                    <div class="reward-pills" style="margin-top:4px;">
-                        <div class="reward-pill base">+10 base</div>
-                        <div class="reward-pill bonus" id="speedBonusCorrect">+0 velocidade</div>
-                    </div>
+        <footer class="study-footer" id="studyFooter" style="background: var(--bg-card); border-top: 1.5px solid var(--border); box-shadow: 0 -10px 30px rgba(0,0,0,0.03);">
+            <!-- Agrupador de botões de ação (Responder/Dica/Eliminar) -->
+            <div id="actionButtons" style="display:flex; flex-direction:column; gap:12px; width: 100%;">
+                <div style="display:flex; gap:10px; width: 100%;">
+                    <button class="hint-btn" id="hintBtn" style="flex:1; justify-content:center; background: #fffbeb; border: 1px solid #fef3c7; padding:10px; border-radius:12px; color: #b45309;">
+                        <span style="margin-right:6px;">💡</span> Dica
+                    </button>
+                    <button class="hint-btn" id="eliminateBtn" style="flex:1.5; justify-content:center; background: #f5f3ff; border: 1px solid #ddd6fe; padding:10px; border-radius:12px; color:#7c3aed;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:4px; vertical-align:middle;">
+                            <path d="M15 4l6 6m-11 7l-5 5m7-11l11-11m-14 7l-2-2m-3 5l2 2m12 12l2 2" />
+                        </svg>
+                        Remover 2 (15 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" style="display:inline; vertical-align:middle; margin-top:-2px;"><circle cx="12" cy="12" r="10" fill="#F5A623" stroke="#E07B00" stroke-width="2"/><path d="M12 7V17M9 10H13.5C14.3284 10 15 10.6716 15 11.5C15 12.3284 14.3284 13 13.5 13H10.5C9.67157 13 9 13.6716 9 14.5C9 15.3284 9.67157 16 10.5 16H15" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>)
+                    </button>
                 </div>
+                <button class="answer-btn" id="answerBtn">Responder</button>
             </div>
-            <div class="feedback-explanation" id="explanationCorrect">
-                HTML significa HyperText Markup Language. É a linguagem de marcação padrão para criar páginas web!
-            </div>
-            <button class="next-btn" id="nextBtnCorrect">
+
+            <!-- Botão Próxima Questão -->
+            <button class="next-btn" id="mainNextBtn" style="display:none; width: 100%;">
                 Próxima Questão
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                     <path d="M5 12h14m-7-7l7 7-7 7" />
                 </svg>
             </button>
-        </div>
+        </footer>
 
-        <!-- Wrong Feedback -->
-        <div class="feedback-overlay" id="feedbackWrong">
-            <div class="feedback-top">
-                <div class="feedback-icon">❌</div>
-                <div class="feedback-title wrong">Ops, não foi dessa vez!</div>
-            </div>
-            <div class="feedback-explanation" id="explanationWrong">
-                O HTML é responsável por estruturar o conteúdo das páginas web, definindo títulos, parágrafos, listas
-                etc.
-            </div>
-            <div style="display:flex; gap:12px;">
-                <button class="next-btn" style="flex:1; background:var(--bg-secondary); color:var(--text-secondary);"
-                    id="retryBtn">Tentar Novamente</button>
-                <button class="next-btn" style="flex:1.5;" id="nextBtnWrong">Próxima Questão</button>
-            </div>
-        </div>
-
-        <!-- Blocked Phase Modal -->
-        <div class="summary-overlay" id="blockedOverlay">
-            <div class="summary-logo">🔒</div>
-            <div class="summary-title" id="blockedTitle">Fase Bloqueada</div>
-            <div class="summary-subtitle" id="blockedMessage">Essa fase ainda está bloqueada. Você será redirecionado
-                para a fase disponível mais próxima.</div>
-            <button class="continue-btn" id="blockedOkBtn">OK</button>
-        </div>
-
-        <!-- Summary Overlay -->
+        <!-- Modal de Sucesso -->
         <div class="summary-overlay" id="summaryOverlay">
             <div class="summary-logo">🥳</div>
             <div class="summary-title" id="summaryTitle">Fase Concluída!</div>
-            <div class="summary-subtitle" id="summarySub">Parabéns! Você completou a fase "O que é HTML?"</div>
-
+            <div class="summary-subtitle" id="summarySub">...</div>
             <div class="summary-rewards">
                 <div class="summary-box">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        style="margin: 0 auto 4px;">
-                        <circle cx="12" cy="12" r="10" fill="#F5A623" stroke="#E07B00" stroke-width="2" />
-                        <path
-                            d="M12 7V17M9 10H13.5C14.3284 10 15 10.6716 15 11.5C15 12.3284 14.3284 13 13.5 13H10.5C9.67157 13 9 13.6716 9 14.5C9 15.3284 9.67157 16 10.5 16H15"
-                            stroke="white" stroke-width="2" stroke-linecap="round" />
-                    </svg>
-                    <span class="summary-box-val" id="summaryCoins">+25</span>
+                    <span class="summary-box-val" id="summaryCoins">+0</span>
                     <span class="summary-box-label">Moedas</span>
                 </div>
                 <div class="summary-box xp">
-                    <span>⭐</span>
-                    <span class="summary-box-val" id="summaryXP">+50</span>
-                    <span class="summary-box-label">Experiência</span>
+                    <span class="summary-box-val" id="summaryXP">+0</span>
+                    <span class="summary-box-label">XP</span>
                 </div>
             </div>
+            <button class="continue-btn" onclick="location.href='course.html?trail=' + trailId">Continuar</button>
+        </div>
 
-            <button class="continue-btn" onclick="location.href='course.html?trail=' + trailId">Continuar
-                Jornada</button>
+        <!-- Modal de Confirmação -->
+        <div class="summary-overlay" id="confirmModal" style="background: rgba(0,0,0,0.4); backdrop-filter: blur(4px);">
+            <div style="background: var(--bg-primary); padding: 32px; border-radius: 24px; max-width: 340px; width: 90%; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.2);">
+                <div id="confirmIconContainer" style="display: flex; justify-content: center; margin-bottom: 16px;">
+                    <!-- Ícone será injetado via JS (SVG ou Emoji) -->
+                    <div id="confirmIcon" style="font-size: 48px;"></div>
+                </div>
+                <div id="confirmTitle" style="font-size: 20px; font-weight: 800; margin-bottom: 12px;">Usar Moedas?</div>
+                <div id="confirmMessage" style="font-size: 15px; color: var(--text-secondary); margin-bottom: 24px;">...</div>
+                <div style="display: flex; gap: 12px;">
+                    <button class="continue-btn" id="confirmCancel" style="background: var(--bg-secondary); color: var(--text-secondary); flex: 1;">Não</button>
+                    <button class="continue-btn" id="confirmOk" style="flex: 1.5;">Sim</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Game Over -->
+        <div class="summary-overlay" id="gameOverModal">
+            <div class="summary-logo">⏰</div>
+            <div class="summary-title" style="color: #ef4444;">Fase Perdida!</div>
+            <div class="summary-subtitle">O tempo acabou! No Caramel Code, você precisa ser rápido para dominar a programação.</div>
+            <div style="display: flex; gap: 12px; width: 100%;">
+                <button class="continue-btn" style="background: var(--bg-secondary); color: var(--text-secondary); flex: 1;" onclick="location.href='course.html?trail=' + trailId">Sair</button>
+                <button class="continue-btn" style="flex: 1.5;" onclick="location.reload()">Recomeçar</button>
+            </div>
         </div>
     </div>
 
     <script src="js/app.js"></script>
     <script src="js/database_json.js"></script>
-    <script>
-        const trail = new URLSearchParams(window.location.search).get('trail') || 'html';
-        document.write('<script src="js/questions/' + trail + '.js"><\/script>');
-    </script>
     <script src="js/study.js"></script>
 </body>
 

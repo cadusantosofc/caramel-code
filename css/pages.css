@@ -375,6 +375,14 @@ body.dark {
     margin-top: 2px;
 }
 
+.feedback-explanation {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-top: 15px;
+    white-space: pre-line; /* Permite quebras de linha */
+}
+
 .toggle {
     width: 44px;
     height: 24px;

@@ -6,7 +6,7 @@ INSERT INTO usuarios (nome, email, senha, tipo, status, onboarding_completo)
 SELECT 
     'Cadu Santos', 
     'cadusantos.paiva@gmail.com', 
-    '$2y$12$Uf6l9B.M/T4vO0.f8R1/uO9k3X4z5A6B7C8D9E0F1G2H3I4J5K6L7', 
+    '$2y$12$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 
     'admin', 
     'ativo', 
     1

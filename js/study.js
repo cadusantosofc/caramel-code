@@ -1,16 +1,21 @@
 const db = new Database();
 
 let currentQuestionIdx = 0;
-let questions = [];
+let totalQuestions = 0;
+let currentQuestion = null;
 let trailId = 'html';
 let phaseId = '1';
 let user = null;
 let progress = null;
 let selectedOption = null;
 let timer = null;
-let timeLeft = 15;
+let cursoDbId = 10;
+let timeLeft = 30;
 let speedBonus = 0;
-let lastAnswers = []; // Para revisão final
+let hasAnswered = false;
+let hintsUsed = 0;
+let eliminateUsed = 0;
+let isPaused = false;
 
 function checkAuth() {
     const raw = localStorage.getItem('caramel_user');
@@ -18,329 +23,308 @@ function checkAuth() {
     try { return JSON.parse(raw); } catch (e) { window.location.href = 'login.html'; return null; }
 }
 
-async function getUserProgress(userId) {
-    return await db.getProgress(userId);
+async function loadProgress() {
+    const p = await db.getProgress(user.id);
+    if (p) progress = p;
+    else progress = { moedas: 50, xp: 0, nivel: 1, dias_seguidos: 1, medalhas: 0, trilhas: {} };
+    document.getElementById('currentCoins').textContent = progress.moedas;
+}
+
+async function fetchNextQuestion(useAutoOffset = false) {
+    try {
+        let url = `api/get_questoes.php?curso_id=${cursoDbId}&modulo_id=${phaseId}`;
+        if (!useAutoOffset) {
+            url += `&offset=${currentQuestionIdx}`;
+        }
+        const response = await fetch(url);
+        const result = await response.json();
+        if (result.success) {
+            totalQuestions = result.total;
+            currentQuestion = result.question;
+            if (useAutoOffset && result.current_offset !== undefined) {
+                currentQuestionIdx = result.current_offset;
+            }
+            renderQuestion();
+        } else {
+            finishPhase();
+        }
+    } catch (e) {
+        alert("Erro ao carregar questão.");
+    }
+}
+
+function showConfirm(title, message, iconHtml = '🪙') {
+    return new Promise((resolve) => {
+        isPaused = true;
+        const modal = document.getElementById('confirmModal');
+        document.getElementById('confirmTitle').textContent = title;
+        document.getElementById('confirmMessage').textContent = message;
+        document.getElementById('confirmIcon').innerHTML = iconHtml;
+        modal.classList.add('active');
+        const handleOk = () => { modal.classList.remove('active'); isPaused = false; cleanup(); resolve(true); };
+        const handleCancel = () => { modal.classList.remove('active'); isPaused = false; cleanup(); resolve(false); };
+        const cleanup = () => {
+            document.getElementById('confirmOk').removeEventListener('click', handleOk);
+            document.getElementById('confirmCancel').removeEventListener('click', handleCancel);
+        };
+        document.getElementById('confirmOk').addEventListener('click', handleOk);
+        document.getElementById('confirmCancel').addEventListener('click', handleCancel);
+    });
 }
 
 function startTimer() {
     clearInterval(timer);
-    timeLeft = 15;
+    timeLeft = 30;
     speedBonus = 5;
+    isPaused = false;
     updateTimerUI();
-
     timer = setInterval(() => {
+        if (isPaused || hasAnswered) return;
         timeLeft--;
-        if (timeLeft > 10) speedBonus = 5;
-        else if (timeLeft > 5) speedBonus = 3;
-        else if (timeLeft > 0) speedBonus = 1;
-        else speedBonus = 0;
-
+        if (timeLeft <= 0) { clearInterval(timer); timeoutAnswer(); }
+        else if (timeLeft <= 5) speedBonus = 0;
+        else if (timeLeft <= 10) speedBonus = 1;
+        else if (timeLeft <= 20) speedBonus = 3;
         updateTimerUI();
-        if (timeLeft <= 0) {
-            clearInterval(timer);
-        }
     }, 1000);
 }
 
+async function timeoutAnswer() {
+    if (hasAnswered) return;
+    await processAnswer(-1);
+    document.getElementById('qSub').innerHTML = '<span style="color:#ef4444; font-weight:700;">⏰ TEMPO ESGOTADO!</span>';
+}
+
 function updateTimerUI() {
-    const el = document.getElementById('timeLeft');
-    const bar = document.getElementById('timerBar');
-    if (el) el.textContent = timeLeft + 's';
-    if (bar) bar.style.width = ((timeLeft / 15) * 100) + '%';
+    const timerEl = document.getElementById('timeLeft');
+    const barEl = document.getElementById('timerBar');
+    if (timerEl) timerEl.textContent = timeLeft + 's';
+    if (barEl) barEl.style.width = (timeLeft / 30 * 100) + '%';
 }
 
 function renderQuestion() {
-    const q = questions[currentQuestionIdx];
+    const q = currentQuestion;
     selectedOption = null;
-    const ansBtn = document.getElementById('answerBtn');
-    if (ansBtn) ansBtn.classList.remove('ready');
+    hasAnswered = false;
+    const hintEl = document.getElementById('hintText');
+    if (hintEl) hintEl.style.display = 'none';
+    
+    // Configura botões (apenas habilita/desabilita)
+    const hintBtn = document.getElementById('hintBtn');
+    if (hintBtn) hintBtn.disabled = (hintsUsed >= 2);
 
+    const eliminateBtn = document.getElementById('eliminateBtn');
+    if (eliminateBtn) {
+        eliminateBtn.disabled = (eliminateUsed >= 2);
+        eliminateBtn.style.opacity = (eliminateUsed >= 2) ? '0.5' : '1';
+    }
+
+    document.getElementById('mainNextBtn').style.display = 'none';
+    document.getElementById('actionButtons').style.display = 'flex';
+    const ansBtn = document.getElementById('answerBtn');
+    ansBtn.classList.remove('ready');
+    ansBtn.disabled = false;
     const countEl = document.getElementById('questionCounter');
     const fillEl = document.getElementById('questionProgressFill');
-    if (countEl) countEl.textContent = (currentQuestionIdx + 1) + '/' + questions.length;
-    if (fillEl) fillEl.style.width = ((currentQuestionIdx + 1) / questions.length * 100) + '%';
-
+    if (countEl) countEl.textContent = (currentQuestionIdx + 1) + '/' + totalQuestions;
+    if (fillEl) fillEl.style.width = ((currentQuestionIdx + 1) / totalQuestions * 100) + '%';
     document.getElementById('qText').innerText = q.text;
     document.getElementById('qSub').innerText = q.sub;
-
     const list = document.getElementById('optionsList');
     list.innerHTML = '';
-
-    // Embaralhar opções com rastreamento do índice original
-    const optionsWithIndices = q.options.map((opt, idx) => ({ option: opt, originalIndex: idx }));
-    optionsWithIndices.sort(() => Math.random() - 0.5);
-
-    optionsWithIndices.forEach((item) => {
+    q.options.forEach((opt, idx) => {
         const btn = document.createElement('button');
         btn.className = 'option-btn';
-
+        btn.onclick = () => selectOption(idx, btn);
+        const header = document.createElement('div');
+        header.className = 'option-header';
         const check = document.createElement('div');
         check.className = 'option-check';
-
         const text = document.createElement('span');
         text.className = 'option-text';
-        text.innerText = item.option; // Segurança contra tags HTML nas opções
-
-        btn.appendChild(check);
-        btn.appendChild(text);
-
-        btn.onclick = () => {
-            selectedOption = item.originalIndex; // Armazena o índice original da resposta correta
-            document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
-            btn.classList.add('selected');
-            if (ansBtn) ansBtn.classList.add('ready');
-        };
+        text.innerText = opt;
+        header.appendChild(check);
+        header.appendChild(text);
+        btn.appendChild(header);
+        const expDiv = document.createElement('div');
+        expDiv.className = 'option-explanation';
+        btn.appendChild(expDiv);
         list.appendChild(btn);
     });
-
     startTimer();
 }
 
-function handleAnswer() {
-    if (selectedOption === null) return;
+function selectOption(idx, btn) {
+    if (hasAnswered) return;
+    selectedOption = idx;
+    document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    document.getElementById('answerBtn').classList.add('ready');
+}
+
+async function processAnswer(idx) {
+    if (hasAnswered && idx !== -1) return;
+    hasAnswered = true;
     clearInterval(timer);
+    const q = currentQuestion;
+    try {
+        console.log("Enviando resposta para:", q.id, "Opcao:", idx);
+        const response = await fetch('api/check_resposta.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ questao_id: q.id, opcao_index: idx, speed_bonus: speedBonus })
+        });
+        const result = await response.json();
+        console.log("JSON recebido:", result);
 
-    const q = questions[currentQuestionIdx];
-    if (!q) return;
-    const isCorrect = selectedOption === q.correct;
+        if (result.success) {
+            const expText = result.explanation || "Informação geral do sistema.";
+            const explanationLines = expText.split('\n');
+            const btns = document.querySelectorAll('.option-btn');
+            
+            console.log("Botoes encontrados:", btns.length);
+            btns.forEach((btn, bIdx) => {
+                const exp = btn.querySelector('.option-explanation');
+                const textSpan = btn.querySelector('.option-text');
+                const optText = textSpan ? textSpan.innerText : '';
+                
+                if (exp && optText) {
+                    const specificExp = explanationLines.find(line => 
+                        line.toLowerCase().includes(optText.toLowerCase()) || 
+                        (optText.length > 3 && line.toLowerCase().includes(optText.substring(0, 4).toLowerCase()))
+                    );
+                    exp.innerText = specificExp || 'Informação sobre este item.';
+                    exp.style.display = 'block';
+                }
+                if (bIdx === result.correct_index) btn.classList.add('correct');
+                else if (bIdx === idx) btn.classList.add('wrong');
+            });
 
-    if (isCorrect) {
-        document.getElementById('explanationCorrect').textContent = q.explanation;
-        document.getElementById('speedBonusCorrect').textContent = `+${speedBonus} velocidade`;
-        document.getElementById('feedbackCorrect').classList.add('active');
-
-        progress.moedas += (10 + speedBonus);
-        progress.xp += 15;
-        progress.questoes_corretas++;
-        progress.last_phase_correct = (progress.last_phase_correct || 0) + 1;
-    } else {
-        document.getElementById('explanationWrong').textContent = q.explanation;
-        document.getElementById('feedbackWrong').classList.add('active');
+            console.log("Atualizando Moedas e XP");
+            progress.moedas = result.new_moedas;
+            progress.xp = result.new_xp;
+            
+            const currentCoinsEl = document.getElementById('currentCoins');
+            if (currentCoinsEl) currentCoinsEl.textContent = progress.moedas;
+            
+            if (result.correct) {
+                if (!progress.last_phase_correct) progress.last_phase_correct = 0;
+                progress.last_phase_correct++;
+            }
+            
+            console.log("Exibindo botão de avançar");
+            document.getElementById('actionButtons').style.display = 'none';
+            document.getElementById('mainNextBtn').style.display = 'flex';
+        }
+    } catch (e) {
+        console.error("ERRO COMPLETO:", e);
+        alert("Erro no frontend: " + e.message);
+        hasAnswered = false;
     }
-
-    lastAnswers.push({
-        question: q.text,
-        userAnswer: q.options[selectedOption],
-        correctAnswer: q.options[q.correct],
-        isCorrect: isCorrect
-    });
-
-    progress.questoes_respondidas++;
-
-    if (progress.moedas < 10 && !progress.last_empty_coins) {
-        progress.last_empty_coins = Date.now();
-    }
-
-    db.saveProgress(user.id, progress);
-
-    const coinEl = document.getElementById('currentCoins');
-    if (coinEl) coinEl.textContent = progress.moedas;
 }
 
-function nextQuestion() {
-    document.getElementById('feedbackCorrect').classList.remove('active');
-    document.getElementById('feedbackWrong').classList.remove('active');
+async function handleAnswer() { await processAnswer(selectedOption); }
 
-    currentQuestionIdx++;
-    if (currentQuestionIdx < questions.length) {
-        renderQuestion();
-    } else {
-        finishPhase();
+async function handleHint() {
+    if (hasAnswered) return;
+    const q = currentQuestion;
+    if (hintsUsed >= 2) return;
+    if (progress.moedas < 5) { alert("Moedas insuficientes!"); return; }
+
+    const lightbulbSvg = `<svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#F5A623" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6m-3-15a7 7 0 0 1 7 7c0 2.5-2 4.5-3 5.5s-1.5 2.5-1.5 3.5h-5c0-1-.5-2.5-1.5-3.5s-3-3-3-5.5a7 7 0 0 1 7-7z"/></svg>`;
+
+    const confirmed = await showConfirm(
+        "Usar Dica?", 
+        `Gastar 5 moedas para ver uma pista? (Você tem ${2 - hintsUsed} rest.)`, 
+        lightbulbSvg
+    );
+
+    if (confirmed) {
+        progress.moedas -= 5;
+        hintsUsed++;
+        document.getElementById('currentCoins').textContent = progress.moedas;
+        const hintEl = document.getElementById('hintText');
+        const hintContent = document.getElementById('hintContent');
+        if (hintEl && hintContent) {
+            hintContent.textContent = q.dica || "Pense bem no significado inglês!";
+            hintEl.style.display = 'block';
+        }
+        document.getElementById('hintBtn').disabled = true;
+        await db.saveProgress({ moedas_ganhas: -5, xp_ganho: 0, nivel: progress.nivel, dias_seguidos: progress.dias_seguidos });
     }
 }
 
-function escapeHtml(text) {
-    if (text === null || text === undefined) return '';
-    return String(text)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
+async function handleEliminate() {
+    if (hasAnswered) return;
+    const q = currentQuestion;
+    if (eliminateUsed >= 2) return;
+    if (progress.moedas < 15) { alert("Moedas insuficientes!"); return; }
+
+    const magicWandSvg = `<svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4l6 6m-11 7l-5 5m7-11l11-11m-14 7l-2-2m-3 5l2 2m12 12l2 2"/></svg>`;
+
+    const confirmed = await showConfirm(
+        "Eliminar 2?", 
+        `Gastar 15 moedas para riscar duas alternativas incorretas? (Você tem ${2 - eliminateUsed} rest.)`, 
+        magicWandSvg
+    );
+
+    if (confirmed) {
+        try {
+            const response = await fetch('api/get_wrong_options.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ questao_id: q.id })
+            });
+            const result = await response.json();
+            if (result.success) {
+                progress.moedas -= 15;
+                eliminateUsed++;
+                document.getElementById('currentCoins').textContent = progress.moedas;
+                document.getElementById('eliminateBtn').disabled = true;
+                const btns = document.querySelectorAll('.option-btn');
+                const toHide = result.eliminate;
+                btns.forEach((btn, idx) => {
+                    if (toHide.includes(idx)) {
+                        btn.style.opacity = '0.2';
+                        btn.style.pointerEvents = 'none';
+                        btn.querySelector('.option-text').style.textDecoration = 'line-through';
+                    }
+                });
+                await db.saveProgress({ moedas_ganhas: -15, xp_ganho: 0, nivel: progress.nivel, dias_seguidos: progress.dias_seguidos });
+            }
+        } catch (e) { alert("Erro ao usar varinha mágica."); }
+    }
 }
 
-function finishPhase() {
-    const totalQuestions = questions.length;
+function nextQuestion() { currentQuestionIdx++; fetchNextQuestion(); }
+
+async function finishPhase() {
     const correctAnswers = progress.last_phase_correct || 0;
     const scorePct = Math.round((correctAnswers / totalQuestions) * 100);
     const passed = scorePct >= 70;
-
     const totalPhaseMoedas = passed ? 25 : 5;
     const totalPhaseXP = passed ? 50 : 10;
-
-    progress.moedas += totalPhaseMoedas;
-    progress.xp += totalPhaseXP;
-
-    if (progress.moedas >= 10) {
-        progress.last_empty_coins = null;
-    }
-
-    if (passed) {
-        if (!progress.trilhas) progress.trilhas = {};
-        if (!progress.trilhas[trailId]) progress.trilhas[trailId] = { fases_concluidas: 0, questoes_respondidas: 0, phases: {} };
-
-        const tProg = progress.trilhas[trailId];
-        if (!tProg.phases) tProg.phases = {};
-
-        const currentPhaseNumber = parseInt(phaseId, 10);
-        const maxPhase = currentPhaseNumber || 1;
-        if (currentPhaseNumber > (tProg.fases_concluidas || 0) + 1) {
-            console.warn('Progressão inválida detectada no finishPhase:', phaseId);
-            // não salvar progresso inválido
-            const blockedOverlayEl = document.getElementById('blockedOverlay');
-            if (blockedOverlayEl) blockedOverlayEl.classList.add('active');
-
-            const blockedMessageEl = document.getElementById('blockedMessage');
-            if (blockedMessageEl) blockedMessageEl.textContent = 'Progresso inválido detectado. Você será redirecionado ao curso principal.';
-
-            const blockedOkBtnEl = document.getElementById('blockedOkBtn');
-            if (blockedOkBtnEl) {
-                blockedOkBtnEl.addEventListener('click', () => window.location.href = `course.html?trail=${trailId}`);
-            }
-
-            return;
-        }
-
-        const pProg = tProg.phases[phaseId] || { questoes_concluidas: 0 };
-
-        if (pProg.questoes_concluidas < totalQuestions) {
-            if (!tProg.phases[phaseId]) tProg.fases_concluidas++;
-            tProg.questoes_respondidas += (totalQuestions - pProg.questoes_concluidas);
-        }
-
-        pProg.questoes_concluidas = totalQuestions;
-        tProg.phases[phaseId] = pProg;
-    }
-
-    db.saveProgress(user.id, progress);
-
-    const title = passed ? 'Parabéns! Você passou!' : 'Quase lá! Continue estudando';
-    const sub = passed ? `Você acertou ${scorePct}% e liberou o próximo módulo!` : `Você acertou ${scorePct}%. Precisa de 70% para liberar o próximo nível.`;
-
-    document.getElementById('summaryTitle').textContent = title;
-    document.getElementById('summarySub').textContent = sub;
+    await db.saveProgress({ curso_id: cursoDbId, modulo_ordem: phaseId, moedas_ganhas: totalPhaseMoedas, xp_ganho: totalPhaseXP, nivel: progress.nivel, dias_seguidos: progress.dias_seguidos });
+    document.getElementById('summaryTitle').textContent = passed ? 'Fase Concluída!' : 'Tente Novamente';
     document.getElementById('summaryCoins').textContent = `+${totalPhaseMoedas}`;
     document.getElementById('summaryXP').textContent = `+${totalPhaseXP}`;
-
-    const reviewList = lastAnswers.map(ans => {
-        const questionText = escapeHtml(ans.question);
-        const userAnswerText = escapeHtml(ans.userAnswer);
-        const correctAnswerText = escapeHtml(ans.correctAnswer);
-        const border = ans.isCorrect ? '#22c55e' : '#ef4444';
-
-        return `
-        <div style="text-align:left; background:rgba(0,0,0,0.03); border-radius:12px; padding:12px; margin-bottom:10px; border-left:4px solid ${border};">
-            <div style="font-size:13px; font-weight:700; color:var(--text-primary); margin-bottom:4px;">${questionText}</div>
-            <div style="font-size:12px; color:${ans.isCorrect ? '#166534' : '#991b1b'};">Sua resposta: ${userAnswerText}</div>
-            ${!ans.isCorrect ? `<div style="font-size:12px; color:#166534; font-weight:600;">Correta: ${correctAnswerText}</div>` : ''}
-        </div>
-        `;
-    }).join('');
-
-    const reviewContainer = document.createElement('div');
-    reviewContainer.id = 'reviewContainer';
-    reviewContainer.style = "width:100%; max-height:200px; overflow-y:auto; margin: 20px 0; padding-right:5px;";
-    reviewContainer.innerHTML = `<div style="font-size:14px; font-weight:800; margin-bottom:12px; text-align:left;">Revisão da Fase:</div>` + reviewList;
-
-    const oldReview = document.getElementById('reviewContainer');
-    if (oldReview) oldReview.remove();
-
-    const continueBtn = document.querySelector('.continue-btn');
-    continueBtn.parentNode.insertBefore(reviewContainer, continueBtn);
-
     document.getElementById('summaryOverlay').classList.add('active');
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-    user = checkAuth();
-    if (!user) return;
-
+    user = checkAuth(); if (!user) return;
+    await loadProgress(); window.applyTheme();
     const params = new URLSearchParams(window.location.search);
-    trailId = params.get('trail') || 'html';
-    phaseId = params.get('phase') || '1';
-
-    questions = (window.QUESTIONS_DB && window.QUESTIONS_DB[trailId] && window.QUESTIONS_DB[trailId][phaseId]) || [];
-
-    // Embaralhar questões (Shuffle)
-    questions = questions.sort(() => Math.random() - 0.5);
-
-    if (questions.length === 0) {
-        alert('Fase não encontrada.');
-        history.back();
-        return;
-    }
-
-    progress = await db.getProgress(user.id);
-
-    // Bloquear acesso direto à fase via URL (somente fases liberadas)
-    const trailProg = (progress.trilhas && progress.trilhas[trailId]) || { fases_concluidas: 0, phases: {} };
-    const unlockedPhase = (trailProg.fases_concluidas || 0) + 1;
-    const requestedPhase = parseInt(phaseId, 10) || 1;
-
-    if (requestedPhase > unlockedPhase) {
-        const blockedOverlay = document.getElementById('blockedOverlay');
-        const blockedMessage = document.getElementById('blockedMessage');
-        const blockedOkBtn = document.getElementById('blockedOkBtn');
-
-        if (blockedMessage) blockedMessage.textContent = 'Essa fase ainda está bloqueada. Você será redirecionado ao curso principal.';
-
-        if (blockedOverlay) {
-            blockedOverlay.classList.add('active');
-        }
-
-        if (blockedOkBtn) {
-            blockedOkBtn.onclick = () => {
-                if (blockedOverlay) blockedOverlay.classList.remove('active');
-                window.location.href = `course.html?trail=${trailId}`;
-            };
-        }
-
-        return;
-    }
-
-    // Proteção extra: a fase atual deve ser no máximo a primeira não completada +1
-    const realMaxPhase = unlockedPhase;
-    if (parseInt(phaseId, 10) > realMaxPhase) {
-        console.warn('Tentativa de acesso a fase inválida detectada:', phaseId);
-        window.location.href = `course.html?trail=${trailId}`;
-        return;
-    }
-
-    phaseId = String(requestedPhase);
-
-    progress.last_phase_correct = 0; // Reset acertos da fase
-    db.saveProgress(user.id, progress); // Salva o estado inicial
-    document.getElementById('currentCoins').textContent = progress.moedas;
-
-    // Set Phase Title (Simple mock)
-    const titles = {
-        '1': 'Fundamentos e Sintaxe',
-        '2': 'Cabeçalho e Metadados',
-        '3': 'Corpo e Estrutura',
-        '4': 'Textos e Parágrafos',
-        '5': 'Listas e Navegação'
+    trailId = params.get('trail') || 'html'; phaseId = params.get('phase') || '1';
+    const trailToId = { 
+        'html': 10, 'css': 11, 'javascript': 12, 'logica': 13, 
+        'php': 14, 'mysql': 15, 'python': 16, 'c': 17, 'java': 18 
     };
-    const pTitle = titles[phaseId] || 'Módulo ' + phaseId;
-    document.getElementById('phaseTitle').innerText = pTitle;
-
-    renderQuestion();
-
-    document.getElementById('answerBtn').onclick = handleAnswer;
-    document.getElementById('nextBtnCorrect').onclick = nextQuestion;
-    document.getElementById('nextBtnWrong').onclick = nextQuestion;
-    document.getElementById('retryBtn').onclick = () => {
-        document.getElementById('feedbackWrong').classList.remove('active');
-        renderQuestion();
-    };
-
-    document.getElementById('hintBtn').onclick = () => {
-        if (progress.moedas >= 5) {
-            progress.moedas -= 5;
-            document.getElementById('currentCoins').textContent = progress.moedas;
-            db.saveProgress(user.id, progress);
-            alert('Dica: ' + questions[currentQuestionIdx].explanation.substring(0, 50) + '...');
-        } else {
-            alert('Moedas insuficientes!');
-        }
-    };
+    cursoDbId = trailToId[trailId] || 10;
+    progress.last_phase_correct = 0;
+    await fetchNextQuestion(true); // Carga inicial com checkpoint automático
+    document.getElementById('answerBtn').addEventListener('click', handleAnswer);
+    document.getElementById('mainNextBtn').addEventListener('click', nextQuestion);
+    document.getElementById('hintBtn').addEventListener('click', handleHint);
+    document.getElementById('eliminateBtn').addEventListener('click', handleEliminate);
 });

@@ -21,6 +21,21 @@ if (!$nome || !$email) {
     exit;
 }
 
+if (!filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($email) > 255) {
+    echo json_encode(['success' => false, 'message' => 'E-mail inválido']);
+    exit;
+}
+
+if (strlen($nome) < 2 || strlen($nome) > 100) {
+    echo json_encode(['success' => false, 'message' => 'Nome deve ter entre 2 e 100 caracteres']);
+    exit;
+}
+
+if ($senha && (strlen($senha) < 6 || strlen($senha) > 128)) {
+    echo json_encode(['success' => false, 'message' => 'A nova senha deve ter entre 6 e 128 caracteres']);
+    exit;
+}
+
 try {
     // Verificar se o e-mail já existe para outro usuário
     $stmt = $pdo->prepare("SELECT id FROM usuarios WHERE email = ? AND id != ?");

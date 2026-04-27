@@ -1,0 +1,2 @@
+-- Migration: 014_add_slug_and_requisito_to_cursos
+-- Arquivo desativado: Slugs e Requisitos agora estão na criação original da tabela (003 e 025).

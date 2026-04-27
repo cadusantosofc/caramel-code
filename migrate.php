@@ -138,6 +138,17 @@ try {
         $logs[] = ['info', 'Nenhum arquivo .sql encontrado em /migrations/'];
     }
 
+    echo "<h2>✅ Todas as migrações SQL concluídas!</h2>";
+
+    // Chamada automática para o Seed de Questões
+    $seedFile = __DIR__ . '/seed_questions.php';
+    if (file_exists($seedFile)) {
+        echo "<h3>🌱 Iniciando Seed de Questões...</h3>";
+        // Definimos uma variável para o seed saber que foi chamado via migrate
+        $isMigrationCall = true;
+        require_once $seedFile;
+    }
+
 } catch (PDOException $e) {
     $logs[] = ['err', 'Falha na conexão: ' . $e->getMessage()];
     $errs++;

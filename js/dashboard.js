@@ -1,15 +1,9 @@
 const db = new Database();
 
-async function applyTheme(user) {
+async function syncTheme(user) {
     if (!user) return;
-    const s = await db.getSettings(user.id);
-    if (s.darkMode) {
-        document.documentElement.classList.add('dark');
-        document.body.classList.add('dark');
-    } else {
-        document.documentElement.classList.remove('dark');
-        document.body.classList.remove('dark');
-    }
+    const settings = await db.getSettings(user.id);
+    if (window.applyTheme) window.applyTheme(settings.darkMode);
 }
 
 function checkAuth() {
@@ -36,12 +30,8 @@ function renderDashboard(user, progress) {
     const primeiro = nomes[0];
     const resto = nomes.slice(1).join(' ');
 
-    document.getElementById('headerGreeting').textContent = 'Olá, ' + primeiro + (resto ? ' ' + nomes[1] : '');
-    if (nomes.length > 2) {
-        document.getElementById('headerName').textContent = nomes.slice(2).join(' ') + '!';
-    } else {
-        document.getElementById('headerName').textContent = (resto || primeiro) + '!';
-    }
+    document.getElementById('headerGreeting').textContent = 'Olá, ' + primeiro;
+    document.getElementById('headerName').textContent = (resto || primeiro) + '!';
 
     document.getElementById('statMoedas').textContent = progress.moedas;
     document.getElementById('statDias').textContent = progress.dias_seguidos;
@@ -79,7 +69,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     const user = checkAuth();
     if (!user) return;
 
-    await applyTheme(user);
+    await syncTheme(user);
     const progress = await getUserProgress(user);
     renderDashboard(user, progress);
     bindActions(user);

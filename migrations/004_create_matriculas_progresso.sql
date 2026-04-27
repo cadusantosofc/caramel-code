@@ -1,4 +1,5 @@
 -- Migration: 004_create_matriculas_progresso
+-- Criação de matrículas e progresso do usuário
 
 CREATE TABLE IF NOT EXISTS matriculas (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -19,6 +20,8 @@ CREATE TABLE IF NOT EXISTS progresso_usuario (
     nivel INT DEFAULT 1,
     dias_seguidos INT DEFAULT 1,
     medalhas INT DEFAULT 0,
+    questoes_respondidas INT DEFAULT 0,
+    questoes_corretas INT DEFAULT 0,
     trilhas_json TEXT DEFAULT NULL,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE

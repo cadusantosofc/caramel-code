@@ -90,11 +90,11 @@ class Database {
         return true;
     }
 
-    async saveProgress(userId, progressData) {
+    async saveProgress(data) {
         const response = await this.request('api/save_progresso.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(progressData)
+            body: JSON.stringify(data)
         });
         if (!response) return false;
         const result = await response.json();
@@ -146,6 +146,17 @@ class Database {
         const response = await this.request('api/get_stats.php');
         if (!response) return {};
         return await response.json();
+    }
+
+    async getQuestions(cursoId, moduloId) {
+        try {
+            const res = await fetch(`api/get_questoes.php?curso_id=${cursoId}&modulo_id=${moduloId}`);
+            const data = await res.json();
+            return data.success ? data.questions : [];
+        } catch (e) {
+            console.error('Erro ao buscar questões:', e);
+            return [];
+        }
     }
 }
 

@@ -6,12 +6,23 @@
 
     var s = getSettings();
 
-    if (s.darkMode) {
-        document.documentElement.classList.add('dark');
-        document.body.classList.add('dark');
+    function applyTheme(dark) {
+        if (dark) {
+            document.documentElement.classList.add('dark');
+            if (document.body) document.body.classList.add('dark');
+            else document.addEventListener('DOMContentLoaded', () => document.body.classList.add('dark'));
+        } else {
+            document.documentElement.classList.remove('dark');
+            if (document.body) document.body.classList.remove('dark');
+        }
     }
+
+    var s = getSettings();
+    applyTheme(s.darkMode);
 
     if (s.reduceAnimations) {
         document.documentElement.classList.add('no-animations');
     }
+
+    window.applyTheme = applyTheme;
 })();
