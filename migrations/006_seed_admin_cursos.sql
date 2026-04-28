@@ -4,9 +4,9 @@
 
 INSERT INTO usuarios (nome, email, senha, tipo, status, onboarding_completo)
 SELECT 
-    'Cadu Santos', 
+    'Carlos Eduardo', 
     'cadusantos.paiva@gmail.com', 
-    '$2y$12$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 
+    '$2y$12$Yp319zsGWMM5YLJJiPsnx.cEwd3floz.QtGQRYgzk2xvYAJKfZ6cu', 
     'admin', 
     'ativo', 
     1
