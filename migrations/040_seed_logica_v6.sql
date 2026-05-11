@@ -4,130 +4,130 @@ DELETE FROM questoes WHERE curso_id = 13;
 -- ==========================================
 -- FASE 1 - Introdução à Lógica de Programação
 -- ==========================================
-INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica)
-SELECT 13, id, 'O que é um algoritmo?', '["Tipo de computador", "Sequência lógica de instruções", "Hardware", "Linguagem específica"]', 1, 'Pense numa receita de bolo: passo a passo para chegar ao resultado.'
+INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica, explicacoes_json)
+SELECT 13, id, 'O que é um algoritmo?', '["Tipo de computador", "Sequência lógica de instruções", "Hardware", "Linguagem específica"]', 1, 'Pense numa receita de bolo: passo a passo para chegar ao resultado.', '["❌ Incorreto. Tipo de computador se refere ao hardware, não à lógica de programação.", "✅ Correto! Algoritmo é uma sequência finita de passos lógicos para resolver um problema.", "❌ Incorreto. Hardware são os componentes físicos, não a sequência lógica.", "❌ Incorreto. Linguagem é a ferramenta, algoritmo é o conceito abstrato."]'
 FROM modulos WHERE curso_id = 13 AND ordem = 1 LIMIT 1;
 
-INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica)
-SELECT 13, id, 'Qual símbolo representa o INÍCIO/FIM num fluxograma?', '["Retângulo", "Losango", "Elipse (Oval)", "Paralelogramo"]', 2, 'A forma arredondada nos dois extremos do fluxo.'
+INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica, explicacoes_json)
+SELECT 13, id, 'Qual símbolo representa o INÍCIO/FIM num fluxograma?', '["Retângulo", "Losango", "Elipse (Oval)", "Paralelogramo"]', 2, 'A forma arredondada nos dois extremos do fluxo.', '["❌ Incorreto. Retângulo representa processamento/ações.", "❌ Incorreto. Losango representa decisão/teste.", "✅ Correto! Elipse (Oval) representa início e fim do fluxograma.", "❌ Incorreto. Paralelogramo representa entrada/saída de dados."]'
 FROM modulos WHERE curso_id = 13 AND ordem = 1 LIMIT 1;
 
-INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica)
-SELECT 13, id, 'Para que serve uma variável?', '["Excluir arquivos", "Acelerar o CPU", "Armazenar um valor que pode mudar", "Desenhar na tela"]', 2, 'Imagine uma caixinha com etiqueta onde você guarda algo.'
+INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica, explicacoes_json)
+SELECT 13, id, 'Para que serve uma variável?', '["Excluir arquivos", "Acelerar o CPU", "Armazenar um valor que pode mudar", "Desenhar na tela"]', 2, 'Imagine uma caixinha com etiqueta onde você guarda algo.', '["❌ Incorreto. Excluir arquivos é uma função de sistema, não de variável.", "❌ Incorreto. Acelerar CPU depende do hardware, não de variáveis.", "✅ Correto! Variável armazena dados que podem ser modificados durante o programa.", "❌ Incorreto. Desenhar na tela é uma função de saída, não armazenamento."]'
 FROM modulos WHERE curso_id = 13 AND ordem = 1 LIMIT 1;
 
-INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica)
-SELECT 13, id, 'Qual operador compara se dois valores são iguais?', '["=", "==", "!=", "><"]', 1, CONCAT('Um sinal de igual atribui', CHAR(59), ' dois sinais comparam.')
+INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica, explicacoes_json)
+SELECT 13, id, 'Qual operador compara se dois valores são iguais?', '["=", "==", "!=", "><"]', 1, CONCAT('Um sinal de igual atribui', CHAR(59), ' dois sinais comparam.'), '["❌ Incorreto. = atribui valor à variável (ex: x = 5).", "✅ Correto! == compara se dois valores são iguais (ex: if (x == 5)).", "❌ Incorreto. != significa diferente (desigualdade).", "❌ Incorreto. >< não é um operador de comparação válido."]'
 FROM modulos WHERE curso_id = 13 AND ordem = 1 LIMIT 1;
 
-INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica)
-SELECT 13, id, 'O que é um Loop?', '["Desliga o computador", "Executa uma vez", "Repete um bloco de código", "Para o programa"]', 2, 'Ciclo: repete enquanto a condição for verdadeira.'
+INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica, explicacoes_json)
+SELECT 13, id, 'O que é um Loop?', '["Desliga o computador", "Executa uma vez", "Repete um bloco de código", "Para o programa"]', 2, 'Ciclo: repete enquanto a condição for verdadeira.', '["❌ Incorreto. Desligar computador é uma função do sistema, não loop.", "❌ Incorreto. Executa uma vez seria sem repetição, não loop.", "✅ Correto! Loop repete um bloco de código enquanto condição for verdadeira.", "❌ Incorreto. Parar o programa encerra a execução, não repete código."]'
 FROM modulos WHERE curso_id = 13 AND ordem = 1 LIMIT 1;
 
-INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica)
-SELECT 13, id, 'O que é pseudocódigo?', '["Código com erros", "Linguagem de máquina", "Descrição informal de um algoritmo", "Tipo de banco de dados"]', 2, 'É uma escrita simplificada para planejar o algoritmo antes de codificar.'
+INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica, explicacoes_json)
+SELECT 13, id, 'O que é pseudocódigo?', '["Código com erros", "Linguagem de máquina", "Descrição informal de um algoritmo", "Tipo de banco de dados"]', 2, 'É uma escrita simplificada para planejar o algoritmo antes de codificar.', '["❌ Incorreto. Pseudocódigo não tem erros, é uma ferramenta de planejamento.", "❌ Incorreto. Linguagem de máquina é código binário, não descrição informal.", "✅ Correto! Pseudocódigo é uma descrição informal em português estruturado.", "❌ Incorreto. Banco de dados armazena dados, não descreve algoritmos."]'
 FROM modulos WHERE curso_id = 13 AND ordem = 1 LIMIT 1;
 
-INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica)
-SELECT 13, id, 'O que é uma constante?', '["Valor que muda sempre", "Valor fixo que não muda", "Tipo de loop", "Função matemática"]', 1, 'Ao contrário da variável, a constante não pode ser reatribuída.'
+INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica, explicacoes_json)
+SELECT 13, id, 'O que é uma constante?', '["Valor que muda sempre", "Valor fixo que não muda", "Tipo de loop", "Função matemática"]', 1, 'Ao contrário da variável, a constante não pode ser reatribuída.', '["❌ Incorreto. Valor que muda é variável, não constante.", "✅ Correto! Constante mantém valor fixo durante toda execução.", "❌ Incorreto. Loop é estrutura de repetição, não tipo de dado.", "❌ Incorreto. Função matemática executa cálculos, constante armazena valor."]'
 FROM modulos WHERE curso_id = 13 AND ordem = 1 LIMIT 1;
 
-INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica)
-SELECT 13, id, 'Qual símbolo representa um PROCESSO no fluxograma?', '["Elipse", "Losango", "Retângulo", "Seta"]', 2, 'O retângulo indica uma ação ou cálculo a ser executado.'
+INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica, explicacoes_json)
+SELECT 13, id, 'Qual símbolo representa um PROCESSO no fluxograma?', '["Elipse", "Losango", "Retângulo", "Seta"]', 2, 'O retângulo indica uma ação ou cálculo a ser executado.', '["❌ Incorreto. Elipse representa início/fim, não processamento.", "❌ Incorreto. Losango representa decisão/teste condicional.", "✅ Correto! Retângulo representa processamento/ações no fluxograma.", "❌ Incorreto. Seta indica fluxo/direção, não processo."]'
 FROM modulos WHERE curso_id = 13 AND ordem = 1 LIMIT 1;
 
-INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica)
-SELECT 13, id, 'O que é depuração (debug)?', '["Escrever código novo", "Encontrar e corrigir erros no código", "Apagar o programa", "Compilar o código"]', 1, 'Bug = erro. Debug = caçar e matar o erro.'
+INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica, explicacoes_json)
+SELECT 13, id, 'O que é depuração (debug)?', '["Escrever código novo", "Encontrar e corrigir erros no código", "Apagar o programa", "Compilar o código"]', 1, 'Bug = erro. Debug = caçar e matar o erro.', '["❌ Incorreto. Escrever código novo é desenvolvimento, não depuração.", "✅ Correto! Debug é o processo de encontrar e corrigir erros no código.", "❌ Incorreto. Apagar programa é destruição, não correção de erros.", "❌ Incorreto. Compilar transforma código em executável, não corrige erros."]'
 FROM modulos WHERE curso_id = 13 AND ordem = 1 LIMIT 1;
 
-INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica)
-SELECT 13, id, 'Lógica de programação é:', '["Exclusiva de linguagem C", "Forma de pensar para resolver problemas com código", "Hardware do computador", "Sistema operacional"]', 1, 'É a base para qualquer linguagem de programação.'
+INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica, explicacoes_json)
+SELECT 13, id, 'Lógica de programação é:', '["Exclusiva de linguagem C", "Forma de pensar para resolver problemas com código", "Hardware do computador", "Sistema operacional"]', 1, 'É a base para qualquer linguagem de programação.', '["❌ Incorreto. Lógica se aplica a qualquer linguagem, não só C.", "✅ Correto! É uma forma de pensar estruturada para resolver problemas.", "❌ Incorreto. Hardware é componente físico, não raciocínio lógico.", "❌ Incorreto. Sistema operacional gerencia recursos, não lógica de programação."]'
 FROM modulos WHERE curso_id = 13 AND ordem = 1 LIMIT 1;
 
 -- ==========================================
 -- FASE 2 - Estruturas Condicionais
 -- ==========================================
-INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica)
-SELECT 13, id, 'O que faz a estrutura SE (if)?', '["Repete um bloco", "Decide com base numa condição", "Declara uma variável", "Imprime texto"]', 1, 'SE a condição for verdadeira, execute o bloco.'
+INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica, explicacoes_json)
+SELECT 13, id, 'O que faz a estrutura SE (if)?', '["Repete um bloco", "Decide com base numa condição", "Declara uma variável", "Imprime texto"]', 1, 'SE a condição for verdadeira, execute o bloco.', '["❌ Incorreto. Repetir bloco é função de loops, não de condicionais.", "✅ Correto! IF decide qual bloco executar baseado numa condição verdadeira/falsa.", "❌ Incorreto. Declarar variável usa let/const/var, não estrutura condicional.", "❌ Incorreto. Imprimir texto é função de saída, não decisão condicional."]'
 FROM modulos WHERE curso_id = 13 AND ordem = 2 LIMIT 1;
 
-INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica)
-SELECT 13, id, 'Qual símbolo representa uma DECISÃO no fluxograma?', '["Retângulo", "Elipse", "Losango", "Seta"]', 2, 'A forma de diamante indica uma pergunta de sim ou não.'
+INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica, explicacoes_json)
+SELECT 13, id, 'Qual símbolo representa uma DECISÃO no fluxograma?', '["Retângulo", "Elipse", "Losango", "Seta"]', 2, 'A forma de diamante indica uma pergunta de sim ou não.', '["❌ Incorreto. Retângulo representa processamento, não decisão.", "❌ Incorreto. Elipse representa início/fim, não decisão.", "✅ Correto! Losango (diamante) representa decisão/teste condicional.", "❌ Incorreto. Seta indica fluxo/direção, não decisão."]'
 FROM modulos WHERE curso_id = 13 AND ordem = 2 LIMIT 1;
 
-INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica)
-SELECT 13, id, 'O que significa SENÃO (else)?', '["Executa sempre", "Executa quando a condição do SE é falsa", "Para o programa", "Declara variável"]', 1, 'O caminho alternativo quando a condição não é satisfeita.'
+INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica, explicacoes_json)
+SELECT 13, id, 'O que significa SENÃO (else)?', '["Executa sempre", "Executa quando a condição do SE é falsa", "Para o programa", "Declara variável"]', 1, 'O caminho alternativo quando a condição não é satisfeita.', '["❌ Incorreto. Else só executa quando if for falso, não sempre.", "✅ Correto! Else executa quando a condição do if não é satisfeita.", "❌ Incorreto. Parar programa encerra execução, não é caminho alternativo.", "❌ Incorreto. Declarar variável usa let/const, não estrutura else."]'
 FROM modulos WHERE curso_id = 13 AND ordem = 2 LIMIT 1;
 
-INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica)
-SELECT 13, id, 'Operador lógico AND retorna verdadeiro quando:', '["Apenas uma é verdadeira", "Ambas as condições são verdadeiras", "Nenhuma é verdadeira", "Sempre"]', 1, 'AND = as DUAS precisam ser verdadeiras.'
+INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica, explicacoes_json)
+SELECT 13, id, 'Operador lógico AND retorna verdadeiro quando:', '["Apenas uma é verdadeira", "Ambas as condições são verdadeiras", "Nenhuma é verdadeira", "Sempre"]', 1, 'AND = as DUAS precisam ser verdadeiras.', '["❌ Incorreto. Apenas uma verdadeira é OR, não AND.", "✅ Correto! AND só retorna verdadeiro quando TODAS as condições forem verdadeiras.", "❌ Incorreto. Nenhuma verdadeira retorna falso em AND.", "❌ Incorreto. AND não retorna sempre verdadeiro, depende das condições."]'
 FROM modulos WHERE curso_id = 13 AND ordem = 2 LIMIT 1;
 
-INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica)
-SELECT 13, id, 'Operador lógico OR retorna verdadeiro quando:', '["Ambas falsas", "Ambas verdadeiras obrigatoriamente", "Pelo menos uma é verdadeira", "Nenhuma das anteriores"]', 2, 'OR = basta UMA ser verdadeira.'
+INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica, explicacoes_json)
+SELECT 13, id, 'Operador lógico OR retorna verdadeiro quando:', '["Ambas falsas", "Ambas verdadeiras obrigatoriamente", "Pelo menos uma é verdadeira", "Nenhuma das anteriores"]', 2, 'OR = basta UMA ser verdadeira.', '["❌ Incorreto. Ambas falsas retorna falso em OR.", "❌ Incorreto. OR não exige ambas verdadeiras, basta uma.", "✅ Correto! OR retorna verdadeiro quando PELO MENOS UMA condição for verdadeira.", "❌ Incorreto. OR sempre retorna algo baseado nas condições."]'
 FROM modulos WHERE curso_id = 13 AND ordem = 2 LIMIT 1;
 
-INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica)
-SELECT 13, id, 'O operador NOT (!) serve para:', '["Multiplicar valores", "Inverter um valor booleano", "Comparar strings", "Somar números"]', 1, 'NOT true = false. NOT false = true.'
+INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica, explicacoes_json)
+SELECT 13, id, 'O operador NOT (!) serve para:', '["Multiplicar valores", "Inverter um valor booleano", "Comparar strings", "Somar números"]', 1, 'NOT true = false. NOT false = true.', '["❌ Incorreto. Multiplicar usa operador *, não NOT.", "✅ Correto! NOT inverte valor booleano: true vira false, false vira true.", "❌ Incorreto. Comparar strings usa == ou ===, não NOT.", "❌ Incorreto. Somar números usa operador +, não NOT."]'
 FROM modulos WHERE curso_id = 13 AND ordem = 2 LIMIT 1;
 
-INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica)
-SELECT 13, id, 'O que é um valor booleano?', '["Número decimal", "Texto longo", "Verdadeiro ou Falso", "Lista de itens"]', 2, 'Boolean só tem dois estados: true ou false.'
+INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica, explicacoes_json)
+SELECT 13, id, 'O que é um valor booleano?', '["Número decimal", "Texto longo", "Verdadeiro ou Falso", "Lista de itens"]', 2, 'Boolean só tem dois estados: true ou false.', '["❌ Incorreto. Número decimal é tipo number/float, não boolean.", "❌ Incorreto. Texto longo é tipo string, não boolean.", "✅ Correto! Boolean representa apenas dois valores: true ou false.", "❌ Incorreto. Lista de itens é tipo array, não boolean."]'
 FROM modulos WHERE curso_id = 13 AND ordem = 2 LIMIT 1;
 
-INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica)
-SELECT 13, id, 'O operador >= significa:', '["Menor que", "Diferente de", "Maior ou igual a", "Igual a"]', 2, 'O sinal de maior seguido de igual.'
+INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica, explicacoes_json)
+SELECT 13, id, 'O operador >= significa:', '["Menor que", "Diferente de", "Maior ou igual a", "Igual a"]', 2, 'O sinal de maior seguido de igual.', '["❌ Incorreto. Menor que usa <, não >=.", "❌ Incorreto. Diferente usa != ou !==, não >=.", "✅ Correto! >= significa maior ou igual a (x >= y: x maior ou igual a y).", "❌ Incorreto. Igual a usa == ou ===, não >=."]'
 FROM modulos WHERE curso_id = 13 AND ordem = 2 LIMIT 1;
 
-INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica)
-SELECT 13, id, 'SE (x > 10) o bloco executa quando:', '["x for igual a 10", "x for menor que 10", "x for maior que 10", "x for zero"]', 2, 'O símbolo > significa estritamente maior.'
+INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica, explicacoes_json)
+SELECT 13, id, 'SE (x > 10) o bloco executa quando:', '["x for igual a 10", "x for menor que 10", "x for maior que 10", "x for zero"]', 2, 'O símbolo > significa estritamente maior.', '["❌ Incorreto. Igual a 10 usaria == ou ===, não >.", "❌ Incorreto. Menor que 10 usaria <, não >.", "✅ Correto! x > 10 executa quando x for estritamente maior que 10.", "❌ Incorreto. Zero usaria == 0 ou < 0, não > 10."]'
 FROM modulos WHERE curso_id = 13 AND ordem = 2 LIMIT 1;
 
-INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica)
-SELECT 13, id, 'O que é SE-SENÃO-SE (else if)?', '["Um loop", "Múltiplas condições encadeadas", "Uma função", "Um array"]', 1, 'Permite testar várias condições em sequência.'
+INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica, explicacoes_json)
+SELECT 13, id, 'O que é SE-SENÃO-SE (else if)?', '["Um loop", "Múltiplas condições encadeadas", "Uma função", "Um array"]', 1, 'Permite testar várias condições em sequência.', '["❌ Incorreto. Loop é estrutura de repetição, não condicional encadeada.", "✅ Correto! Else if permite testar múltiplas condições em sequência.", "❌ Incorreto. Função é bloco de código reutilizável, não condicional.", "❌ Incorreto. Array é lista de dados, não estrutura condicional."]'
 FROM modulos WHERE curso_id = 13 AND ordem = 2 LIMIT 1;
 
 -- ==========================================
 -- FASE 3 - Loops e Repetição
 -- ==========================================
-INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica)
-SELECT 13, id, 'Qual loop é ideal quando sabemos QUANTAS vezes repetir?', '["while", "do-while", "for", "if"]', 2, 'O FOR tem contador definido: início, condição e incremento.'
+INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica, explicacoes_json)
+SELECT 13, id, 'Qual loop é ideal quando sabemos QUANTAS vezes repetir?', '["while", "do-while", "for", "if"]', 2, 'O FOR tem contador definido: início, condição e incremento.', '["❌ Incorreto. WHILE não tem contador definido, usa condição indefinida.", "❌ Incorreto. DO-WHILE executa pelo menos uma vez, não para repetições definidas.", "✅ Correto! FOR é ideal quando sabemos exatamente quantas vezes repetir.", "❌ Incorreto. IF é estrutura condicional, não loop de repetição."]'
 FROM modulos WHERE curso_id = 13 AND ordem = 3 LIMIT 1;
 
-INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica)
-SELECT 13, id, 'O loop WHILE executa enquanto:', '["A condição for falsa", "A condição for verdadeira", "O código tiver erros", "O usuário clicar"]', 1, 'ENQUANTO a condição for verdadeira, continue.'
+INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica, explicacoes_json)
+SELECT 13, id, 'O loop WHILE executa enquanto:', '["A condição for falsa", "A condição for verdadeira", "O código tiver erros", "O usuário clicar"]', 1, 'ENQUANTO a condição for verdadeira, continue.', '["❌ Incorreto. WHILE para quando condição for falsa, não verdadeira.", "✅ Correto! WHILE executa enquanto a condição for verdadeira.", "❌ Incorreto. Erros no código podem parar execução, mas não é a regra do WHILE.", "❌ Incorreto. WHILE não depende de cliques do usuário, mas de condição lógica."]'
 FROM modulos WHERE curso_id = 13 AND ordem = 3 LIMIT 1;
 
-INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica)
-SELECT 13, id, 'O que é um loop infinito?', '["Loop que executa zero vezes", "Loop sem condição de parada", "Loop com erro de sintaxe", "Loop que roda uma vez"]', 1, 'Sem condição de saída, o loop nunca termina.'
+INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica, explicacoes_json)
+SELECT 13, id, 'O que é um loop infinito?', '["Loop que executa zero vezes", "Loop sem condição de parada", "Loop com erro de sintaxe", "Loop que roda uma vez"]', 1, 'Sem condição de saída, o loop nunca termina.', '["❌ Incorreto. Loop que executa zero vezes nem começa, não é infinito.", "✅ Correto! Loop infinito não tem condição de parada, executa forever.", "❌ Incorreto. Erro de sintaxe impede execução, não torna infinito.", "❌ Incorreto. Loop que roda uma vez termina normalmente, não é infinito."]'
 FROM modulos WHERE curso_id = 13 AND ordem = 3 LIMIT 1;
 
-INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica)
-SELECT 13, id, 'Diferença entre FOR e WHILE:', '["Não há diferença", "FOR é para número definido, WHILE para condição indefinida", "WHILE é mais rápido", "FOR não existe"]', 1, CONCAT('Use FOR quando sabe o total', CHAR(59), ' WHILE quando depende de condição.')
+INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica, explicacoes_json)
+SELECT 13, id, 'Diferença entre FOR e WHILE:', '["Não há diferença", "FOR é para número definido, WHILE para condição indefinida", "WHILE é mais rápido", "FOR não existe"]', 1, CONCAT('Use FOR quando sabe o total', CHAR(59), ' WHILE quando depende de condição.'), '["❌ Incorreto. Há diferença clara entre FOR e WHILE.", "✅ Correto! FOR para repetições definidas, WHILE para condições indefinidas.", "❌ Incorreto. Velocidade não é a diferença principal entre os loops.", "❌ Incorreto. FOR existe em todas as linguagens importantes."]'
 FROM modulos WHERE curso_id = 13 AND ordem = 3 LIMIT 1;
 
-INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica)
-SELECT 13, id, 'O DO-WHILE garante que o bloco execute:', '["Zero vezes", "Infinitas vezes", "Pelo menos uma vez", "Apenas se a condição for verdadeira"]', 2, 'DO executa primeiro, WHILE verifica depois.'
+INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica, explicacoes_json)
+SELECT 13, id, 'O DO-WHILE garante que o bloco execute:', '["Zero vezes", "Infinitas vezes", "Pelo menos uma vez", "Apenas se a condição for verdadeira"]', 2, 'DO executa primeiro, WHILE verifica depois.', '["❌ Incorreto. DO-WHILE nunca executa zero vezes, executa pelo menos uma.", "❌ Incorreto. DO-WHILE pode terminar, não é infinito por padrão.", "✅ Correto! DO-WHILE sempre executa pelo menos uma vez, mesmo se condição for falsa.", "❌ Incorreto. DO-WHILE executa independentemente da condição inicial."]'
 FROM modulos WHERE curso_id = 13 AND ordem = 3 LIMIT 1;
 
-INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica)
-SELECT 13, id, 'O que faz o comando BREAK num loop?', '["Pausa o loop temporariamente", "Interrompe o loop imediatamente", "Reinicia o loop", "Ignora o erro"]', 1, 'BREAK = sair do loop na hora.'
+INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica, explicacoes_json)
+SELECT 13, id, 'O que faz o comando BREAK num loop?', '["Pausa o loop temporariamente", "Interrompe o loop imediatamente", "Reinicia o loop", "Ignora o erro"]', 1, 'BREAK = sair do loop na hora.', '["❌ Incorreto. BREAK não pausa temporariamente, sai definitivamente.", "✅ Correto! BREAK interrompe o loop imediatamente e sai dele.", "❌ Incorreto. BREAK não reinicia o loop, o encerra.", "❌ Incorreto. BREAK não ignora erros, apenas controla fluxo do loop."]'
 FROM modulos WHERE curso_id = 13 AND ordem = 3 LIMIT 1;
 
-INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica)
-SELECT 13, id, 'O que faz o CONTINUE num loop?', '["Para o loop", "Pula a iteração atual e vai para a próxima", "Reinicia do zero", "Duplica o loop"]', 1, 'CONTINUE = pula essa volta e vai para a próxima.'
+INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica, explicacoes_json)
+SELECT 13, id, 'O que faz o CONTINUE num loop?', '["Para o loop", "Pula a iteração atual e vai para a próxima", "Reinicia do zero", "Duplica o loop"]', 1, 'CONTINUE = pula essa volta e vai para a próxima.', '["❌ Incorreto. CONTINUE não para o loop, apenas pula a iteração atual.", "✅ Correto! CONTINUE pula a iteração atual e vai para a próxima.", "❌ Incorreto. CONTINUE não reinicia do zero, apenas pula a volta atual.", "❌ Incorreto. CONTINUE não duplica o loop, apenas controla o fluxo interno."]'
 FROM modulos WHERE curso_id = 13 AND ordem = 3 LIMIT 1;
 
-INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica)
-SELECT 13, id, CONCAT('Quantas vezes o FOR abaixo executa? for(i=0', CHAR(59), ' i<5', CHAR(59), ' i++)'), '["4 vezes", "5 vezes", "6 vezes", "Infinito"]', 1, 'De 0 a 4 (enquanto menor que 5) = 5 execuções.'
+INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica, explicacoes_json)
+SELECT 13, id, CONCAT('Quantas vezes o FOR abaixo executa? for(i=0', CHAR(59), ' i<5', CHAR(59), ' i++)'), '["4 vezes", "5 vezes", "6 vezes", "Infinito"]', 1, 'De 0 a 4 (enquanto menor que 5) = 5 execuções.', '["❌ Incorreto. 0,1,2,3 seriam 4 vezes, mas vai até 4.", "✅ Correto! Executa 5 vezes: 0,1,2,3,4.", "❌ Incorreto. Não chega a 6, para antes de 5.", "❌ Incorreto. Loop tem condição de parada i<5, não é infinito."]'
 FROM modulos WHERE curso_id = 13 AND ordem = 3 LIMIT 1;
 
-INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica)
-SELECT 13, id, 'O i++ dentro do FOR serve para:', '["Diminuir o contador", "Incrementar o contador em 1", "Zerar o contador", "Comparar valores"]', 1, 'i++ é a abreviação de i = i + 1.'
+INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica, explicacoes_json)
+SELECT 13, id, 'O i++ dentro do FOR serve para:', '["Diminuir o contador", "Incrementar o contador em 1", "Zerar o contador", "Comparar valores"]', 1, 'i++ é a abreviação de i = i + 1.', '["❌ Incorreto. Diminuir usa i-- ou i -= 1, não i++.", "✅ Correto! i++ incrementa o contador em 1 a cada iteração.", "❌ Incorreto. Zerar usa i = 0, não i++.", "❌ Incorreto. Comparar usa == ou ===, não i++."]'
 FROM modulos WHERE curso_id = 13 AND ordem = 3 LIMIT 1;
 
-INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica)
-SELECT 13, id, 'O que é iteração?', '["Um tipo de variável", "Cada execução de um loop", "Um operador lógico", "Uma função recursiva"]', 1, 'Cada volta completa do loop é chamada de iteração.'
+INSERT INTO questoes (curso_id, modulo_id, texto, opcoes_json, resposta_correta, dica, explicacoes_json)
+SELECT 13, id, 'O que é iteração?', '["Um tipo de variável", "Cada execução de um loop", "Um operador lógico", "Uma função recursiva"]', 1, 'Cada volta completa do loop é chamada de iteração.', '["❌ Incorreto. Iteração não é tipo de variável, é conceito de repetição.", "✅ Correto! Iteração é cada execução/volta completa de um loop.", "❌ Incorreto. Operador lógico é AND/OR/NOT, não iteração.", "❌ Incorreto. Função recursiva chama a si mesma, não é iteração de loop."]'
 FROM modulos WHERE curso_id = 13 AND ordem = 3 LIMIT 1;
 
 -- ==========================================

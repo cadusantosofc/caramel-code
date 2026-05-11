@@ -21,13 +21,37 @@ if ($questao_id === null || $opcao_index === null) {
 
 try {
     // Buscar a resposta real no banco
-    $stmt = $pdo->prepare("SELECT resposta_correta, explicacao FROM questoes WHERE id = ?");
+    $stmt = $pdo->prepare("SELECT resposta_correta, explicacao, opcoes_json, explicacoes_json FROM questoes WHERE id = ?");
     $stmt->execute([$questao_id]);
     $questao = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$questao) {
         echo json_encode(['success' => false, 'message' => 'Questão não encontrada']);
         exit;
+    }
+
+    // Buscar explicações específicas do banco ou gerar fallback
+    $explicacoes_json = $questao['explicacoes_json'] ?? null;
+    $explicacoes = [];
+    
+    if ($explicacoes_json) {
+        // Usa explicações do banco
+        $explicacoes = json_decode($explicacoes_json, true);
+        if (!is_array($explicacoes) || count($explicacoes) !== 4) {
+            $explicacoes = []; // Invalida se não for array com 4 elementos
+        }
+    }
+    
+    // Se não tiver explicações no banco, gera fallback básico
+    if (empty($explicacoes)) {
+        $correcta = (int)$questao['resposta_correta'];
+        for ($i = 0; $i < 4; $i++) {
+            if ($i === $correcta) {
+                $explicacoes[$i] = "✅ Correto! " . ($questao['explicacao'] ?? "Esta é a resposta correta.");
+            } else {
+                $explicacoes[$i] = "❌ Incorreto. " . ($questao['explicacao'] ?? "Esta não é a resposta correta.");
+            }
+        }
     }
 
     // 1. Verificar se esta questão específica já foi respondida por este usuário
@@ -86,6 +110,7 @@ try {
         'correct' => $is_correct,
         'correct_index' => (int)$questao['resposta_correta'],
         'explanation' => $questao['explicacao'],
+        'explanations' => $explicacoes,
         'new_moedas' => $new_stats['moedas'] ?? 0,
         'new_xp' => $new_stats['xp'] ?? 0,
         'is_new_reward' => $is_new_answer

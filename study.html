@@ -1,468 +1,669 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Estudando - Caramel Code</title>
-    <link rel="stylesheet" href="css/theme.css">
-    <link rel="stylesheet" href="css/pages.css">
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/pages.css" />
     <style>
-        .study-header {
-            padding: 16px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: var(--bg-primary);
-        }
+      .study-header {
+        padding: 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: var(--bg-primary);
+      }
 
-        .study-progress-container {
-            flex: 1;
-            height: 10px;
-            background: #eee;
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-        }
+      .study-progress-container {
+        flex: 1;
+        height: 10px;
+        background: #eee;
+        border-radius: 20px;
+        overflow: hidden;
+        position: relative;
+      }
 
-        .study-progress-fill {
-            height: 100%;
-            background: var(--accent);
-            width: 0%;
-            transition: width 0.3s;
-            border-radius: 20px;
-        }
+      .study-progress-fill {
+        height: 100%;
+        background: var(--accent);
+        width: 0%;
+        transition: width 0.3s;
+        border-radius: 20px;
+      }
 
-        .study-counter {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--text-muted);
-            min-width: 30px;
-            text-align: center;
-        }
+      .study-counter {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--text-muted);
+        min-width: 30px;
+        text-align: center;
+      }
 
-        .study-coins {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            background: #fff3e0;
-            padding: 4px 10px;
-            border-radius: 100px;
-            font-size: 12px;
-            font-weight: 700;
-            color: #a16207;
-        }
+      .study-coins {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        background: #fff3e0;
+        padding: 4px 10px;
+        border-radius: 100px;
+        font-size: 12px;
+        font-weight: 700;
+        color: #a16207;
+      }
 
-        body.dark .study-coins {
-            background: #2d2417;
-            color: #f5a623;
-        }
+      body.dark .study-coins {
+        background: #2d2417;
+        color: #f5a623;
+      }
 
-        .timer-banner {
-            background: #fffdf0;
-            border: 1.5px solid #fde68a;
-            border-radius: 12px;
-            margin: 0 16px 16px;
-            padding: 10px 14px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+      .timer-banner {
+        background: #fffdf0;
+        border: 1.5px solid #fde68a;
+        border-radius: 12px;
+        margin: 0 16px 16px;
+        padding: 10px 14px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
 
-        body.dark .timer-banner {
-            background: #1e293b;
-            border-color: #334155;
-        }
+      body.dark .timer-banner {
+        background: #1e293b;
+        border-color: #334155;
+      }
 
-        .timer-left {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 13px;
-            font-weight: 700;
-            color: #a16207;
-        }
+      .timer-left {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        font-weight: 700;
+        color: #a16207;
+      }
 
-        body.dark .timer-left {
-            color: #f5a623;
-        }
+      body.dark .timer-left {
+        color: #f5a623;
+      }
 
-        .timer-right {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
+      .timer-right {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text-secondary);
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
 
-        .timer-bar-bg {
-            height: 6px;
-            background: rgba(0, 0, 0, 0.05);
-            border-radius: 10px;
-            margin-top: 8px;
-            overflow: hidden;
-            width: 100%;
-        }
+      .timer-bar-bg {
+        height: 6px;
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: 10px;
+        margin-top: 8px;
+        overflow: hidden;
+        width: 100%;
+      }
 
-        .timer-bar-fill {
-            height: 100%;
-            background: #facc15;
-            width: 100%;
-            transition: width 1s linear;
-        }
+      .timer-bar-fill {
+        height: 100%;
+        background: #facc15;
+        width: 100%;
+        transition: width 1s linear;
+      }
 
-        .question-card {
-            background: var(--bg-card);
-            border-radius: 24px;
-            border: 1.5px solid var(--border);
-            margin: 0 16px 16px;
-            padding: 24px;
-            position: relative;
-        }
+      .question-card {
+        background: var(--bg-card);
+        border-radius: 24px;
+        border: 1.5px solid var(--border);
+        margin: 0 16px 16px;
+        padding: 24px;
+        position: relative;
+      }
 
-        .difficulty-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: #f0fdf4;
-            color: #166534;
-            padding: 4px 10px;
-            border-radius: 100px;
-            font-size: 12px;
-            font-weight: 700;
-            margin-bottom: 16px;
-        }
+      .difficulty-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #f0fdf4;
+        color: #166534;
+        padding: 4px 10px;
+        border-radius: 100px;
+        font-size: 12px;
+        font-weight: 700;
+        margin-bottom: 16px;
+      }
 
-        body.dark .difficulty-badge {
-            background: #064e3b;
-            color: #34d399;
-        }
+      body.dark .difficulty-badge {
+        background: #064e3b;
+        color: #34d399;
+      }
 
-        .difficulty-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #22c55e;
-        }
+      .difficulty-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #22c55e;
+      }
 
-        .question-text {
-            font-size: 18px;
-            font-weight: 800;
-            color: var(--text-primary);
-            line-height: 1.4;
-            margin-bottom: 10px;
-        }
+      .question-text {
+        font-size: 18px;
+        font-weight: 800;
+        color: var(--text-primary);
+        line-height: 1.4;
+        margin-bottom: 10px;
+      }
 
-        .question-sub {
-            font-size: 14px;
-            color: var(--text-secondary);
-            margin-bottom: 24px;
-        }
+      .question-sub {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-bottom: 24px;
+      }
 
-        .options-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
+      .options-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
 
-        .option-btn {
-            background: var(--bg-primary);
-            border: 1.5px solid var(--border);
-            border-radius: 16px;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: left;
-            width: 100%;
-        }
+      .option-btn {
+        background: var(--bg-primary);
+        border: 1.5px solid var(--border);
+        border-radius: 16px;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: left;
+        width: 100%;
+      }
 
-        .option-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            width: 100%;
-        }
+      .option-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+      }
 
-        .option-check {
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            border: 2px solid var(--border);
-            flex-shrink: 0;
-        }
+      .option-check {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        border: 2px solid var(--border);
+        flex-shrink: 0;
+      }
 
-        .option-text {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
+      .option-text {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
 
-        .option-explanation {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-left: 34px;
-            display: none;
-            white-space: pre-line;
-            line-height: 1.4;
-        }
+      .option-explanation {
+        font-size: 12px;
+        color: var(--text-secondary);
+        margin-left: 34px;
+        display: none;
+        white-space: pre-line;
+        line-height: 1.4;
+      }
 
-        .option-btn.selected {
-            border-color: var(--accent);
-            background: #fff9f0;
-        }
+      .option-btn.selected {
+        border-color: var(--accent);
+        background: #fff9f0;
+      }
 
-        body.dark .option-btn.selected {
-            background: #2d2417;
-        }
+      body.dark .option-btn.selected {
+        background: #2d2417;
+      }
 
-        .option-btn.correct {
-            border-color: #22c55e;
-            background: #f0fdf4;
-        }
+      .option-btn.correct {
+        border-color: #22c55e;
+        background: #f0fdf4;
+      }
 
-        body.dark .option-btn.correct {
-            background: #064e3b;
-        }
+      body.dark .option-btn.correct {
+        background: #064e3b;
+      }
 
-        .option-btn.wrong {
-            border-color: #ef4444;
-            background: #fef2f2;
-        }
+      .option-btn.wrong {
+        border-color: #ef4444;
+        background: #fef2f2;
+      }
 
-        body.dark .option-btn.wrong {
-            background: #450a0a;
-        }
+      body.dark .option-btn.wrong {
+        background: #450a0a;
+      }
 
-        .option-btn.selected .option-check {
-            border-color: var(--accent);
-            background: var(--accent);
-            box-shadow: inset 0 0 0 4px #fff;
-        }
+      .option-btn.selected .option-check {
+        border-color: var(--accent);
+        background: var(--accent);
+        box-shadow: inset 0 0 0 4px #fff;
+      }
 
-        .study-footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 16px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border-top: 1px solid var(--border);
-            background: var(--bg-primary);
-            z-index: 100;
-        }
+      .study-footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border-top: 1px solid var(--border);
+        background: var(--bg-primary);
+        z-index: 100;
+      }
 
-        .hint-btn {
-            background: none;
-            border: none;
-            color: var(--accent);
-            font-size: 14px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-        }
+      .hint-btn {
+        background: none;
+        border: none;
+        color: var(--accent);
+        font-size: 14px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+      }
 
-        .answer-btn, .next-btn {
-            flex: 1;
-            padding: 14px;
-            border: none;
-            border-radius: 14px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
+      .answer-btn,
+      .next-btn {
+        flex: 1;
+        padding: 14px;
+        border: none;
+        border-radius: 14px;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
 
-        .answer-btn {
-            background: #fbcfe8;
-            color: #fff;
-        }
+      .answer-btn {
+        background: #fbcfe8;
+        color: #fff;
+      }
 
-        .answer-btn.ready {
-            background: linear-gradient(135deg, #f5a623, #e07b00);
-        }
+      .answer-btn.ready {
+        background: linear-gradient(135deg, #f5a623, #e07b00);
+      }
 
-        .next-btn {
-            background: #064e3b;
-            color: #fff;
-            display: none;
-        }
+      .next-btn {
+        background: #064e3b;
+        color: #fff;
+        display: none;
+      }
 
-        .summary-overlay {
-            position: fixed;
-            inset: 0;
-            background: var(--bg-primary);
-            z-index: 200;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 32px;
-            text-align: center;
-        }
+      .summary-overlay {
+        position: fixed;
+        inset: 0;
+        background: var(--bg-primary);
+        z-index: 200;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 32px;
+        text-align: center;
+      }
 
-        .summary-overlay.active {
-            display: flex;
-        }
+      .summary-overlay.active {
+        display: flex;
+      }
 
-        .continue-btn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #f97316, #ea580c);
-            color: #fff;
-            border: none;
-            border-radius: 14px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-        }
+      .continue-btn {
+        width: 100%;
+        padding: 16px;
+        background: linear-gradient(135deg, #f97316, #ea580c);
+        color: #fff;
+        border: none;
+        border-radius: 14px;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="app-shell">
-        <header class="study-header">
-            <button class="back-btn" onclick="history.back()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                    <path d="M15 19l-7-7 7-7" />
-                </svg>
+      <header class="study-header">
+        <button
+          class="back-btn"
+          onclick="
+            if (typeof confirmExit === 'function') {
+              confirmExit();
+            } else {
+              if (confirm('Deseja realmente sair da fase?')) {
+                const urlParams = new URLSearchParams(window.location.search);
+                const trail = urlParams.get('trail') || 'html';
+                window.location.href = 'course.html?trail=' + trail;
+              }
+            }
+          "
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.2"
+          >
+            <path d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <div class="study-progress-container">
+          <div class="study-progress-fill" id="questionProgressFill"></div>
+        </div>
+        <div class="study-counter" id="questionCounter">...</div>
+        <div class="study-coins">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="12"
+              cy="12"
+              r="10"
+              fill="#F5A623"
+              stroke="#E07B00"
+              stroke-width="2"
+            />
+            <path
+              d="M12 7V17M9 10H13.5C14.3284 10 15 10.6716 15 11.5C15 12.3284 14.3284 13 13.5 13H10.5C9.67157 13 9 13.6716 9 14.5C9 15.3284 9.67157 16 10.5 16H15"
+              stroke="white"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+          <span id="currentCoins">...</span>
+        </div>
+      </header>
+
+      <div class="timer-banner">
+        <div class="timer-left">
+          <span>⏱️</span> Tempo restante: <span id="timeLeft">30s</span>
+        </div>
+        <div class="timer-right"><span>✨</span> Bônus por velocidade</div>
+        <div style="position: absolute; bottom: 0; left: 16px; right: 16px">
+          <div class="timer-bar-bg">
+            <div class="timer-bar-fill" id="timerBar"></div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="page-content"
+        style="padding-top: 10px; padding-bottom: 120px"
+      >
+        <div class="question-card">
+          <div class="difficulty-badge" id="difficultyBadge">
+            <div class="difficulty-dot"></div>
+            Fácil
+          </div>
+          <div
+            class="question-title"
+            id="phaseTitle"
+            style="font-size: 16px; font-weight: 700; margin-bottom: 6px"
+          >
+            Carregando...
+          </div>
+          <div class="question-text" id="qText">...</div>
+          <div class="question-sub" id="qSub">...</div>
+
+          <div
+            id="hintText"
+            style="
+              display: none;
+              background: #fffbeb;
+              border: 1.5px dashed #fcd34d;
+              border-radius: 12px;
+              padding: 12px;
+              margin-bottom: 20px;
+              font-size: 13px;
+              color: #92400e;
+              font-weight: 600;
+            "
+          >
+            💡 Dica: <span id="hintContent"></span>
+          </div>
+
+          <div class="options-list" id="optionsList"></div>
+        </div>
+      </div>
+
+      <footer
+        class="study-footer"
+        id="studyFooter"
+        style="
+          background: var(--bg-card);
+          border-top: 1.5px solid var(--border);
+          box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.03);
+        "
+      >
+        <!-- Agrupador de botões de ação (Responder/Dica/Eliminar) -->
+        <div
+          id="actionButtons"
+          style="display: flex; flex-direction: column; gap: 12px; width: 100%"
+        >
+          <div style="display: flex; gap: 10px; width: 100%">
+            <button
+              class="hint-btn"
+              id="hintBtn"
+              style="
+                flex: 1;
+                justify-content: center;
+                background: #fffbeb;
+                border: 1px solid #fef3c7;
+                padding: 10px;
+                border-radius: 12px;
+                color: #b45309;
+              "
+            >
+              <span style="margin-right: 6px">💡</span> Dica
             </button>
-            <div class="study-progress-container">
-                <div class="study-progress-fill" id="questionProgressFill"></div>
-            </div>
-            <div class="study-counter" id="questionCounter">...</div>
-            <div class="study-coins">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="12" cy="12" r="10" fill="#F5A623" stroke="#E07B00" stroke-width="2" />
-                    <path
-                        d="M12 7V17M9 10H13.5C14.3284 10 15 10.6716 15 11.5C15 12.3284 14.3284 13 13.5 13H10.5C9.67157 13 9 13.6716 9 14.5C9 15.3284 9.67157 16 10.5 16H15"
-                        stroke="white" stroke-width="2" stroke-linecap="round" />
-                </svg>
-                <span id="currentCoins">...</span>
-            </div>
-        </header>
-
-        <div class="timer-banner">
-            <div class="timer-left">
-                <span>⏱️</span> Tempo restante: <span id="timeLeft">30s</span>
-            </div>
-            <div class="timer-right">
-                <span>✨</span> Bônus por velocidade
-            </div>
-            <div style="position:absolute; bottom:0; left:16px; right:16px;">
-                <div class="timer-bar-bg">
-                    <div class="timer-bar-fill" id="timerBar"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="page-content" style="padding-top:10px; padding-bottom: 120px;">
-            <div class="question-card">
-                <div class="difficulty-badge" id="difficultyBadge">
-                    <div class="difficulty-dot"></div>
-                    Fácil
-                </div>
-                <div class="question-title" id="phaseTitle" style="font-size:16px; font-weight:700; margin-bottom:6px;">
-                    Carregando...</div>
-                <div class="question-text" id="qText">...</div>
-                <div class="question-sub" id="qSub">...</div>
-
-                <div id="hintText" style="display:none; background: #fffbeb; border: 1.5px dashed #fcd34d; border-radius: 12px; padding: 12px; margin-bottom: 20px; font-size: 13px; color: #92400e; font-weight: 600;">
-                    💡 Dica: <span id="hintContent"></span>
-                </div>
-
-                <div class="options-list" id="optionsList"></div>
-            </div>
-        </div>
-
-        <footer class="study-footer" id="studyFooter" style="background: var(--bg-card); border-top: 1.5px solid var(--border); box-shadow: 0 -10px 30px rgba(0,0,0,0.03);">
-            <!-- Agrupador de botões de ação (Responder/Dica/Eliminar) -->
-            <div id="actionButtons" style="display:flex; flex-direction:column; gap:12px; width: 100%;">
-                <div style="display:flex; gap:10px; width: 100%;">
-                    <button class="hint-btn" id="hintBtn" style="flex:1; justify-content:center; background: #fffbeb; border: 1px solid #fef3c7; padding:10px; border-radius:12px; color: #b45309;">
-                        <span style="margin-right:6px;">💡</span> Dica
-                    </button>
-                    <button class="hint-btn" id="eliminateBtn" style="flex:1.5; justify-content:center; background: #f5f3ff; border: 1px solid #ddd6fe; padding:10px; border-radius:12px; color:#7c3aed;">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:4px; vertical-align:middle;">
-                            <path d="M15 4l6 6m-11 7l-5 5m7-11l11-11m-14 7l-2-2m-3 5l2 2m12 12l2 2" />
-                        </svg>
-                        Remover 2 (15 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" style="display:inline; vertical-align:middle; margin-top:-2px;"><circle cx="12" cy="12" r="10" fill="#F5A623" stroke="#E07B00" stroke-width="2"/><path d="M12 7V17M9 10H13.5C14.3284 10 15 10.6716 15 11.5C15 12.3284 14.3284 13 13.5 13H10.5C9.67157 13 9 13.6716 9 14.5C9 15.3284 9.67157 16 10.5 16H15" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>)
-                    </button>
-                </div>
-                <button class="answer-btn" id="answerBtn">Responder</button>
-            </div>
-
-            <!-- Botão Próxima Questão -->
-            <button class="next-btn" id="mainNextBtn" style="display:none; width: 100%;">
-                Próxima Questão
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <path d="M5 12h14m-7-7l7 7-7 7" />
-                </svg>
+            <button
+              class="hint-btn"
+              id="eliminateBtn"
+              style="
+                flex: 1.5;
+                justify-content: center;
+                background: #f5f3ff;
+                border: 1px solid #ddd6fe;
+                padding: 10px;
+                border-radius: 12px;
+                color: #7c3aed;
+              "
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                style="margin-right: 4px; vertical-align: middle"
+              >
+                <path
+                  d="M15 4l6 6m-11 7l-5 5m7-11l11-11m-14 7l-2-2m-3 5l2 2m12 12l2 2"
+                />
+              </svg>
+              Remover 2 (15
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                style="
+                  display: inline;
+                  vertical-align: middle;
+                  margin-top: -2px;
+                "
+              >
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  fill="#F5A623"
+                  stroke="#E07B00"
+                  stroke-width="2"
+                />
+                <path
+                  d="M12 7V17M9 10H13.5C14.3284 10 15 10.6716 15 11.5C15 12.3284 14.3284 13 13.5 13H10.5C9.67157 13 9 13.6716 9 14.5C9 15.3284 9.67157 16 10.5 16H15"
+                  stroke="white"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                /></svg
+              >)
             </button>
-        </footer>
-
-        <!-- Modal de Sucesso -->
-        <div class="summary-overlay" id="summaryOverlay">
-            <div class="summary-logo">🥳</div>
-            <div class="summary-title" id="summaryTitle">Fase Concluída!</div>
-            <div class="summary-subtitle" id="summarySub">...</div>
-            <div class="summary-rewards">
-                <div class="summary-box">
-                    <span class="summary-box-val" id="summaryCoins">+0</span>
-                    <span class="summary-box-label">Moedas</span>
-                </div>
-                <div class="summary-box xp">
-                    <span class="summary-box-val" id="summaryXP">+0</span>
-                    <span class="summary-box-label">XP</span>
-                </div>
-            </div>
-            <button class="continue-btn" onclick="location.href='course.html?trail=' + trailId">Continuar</button>
+          </div>
+          <button class="answer-btn" id="answerBtn">Responder</button>
         </div>
 
-        <!-- Modal de Confirmação -->
-        <div class="summary-overlay" id="confirmModal" style="background: rgba(0,0,0,0.4); backdrop-filter: blur(4px);">
-            <div style="background: var(--bg-primary); padding: 32px; border-radius: 24px; max-width: 340px; width: 90%; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.2);">
-                <div id="confirmIconContainer" style="display: flex; justify-content: center; margin-bottom: 16px;">
-                    <!-- Ícone será injetado via JS (SVG ou Emoji) -->
-                    <div id="confirmIcon" style="font-size: 48px;"></div>
-                </div>
-                <div id="confirmTitle" style="font-size: 20px; font-weight: 800; margin-bottom: 12px;">Usar Moedas?</div>
-                <div id="confirmMessage" style="font-size: 15px; color: var(--text-secondary); margin-bottom: 24px;">...</div>
-                <div style="display: flex; gap: 12px;">
-                    <button class="continue-btn" id="confirmCancel" style="background: var(--bg-secondary); color: var(--text-secondary); flex: 1;">Não</button>
-                    <button class="continue-btn" id="confirmOk" style="flex: 1.5;">Sim</button>
-                </div>
-            </div>
-        </div>
+        <!-- Botão Próxima Questão -->
+        <button
+          class="next-btn"
+          id="mainNextBtn"
+          style="display: none; width: 100%"
+        >
+          Próxima Questão
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+          >
+            <path d="M5 12h14m-7-7l7 7-7 7" />
+          </svg>
+        </button>
+      </footer>
 
-        <!-- Modal de Game Over -->
-        <div class="summary-overlay" id="gameOverModal">
-            <div class="summary-logo">⏰</div>
-            <div class="summary-title" style="color: #ef4444;">Fase Perdida!</div>
-            <div class="summary-subtitle">O tempo acabou! No Caramel Code, você precisa ser rápido para dominar a programação.</div>
-            <div style="display: flex; gap: 12px; width: 100%;">
-                <button class="continue-btn" style="background: var(--bg-secondary); color: var(--text-secondary); flex: 1;" onclick="location.href='course.html?trail=' + trailId">Sair</button>
-                <button class="continue-btn" style="flex: 1.5;" onclick="location.reload()">Recomeçar</button>
-            </div>
+      <!-- Modal de Sucesso -->
+      <div class="summary-overlay" id="summaryOverlay">
+        <div class="summary-logo">🥳</div>
+        <div class="summary-title" id="summaryTitle">Fase Concluída!</div>
+        <div class="summary-subtitle" id="summarySub">...</div>
+        <div class="summary-rewards">
+          <div class="summary-box">
+            <span class="summary-box-val" id="summaryCoins">+0</span>
+            <span class="summary-box-label">Moedas</span>
+          </div>
+          <div class="summary-box xp">
+            <span class="summary-box-val" id="summaryXP">+0</span>
+            <span class="summary-box-label">XP</span>
+          </div>
         </div>
+        <button
+          class="continue-btn"
+          onclick="location.href = 'course.html?trail=' + trailId"
+        >
+          Continuar
+        </button>
+      </div>
+
+      <!-- Modal de Confirmação -->
+      <div
+        class="summary-overlay"
+        id="confirmModal"
+        style="background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(4px)"
+      >
+        <div
+          style="
+            background: var(--bg-primary);
+            padding: 32px;
+            border-radius: 24px;
+            max-width: 340px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+          "
+        >
+          <div
+            id="confirmIconContainer"
+            style="display: flex; justify-content: center; margin-bottom: 16px"
+          >
+            <!-- Ícone será injetado via JS (SVG ou Emoji) -->
+            <div id="confirmIcon" style="font-size: 48px"></div>
+          </div>
+          <div
+            id="confirmTitle"
+            style="font-size: 20px; font-weight: 800; margin-bottom: 12px"
+          >
+            Usar Moedas?
+          </div>
+          <div
+            id="confirmMessage"
+            style="
+              font-size: 15px;
+              color: var(--text-secondary);
+              margin-bottom: 24px;
+            "
+          >
+            ...
+          </div>
+          <div style="display: flex; gap: 12px">
+            <button
+              class="continue-btn"
+              id="confirmCancel"
+              style="
+                background: var(--bg-secondary);
+                color: var(--text-secondary);
+                flex: 1;
+              "
+            >
+              Não
+            </button>
+            <button class="continue-btn" id="confirmOk" style="flex: 1.5">
+              Sim
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal de Game Over -->
+      <div class="summary-overlay" id="gameOverModal">
+        <div class="summary-logo">⏰</div>
+        <div class="summary-title" style="color: #ef4444">Fase Perdida!</div>
+        <div class="summary-subtitle">
+          O tempo acabou! No Caramel Code, você precisa ser rápido para dominar
+          a programação.
+        </div>
+        <div style="display: flex; gap: 12px; width: 100%">
+          <button
+            class="continue-btn"
+            style="
+              background: var(--bg-secondary);
+              color: var(--text-secondary);
+              flex: 1;
+            "
+            onclick="location.href = 'course.html?trail=' + trailId"
+          >
+            Sair
+          </button>
+          <button
+            class="continue-btn"
+            style="flex: 1.5"
+            onclick="location.reload()"
+          >
+            Recomeçar
+          </button>
+        </div>
+      </div>
     </div>
 
     <script src="js/app.js"></script>
     <script src="js/database_json.js"></script>
-    <script src="js/study.js"></script>
-</body>
-
+    <script src="js/study.js" defer></script>
+  </body>
 </html>

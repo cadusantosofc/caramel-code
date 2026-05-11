@@ -1,2 +1,0 @@
--- Migration: 016_order_courses_pedagogically
--- Arquivo desativado: Ordem pedagógica agora está na criação original da tabela (003 e 025).

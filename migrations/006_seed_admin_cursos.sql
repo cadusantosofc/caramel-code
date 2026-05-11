@@ -1,4 +1,5 @@
 -- Migration: 006_seed_admin
+-- Cria apenas o usuário admin - cursos são gerenciados na migration 025
 -- Email: cadusantos.paiva@gmail.com
 -- Senha: @SrCaduher901 (Hash Bcrypt cost 12 gerado via PHP)
 
@@ -13,15 +14,3 @@ SELECT
 WHERE NOT EXISTS (
     SELECT 1 FROM usuarios WHERE email = 'cadusantos.paiva@gmail.com'
 );
-
-INSERT INTO cursos (titulo, descricao, categoria, nivel, duracao_horas, admin_id)
-SELECT 'HTML e CSS para Iniciantes', 'Aprenda os fundamentos de HTML e CSS', 'Programação', 'basico', 20, 1
-WHERE NOT EXISTS (SELECT 1 FROM cursos WHERE titulo = 'HTML e CSS para Iniciantes');
-
-INSERT INTO cursos (titulo, descricao, categoria, nivel, duracao_horas, admin_id)
-SELECT 'JavaScript Moderno', 'Domine JavaScript ES6+ e crie aplicações interativas', 'Programação', 'intermediario', 40, 1
-WHERE NOT EXISTS (SELECT 1 FROM cursos WHERE titulo = 'JavaScript Moderno');
-
-INSERT INTO cursos (titulo, descricao, categoria, nivel, duracao_horas, admin_id)
-SELECT 'UI/UX Design Fundamentos', 'Conceitos essenciais de design de interfaces', 'Design', 'basico', 15, 1
-WHERE NOT EXISTS (SELECT 1 FROM cursos WHERE titulo = 'UI/UX Design Fundamentos');

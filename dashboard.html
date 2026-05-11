@@ -6,7 +6,356 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Caramel Code</title>
     <link rel="stylesheet" href="css/theme.css">
-    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/pages.css">
+    <style>
+        * { box-sizing: border-box; }
+        
+        body {
+            margin: 0;
+            background: var(--body-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        .app-shell {
+            max-width: 480px;
+            margin: 0 auto;
+            background: var(--bg-primary);
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            padding-bottom: 90px;
+        }
+
+        /* HEADER */
+        .dashboard-header {
+            padding: 24px 20px;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-logo {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            object-fit: contain;
+            border: 1px solid var(--border);
+            background: var(--bg-secondary);
+            padding: 6px;
+        }
+
+        .header-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .header-greeting {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .header-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.2;
+        }
+
+        .header-sub {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .header-icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .header-icon-btn:hover {
+            background: var(--border);
+        }
+
+        .header-icon-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* CONTENT */
+        .dashboard-content {
+            padding: 24px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* STATS GRID */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+            transition: all 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px var(--shadow);
+            border-color: var(--accent);
+        }
+
+        .stat-card-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        .stat-card-value {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .stat-card-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .stat-card.moedas .stat-card-value { color: #f5a623; }
+        .stat-card.dias .stat-card-value { color: #ef4444; }
+        .stat-card.medalhas .stat-card-value { color: #3b82f6; }
+
+        /* PROGRESS SECTION */
+        .progress-section {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .section-percent {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--accent);
+            background: var(--bg-primary);
+            padding: 4px 10px;
+            border-radius: 100px;
+            border: 1px solid var(--border);
+        }
+
+        .progress-track {
+            height: 8px;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            margin-bottom: 16px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .progress-stats-row {
+            display: flex;
+            gap: 24px;
+            border-top: 1px solid var(--border);
+            padding-top: 16px;
+        }
+
+        .pstat {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .pstat-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        .pstat-value {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* TIP CARD */
+        .tip-card {
+            background: rgba(245, 166, 35, 0.1);
+            border: 1px solid rgba(245, 166, 35, 0.3);
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .tip-icon {
+            font-size: 24px;
+        }
+
+        .tip-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .tip-text {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        /* CTA */
+        .cta-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(245, 166, 35, 0.3);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(245, 166, 35, 0.4);
+        }
+
+        .cta-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* BOTTOM NAV */
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            height: 70px;
+            background: var(--bg-primary);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 100;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 11px;
+            font-weight: 600;
+            gap: 4px;
+            transition: color 0.2s;
+        }
+
+        .tab-item:hover {
+            color: var(--text-primary);
+        }
+
+        .tab-item.active {
+            color: var(--accent);
+        }
+
+        .tab-item svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .credits-link {
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        .credits-link a {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+        .credits-link a:hover {
+            color: var(--text-primary);
+        }
+    </style>
     <script src="js/app.js"></script>
 </head>
 
@@ -16,26 +365,23 @@
         <header class="dashboard-header">
             <div class="header-left">
                 <img src="img/logo.png" alt="Caramelo" class="header-logo">
-                <div>
+                <div class="header-info">
                     <div class="header-greeting" id="headerGreeting">Olá, ...</div>
                     <div class="header-name" id="headerName">...</div>
                     <div class="header-sub">Que tal continuar aprendendo?</div>
                 </div>
             </div>
             <div class="header-actions">
-                <button class="header-icon-btn" id="profileBtn" title="Perfil">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
-                        stroke-linejoin="round">
+                <button class="header-icon-btn" id="profileBtn" title="Perfil" onclick="location.href='profile.html'">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                         <circle cx="12" cy="7" r="4" />
                     </svg>
                 </button>
                 <button class="header-icon-btn" id="settingsBtn" title="Configurações">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
-                        stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="3" />
-                        <path
-                            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
                     </svg>
                 </button>
             </div>
@@ -44,14 +390,7 @@
         <div class="dashboard-content">
             <div class="stats-grid">
                 <div class="stat-card moedas">
-                    <span class="stat-card-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="12" cy="12" r="10" fill="#F5A623" stroke="#E07B00" stroke-width="2" />
-                            <path
-                                d="M12 7V17M9 10H13.5C14.3284 10 15 10.6716 15 11.5C15 12.3284 14.3284 13 13.5 13H10.5C9.67157 13 9 13.6716 9 14.5C9 15.3284 9.67157 16 10.5 16H15"
-                                stroke="white" stroke-width="2" stroke-linecap="round" />
-                        </svg>
-                    </span>
+                    <span class="stat-card-icon">🪙</span>
                     <div class="stat-card-value" id="statMoedas">--</div>
                     <div class="stat-card-label">Moedas</div>
                 </div>
@@ -97,30 +436,54 @@
 
             <div class="tip-card">
                 <span class="tip-icon">💡</span>
-                <div class="tip-content">
+                <div>
                     <div class="tip-title">Dica do Caramelo</div>
-                    <div class="tip-text">Mantenha seu streak diário! Cada dia seguido estudando rende +20 moedas
-                        extras.</div>
+                    <div class="tip-text">Mantenha seu streak diário! Cada dia seguido estudando rende +20 moedas extras.</div>
                 </div>
             </div>
 
-            <div class="credits-link">
-                <a href="credits.html">⓪ Créditos de Desenvolvimento</a>
-            </div>
-        </div>
-
-        <div class="bottom-cta">
             <button class="cta-btn" id="continuarBtn">
                 <svg viewBox="0 0 24 24" fill="currentColor">
                     <polygon points="5 3 19 12 5 21 5 3" />
                 </svg>
                 Continuar Estudando
             </button>
+
+            <div class="credits-link">
+                <a href="credits.html">⓪ Créditos de Desenvolvimento</a>
+            </div>
         </div>
+
+        <nav class="tab-bar">
+            <a href="dashboard.html" class="tab-item active">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                </svg>
+                <span>Início</span>
+            </a>
+            <a href="trails.html" class="tab-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                </svg>
+                <span>Trilhas</span>
+            </a>
+            <a href="profile.html" class="tab-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4-4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                </svg>
+                <span>Perfil</span>
+            </a>
+        </nav>
     </div>
 
     <script src="js/database_json.js"></script>
     <script src="js/dashboard.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if(window.applyTheme) window.applyTheme();
+        });
+    </script>
 </body>
 
 </html>
