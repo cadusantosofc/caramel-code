@@ -71,6 +71,7 @@ async function finishOnboarding() {
     try {
         const response = await fetch('api/complete_onboarding.php', {
             method: 'POST',
+            credentials: 'same-origin',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 nivel_aprendizado: selectedLevel,

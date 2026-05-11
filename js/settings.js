@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     document.getElementById('logoutBtn').addEventListener('click', function () {
         if (confirm('Deseja sair da sua conta?')) {
             localStorage.removeItem('caramel_user');
-            window.location.href = 'login.html';
+            window.location.href = 'api/logout.php';
         }
     });
 });

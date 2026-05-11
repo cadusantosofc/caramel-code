@@ -1,6 +1,7 @@
 <?php
 header('Content-Type: application/json');
 require_once __DIR__ . '/../backend/config.php';
+require_once __DIR__ . '/../backend/auth.php';
 require_once __DIR__ . '/../backend/rate_limit.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -68,6 +69,9 @@ try {
 
     $pdo->prepare("INSERT INTO progresso_usuario (usuario_id) VALUES (?)")
         ->execute([$userId]);
+
+    $token = Auth::generateToken($userId, $email, 'aluno');
+    Auth::setSecureCookie($token);
 
     echo json_encode([
         'success' => true,
