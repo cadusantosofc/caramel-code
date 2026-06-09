@@ -441,6 +441,7 @@ async function finishPhase() {
     xp_ganho: totalPhaseXP,
     nivel: progress.nivel,
     dias_seguidos: progress.dias_seguidos,
+    passed: passed,
   });
 
   // Limpar flags de reset

@@ -16,6 +16,7 @@ $curso_id = $data['curso_id'] ?? null;
 $modulo_ordem = $data['modulo_ordem'] ?? null;
 $moedas_ganhas = intval($data['moedas_ganhas'] ?? 0);
 $xp_ganho = intval($data['xp_ganho'] ?? 0);
+$passed = !empty($data['passed']);
 
 try {
     $pdo->beginTransaction();
@@ -29,8 +30,8 @@ try {
         // Se já concluiu, não ganha moedas nem XP de novo
         $moedas_ganhas = 0;
         $xp_ganho = 0;
-    } else if ($curso_id && $modulo_ordem) {
-        // Marca como concluído no histórico
+    } else if ($curso_id && $modulo_ordem && $passed) {
+        // Marca como concluído no histórico (só se passou)
         $stmtMark = $pdo->prepare("INSERT INTO progresso_fases (usuario_id, curso_id, modulo_ordem) VALUES (?, ?, ?)");
         $stmtMark->execute([$usuario_id, $curso_id, $modulo_ordem]);
     }
