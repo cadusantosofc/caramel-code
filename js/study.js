@@ -446,16 +446,29 @@ async function finishPhase() {
   // Limpar flags de reset
   sessionStorage.removeItem("forceResetModulo");
 
-  const summaryData = {
-    title: passed ? "Fase Concluída!" : "Tente Novamente",
-    coins: `+${totalPhaseMoedas}`,
-    xp: `+${totalPhaseXP}`,
-  };
+  const isPass = passed;
+  const logoEl = document.getElementById("summaryLogo");
+  const titleEl = document.getElementById("summaryTitle");
+  const subEl = document.getElementById("summarySub");
+  const coinsEl = document.getElementById("summaryCoins");
+  const xpEl = document.getElementById("summaryXP");
+  const overlayEl = document.getElementById("summaryOverlay");
 
-  document.getElementById("summaryTitle").textContent = summaryData.title;
-  document.getElementById("summaryCoins").textContent = summaryData.coins;
-  document.getElementById("summaryXP").textContent = summaryData.xp;
-  document.getElementById("summaryOverlay").classList.add("active");
+  if (isPass) {
+    logoEl.textContent = "🥳";
+    titleEl.textContent = "Fase Concluída!";
+    subEl.textContent = "Mandou bem! Continue assim.";
+    coinsEl.textContent = `+${totalPhaseMoedas}`;
+    xpEl.textContent = `+${totalPhaseXP}`;
+  } else {
+    logoEl.textContent = "💪";
+    titleEl.textContent = "Tente Novamente";
+    subEl.textContent = "Quase lá! Revise o conteúdo e tente de novo.";
+    coinsEl.textContent = `+${totalPhaseMoedas}`;
+    xpEl.textContent = `+${totalPhaseXP}`;
+  }
+
+  overlayEl.classList.add("active");
 }
 
 // Fallback de segurança para o botão voltar
